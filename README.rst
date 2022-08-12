@@ -10,9 +10,9 @@ Python projects.
 
 ============== ==============================================================
 PyPI           ``pip install python3-pip-skeleton``
-Source code    https://github.com/epics-containers/python3-pip-skeleton
-Documentation  https://epics-containers.github.io/python3-pip-skeleton
-Releases       https://github.com/epics-containers/python3-pip-skeleton/releases
+Source code    https://github.com/epics-containers/python3-pip-skeleton-cli
+Documentation  https://epics-containers.github.io/python3-pip-skeleton-cli
+Releases       https://github.com/epics-containers/python3-pip-skeleton-cli/releases
 ============== ==============================================================
 
 It integrates the following tools:
