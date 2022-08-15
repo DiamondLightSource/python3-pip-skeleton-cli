@@ -87,7 +87,7 @@ def merge_skeleton(
         # will do the wrong thing
         shutil.rmtree(git_tmp / "src", ignore_errors=True)
         # Merge in the skeleton commits
-        git_tmp("pull", SKELETON, "skeleton")
+        git_tmp("pull", SKELETON, "main")
         # Move things around
         git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
         git_tmp("mv", "tests/test_dls_python3_skeleton.py", f"tests/test_{package}.py")
