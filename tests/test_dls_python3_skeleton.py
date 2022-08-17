@@ -58,7 +58,9 @@ def test_new_module(tmp_path: Path):
     check_output("virtualenv", ".venv", cwd=module)
     check_output(".venv/bin/pip", "install", ".[dev]", cwd=module)
     check_output(
-        ".venv/bin/sphinx-build",
+        ".venv/bin/python",
+        "-m",
+        "sphinx",
         "-EWT",
         "--keep-going",
         "docs",
@@ -66,7 +68,7 @@ def test_new_module(tmp_path: Path):
         cwd=module,
     )
     with pytest.raises(ValueError) as ctx:
-        check_output(module / ".venv/bin/pytest", "tests", cwd=module)
+        check_output(".venv/bin/python", "-m", "pytest", module / "tests", cwd=module)
     out = ctx.value.args[0]
     print(out)
     assert "6 failed, 4 passed" in out

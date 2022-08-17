@@ -4,17 +4,25 @@ Contributing
 Contributing to the skeleton repository is different to other repos. There
 are two sorts of contributions:
 
-- Changes to the skeleton structure should be made on a branch, then a
-  PR_ raised back to the ``skeleton`` branch.
-- Changes to the docs or commandline tool should be made directly on main
+- Changes to the skeleton structure should be made on a branch
+  of the skeleton-repo_ with a PR
+  raised back to the ``main`` branch from here: PR_.
+- Changes to the docs or commandline tool should be made on a branch in 
+  the cli-repo_ with with a PR raised back to the ``main`` branch
+  here: PR2_
 
+.. _skeleton-repo: https://github.com/epics-containers/python3-pip-skeleton
+.. _cli-repo: https://github.com/epics-containers/python3-pip-skeleton-cli
 .. _PR:  https://github.com/epics-containers/python3-pip-skeleton/pulls
-.. _GitHub: https://github.com/epics-containers/python3-pip-skeleton/issues
+.. _PR2:  https://github.com/epics-containers/python3-pip-skeleton-cli/pulls
+
+Apart from this, ``main`` branch in both repos should always be deployable,
+and are considered the latest release.
 
 Running the tests
 -----------------
 
-Both the ``skeleton`` and ``main`` branch have different tests, but
+Both the ``skeleton`` and ``main`` repos have different tests, but
 the process to run them is the same. You can run in a container using the 
 supplied devcontainer or you can run them locally.
 
@@ -43,38 +51,6 @@ on your workstation as follows::
     $ pip install -e .[dev]
     $ tox -p 
 
-In both cases tox -p runs in parallel the following checks:
-
-  - Build Spinx Documentation
-  - run pytest on all tests in ./tests
-  - run mypy linting on all files in ./src ./tests
-  - run pre-commit checks:
-
-    - run flake8 style checks against all source
-    - run black formatting checks against all source
-
-Use vscode devcontainer as follows::
-
-    $ git clone git://github.com/epics-containers/python3-pip-skeleton.git
-    $ vscode python3-pip-skeleton
-    Click on 'Reopen in Container' when prompted
-    In a vscode Terminal:
-    $ tox -p
-
-
-To run locally
-~~~~~~~~~~~~~~
-
-Get the source source code and run the unit tests directly
-on your workstation as follows::
-
-    $ git clone git://github.com/epics-containers/python3-pip-skeleton.git
-    $ cd python3-pip-skeleton
-    $ virtualenv .venv
-    $ s
-    $ pip install -e .[dev]
-    $ tox -p 
-
 Checks
 ~~~~~~
 
@@ -88,8 +64,6 @@ In both cases tox -p runs in parallel the following checks.
     - run flake8 style checks against all source
     - run black formatting checks against all source
 
-Please note that Pipfile.lock is only committed on ``main``, not on
-``skeleton``
 
 Code Styling
 ------------
@@ -182,13 +156,5 @@ To see a graph of the python package dependency tree type::
 
     pipdeptree
 
-Apart from this, ``main`` and ``skeleton`` should always be deployable,
-and are considered the latest release.
 
-Checking Dependencies
----------------------
-
-To see a graph of the python package dependency tree type::
-
-    pipdeptree
 
