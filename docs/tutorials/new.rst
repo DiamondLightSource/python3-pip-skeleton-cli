@@ -4,7 +4,7 @@ Creating a new repo from the skeleton
 Once you have followed the `installation` tutorial, you can use the
 commandline tool to make a new repo that inherits the skeleton::
 
-    python3-pip-skeleton new /path/to/be/created
+    python3-pip-skeleton new /path/to/be/created --org my_github_user_or_org
 
 This will:
 
@@ -49,9 +49,6 @@ run this, there will be some failing tests::
     FAILED tests/test_boilerplate_removed.py::test_changed_README_body - AssertionError: Please change ./README.rst to include some features and why people should use it
     FAILED tests/test_boilerplate_removed.py::test_removed_CHANGELOG_note - AssertionError: Please change ./CHANGELOG.rst To remove the note at the top
     FAILED tests/test_boilerplate_removed.py::test_changed_CHANGELOG - AssertionError: Please change ./CHANGELOG.rst To summarize changes to your module as you make them
-    FAILED tests/test_boilerplate_removed.py::test_docs_ref_api_changed - AssertionError: Please change ./docs/reference/api.rst to introduce the API for your module
-    FAILED tests/test_boilerplate_removed.py::test_how_tos_written - AssertionError: Please delete ./docs/how-to/accomplish-a-task.rst and write some docs/how-tos
-    FAILED tests/test_boilerplate_removed.py::test_explanations_written - AssertionError: Please delete ./docs/explanations/why-is-something-so.rst and write some docs/explanations
     ========================================================================== 8 failed, 5 passed in 0.28s ==========================================================================
 
 When you change the template text mentioned in the error, these tests will pass.
