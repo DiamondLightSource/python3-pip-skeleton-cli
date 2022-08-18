@@ -229,9 +229,7 @@ def main(args=None):
     sub = subparsers.add_parser("new", help="Make a new repo forked from this skeleton")
     sub.set_defaults(func=new)
     sub.add_argument("path", type=Path, help="Path to new repo to create")
-    sub.add_argument(
-        "--org", default="epics-containers", help="GitHub org, default epics-containers"
-    )
+    sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
     )
@@ -245,9 +243,7 @@ def main(args=None):
     sub = subparsers.add_parser("existing", help="Adopt skeleton in existing repo")
     sub.set_defaults(func=existing)
     sub.add_argument("path", type=Path, help="Path to new repo to existing repo")
-    sub.add_argument(
-        "--org", default="epics-containers", help="GitHub org, default epics-containers"
-    )
+    sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
     )
