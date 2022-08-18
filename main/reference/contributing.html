@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contributing &mdash; python3-pip-skeleton 2.1.dev18+gcf33c33 documentation</title>
+  <title>Contributing &mdash; python3-pip-skeleton 2.1.dev19+g1fd9f4d documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -67,7 +67,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#to-run-in-a-container">To run in a container</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#to-run-locally">To run locally</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">To run locally</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#checks">Checks</a></li>
 </ul>
 </li>
@@ -75,7 +74,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#release-process">Release Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#checking-dependencies">Checking Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Checking Dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/releases">Releases</a></li>
@@ -111,13 +109,18 @@
 <p>Contributing to the skeleton repository is different to other repos. There
 are two sorts of contributions:</p>
 <ul class="simple">
-<li><p>Changes to the skeleton structure should be made on a branch, then a
-<a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/pulls">PR</a> raised back to the <code class="docutils literal notranslate"><span class="pre">skeleton</span></code> branch.</p></li>
-<li><p>Changes to the docs or commandline tool should be made directly on main</p></li>
+<li><p>Changes to the skeleton structure should be made on a branch
+of the <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton">skeleton-repo</a> with a PR
+raised back to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch from here: <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/pulls">PR</a>.</p></li>
+<li><p>Changes to the docs or commandline tool should be made on a branch in
+the <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton-cli">cli-repo</a> with with a PR raised back to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch
+here: <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton-cli/pulls">PR2</a></p></li>
 </ul>
+<p>Apart from this, <code class="docutils literal notranslate"><span class="pre">main</span></code> branch in both repos should always be deployable,
+and are considered the latest release.</p>
 <section id="running-the-tests">
 <h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this heading"></a></h2>
-<p>Both the <code class="docutils literal notranslate"><span class="pre">skeleton</span></code> and <code class="docutils literal notranslate"><span class="pre">main</span></code> branch have different tests, but
+<p>Both the <code class="docutils literal notranslate"><span class="pre">skeleton</span></code> and <code class="docutils literal notranslate"><span class="pre">main</span></code> repos have different tests, but
 the process to run them is the same. You can run in a container using the
 supplied devcontainer or you can run them locally.</p>
 <section id="to-run-in-a-container">
@@ -143,41 +146,6 @@ $ pip install -e .[dev]
 $ tox -p
 </pre></div>
 </div>
-<p>In both cases tox -p runs in parallel the following checks:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Build Spinx Documentation</p></li>
-<li><p>run pytest on all tests in ./tests</p></li>
-<li><p>run mypy linting on all files in ./src ./tests</p></li>
-<li><p>run pre-commit checks:</p>
-<ul>
-<li><p>run flake8 style checks against all source</p></li>
-<li><p>run black formatting checks against all source</p></li>
-</ul>
-</li>
-</ul>
-</div></blockquote>
-<p>Use vscode devcontainer as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git://github.com/epics-containers/python3-pip-skeleton.git
-$ vscode python3-pip-skeleton
-Click on &#39;Reopen in Container&#39; when prompted
-In a vscode Terminal:
-$ tox -p
-</pre></div>
-</div>
-</section>
-<section id="id1">
-<h3>To run locally<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
-<p>Get the source source code and run the unit tests directly
-on your workstation as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git://github.com/epics-containers/python3-pip-skeleton.git
-$ cd python3-pip-skeleton
-$ virtualenv .venv
-$ s
-$ pip install -e .[dev]
-$ tox -p
-</pre></div>
-</div>
 </section>
 <section id="checks">
 <h3>Checks<a class="headerlink" href="#checks" title="Permalink to this heading"></a></h3>
@@ -195,8 +163,6 @@ $ tox -p
 </li>
 </ul>
 </div></blockquote>
-<p>Please note that Pipfile.lock is only committed on <code class="docutils literal notranslate"><span class="pre">main</span></code>, not on
-<code class="docutils literal notranslate"><span class="pre">skeleton</span></code></p>
 </section>
 </section>
 <section id="code-styling">
@@ -273,15 +239,6 @@ When this happens:</p>
 </section>
 <section id="checking-dependencies">
 <h2>Checking Dependencies<a class="headerlink" href="#checking-dependencies" title="Permalink to this heading"></a></h2>
-<p>To see a graph of the python package dependency tree type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipdeptree</span>
-</pre></div>
-</div>
-<p>Apart from this, <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">skeleton</span></code> should always be deployable,
-and are considered the latest release.</p>
-</section>
-<section id="id2">
-<h2>Checking Dependencies<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>To see a graph of the python package dependency tree type:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipdeptree</span>
 </pre></div>
