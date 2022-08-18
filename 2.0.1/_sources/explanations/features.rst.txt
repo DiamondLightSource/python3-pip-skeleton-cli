@@ -32,3 +32,7 @@ August 18th 2022
   have to be deleted after adopting. Also removed related tests.
 - Skeleton README reduced to remove example code and to point at 
   skeleton-cli for instructions.
+- Github PR Policy set to rebase only for skeleton and any for cli. This is
+  to remove any commit hashes from commit comments. If these are present then
+  github will add incorrect comments to the target repo.
+  
