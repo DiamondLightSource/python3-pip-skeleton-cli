@@ -26,13 +26,16 @@ It integrates the following tools:
   - which verifies all the things that CI does
 - If you use VSCode, it will run black, flake8, isort and mypy on save
 
-The ``skeleton`` branch of this module contains the source code that can be
-merged into new or existing projects, and pulled from to keep them up to date.
-It can also serve as a working example for those who would prefer to
-cherry-pick.
+The the related ``skeleton`` repo skeleton_ for this module contains the source 
+code that can be merged into new or existing projects, and pulled from to 
+keep them up to date. It can also serve as a working example for those who 
+would prefer to cherry-pick.
 
-The ``main`` branch contains the
-docs and a command line tool to ease the adoption of this skeleton into new::
+.. _skeleton: https://github.com/epics-containers/python3-pip-skeleton
+
+This ``cli`` repo contains the
+docs and a command line tool to ease the adoption of this skeleton into a
+new project like this::
 
     python3-pip-skeleton new /path/to/be/created
 
@@ -64,4 +67,5 @@ and existing projects::
     Anything below this line is used when viewing README.rst and will be replaced
     when included in index.rst
 
-See https://epics-containers.github.io/python3-pip-skeleton for more detailed documentation.
+See https://epics-containers.github.io/python3-pip-skeleton-cli for 
+more detailed documentation.
