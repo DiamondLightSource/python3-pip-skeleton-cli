@@ -26,22 +26,22 @@ It integrates the following tools:
   - which verifies all the things that CI does
 - If you use VSCode, it will run black, flake8, isort and mypy on save
 
-The the related ``skeleton`` repo skeleton_ for this module contains the source 
+The the related skeleton_ repo for this module contains the source 
 code that can be merged into new or existing projects, and pulled from to 
 keep them up to date. It can also serve as a working example for those who 
 would prefer to cherry-pick.
 
 .. _skeleton: https://github.com/epics-containers/python3-pip-skeleton
 
-This ``cli`` repo contains the
+This ``python3-pip-skeleton-cli`` repo contains the
 docs and a command line tool to ease the adoption of this skeleton into a
 new project like this::
 
-    python3-pip-skeleton new /path/to/be/created
+    python3-pip-skeleton new /path/to/be/created --org my_github_user_or_org
 
 and existing projects::
 
-    python3-pip-skeleton existing /path/to/existing/repo
+    python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
 
 .. |code_ci| image:: https://github.com/epics-containers/python3-pip-skeleton/workflows/Code%20CI/badge.svg?branch=main
     :target: https://github.com/epics-containers/python3-pip-skeleton/actions?query=workflow%3A%22Code+CI%22

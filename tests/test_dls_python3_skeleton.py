@@ -114,6 +114,7 @@ def test_existing_module(tmp_path: Path):
         "-m",
         "python3_pip_skeleton",
         "existing",
+        "--org=epics-containers",
         str(module),
     )
     assert output.endswith(
@@ -134,6 +135,7 @@ Instructions on how to develop this module are in CONTRIBUTING.rst
             "-m",
             "python3_pip_skeleton",
             "existing",
+            "--org=epics-containers",
             str(module),
         )
     assert (
@@ -172,6 +174,7 @@ def test_existing_module_already_adopted(tmp_path: Path):
             "-m",
             "python3_pip_skeleton",
             "existing",
+            "--org=epics-containers",
             str(module),
         )
     assert "already adopted skeleton" in str(excinfo.value)

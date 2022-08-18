@@ -4,7 +4,7 @@ Installation
 .. note::
 
     If you want to contribute to the library itself, please follow
-    the `../reference/contributing` instructions.
+    the `../how-to/contributing` instructions.
 
 
 Check your version of python
