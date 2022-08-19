@@ -141,7 +141,6 @@ Releases are only made when the commandline tool needs to be released.
 When this happens:
 
 - Choose a new PEP440 compliant release number
-
 - Go to the GitHub release_ page
 - Choose ``Draft New Release``
 - Click ``Choose Tag`` and supply the new tag you chose (click create new tag)

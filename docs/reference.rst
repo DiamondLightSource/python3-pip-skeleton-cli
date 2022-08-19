@@ -8,6 +8,7 @@ Practical step-by-step guides for the more experienced user.
 .. toctree::
     :caption: Reference
 
+    reference/api
     Releases <https://github.com/epics-containers/python3-pip-skeleton/releases>
     Index <genindex.html#http://>
 

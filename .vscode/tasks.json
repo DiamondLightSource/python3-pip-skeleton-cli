@@ -6,7 +6,7 @@
         {
             "type": "shell",
             "label": "Tests with coverage",
-            "command": "tox -e tests",
+            "command": "tox -e pytest",
             "options": {
                 "cwd": "${workspaceRoot}"
             },
