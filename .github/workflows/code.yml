@@ -194,4 +194,4 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.pypi_token }}
-        run: pipx run twine upload artifacts/dist/*
+        run: pipx run twine upload dist/*
