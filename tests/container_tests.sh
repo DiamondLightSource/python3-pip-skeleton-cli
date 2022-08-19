@@ -15,4 +15,7 @@ pipdeptree
 # ensure non-zero length requirements.txt
 echo "# runtime dependencies" >> requirements.txt
 
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
 pytest tests

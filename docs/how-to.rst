@@ -9,3 +9,6 @@ Practical step-by-step guides for the more experienced user.
     :caption: How-to Guides
 
     how-to/contributing
+    how-to/existing
+    how-to/update
+    how-to/excalidraw
