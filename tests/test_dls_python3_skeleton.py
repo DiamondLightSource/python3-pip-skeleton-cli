@@ -71,11 +71,9 @@ def test_new_module(tmp_path: Path):
         check_output(".venv/bin/python", "-m", "pytest", module / "tests", cwd=module)
     out = ctx.value.args[0]
     print(out)
-    assert "6 failed, 4 passed" in out
+    assert "4 failed, 1 passed" in out
     assert "Please change description in ./setup.cfg" in out
     assert "Please change ./README.rst" in out
-    assert "Please change ./docs/reference/api.rst" in out
-    assert "Please delete ./docs/how-to/accomplish-a-task.rst" in out
     assert "Please delete ./docs/explanations/why-is-something-so.rst" in out
 
 
