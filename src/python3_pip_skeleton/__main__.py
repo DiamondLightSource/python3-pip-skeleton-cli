@@ -90,7 +90,7 @@ def merge_skeleton(
         git_tmp("pull", SKELETON, "main")
         # Move things around
         git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
-        git_tmp("mv", "tests/test_dls_python3_skeleton.py", f"tests/test_{package}.py")
+        git_tmp("mv", "tests/test_cli.py", f"tests/test_{package}.py")
         # Change contents of all children known to git
         for relative_child in git_tmp("ls-files").splitlines():
             child = Path(git_tmp.name) / relative_child
@@ -130,7 +130,8 @@ def merge_skeleton(
 
 
 def validate_package(args) -> str:
-    package = args.package or args.path.name
+    path = args.path.resolve()
+    package = args.package or path.name
     valid = re.match("[a-zA-Z][a-zA-Z_0-9]*$", package)
     assert valid, f"'{package}' is not a valid python package name"
     return package
@@ -152,7 +153,9 @@ def verify_not_adopted(root: Path):
         ]
     )
 
-    assert not_adopted, f"Package {root} has already adopted skeleton"
+    assert (
+        not_adopted
+    ), f"Package {root} has already adopted skeleton. use --force to re-adopt"
 
 
 def new(args):
@@ -186,12 +189,14 @@ author_email = email@address.com"""
 
 def existing(args):
     path: Path = args.path
+    path = path.resolve()
 
     assert path.is_dir(), f"Expected {path} to be an existing directory"
     package = validate_package(args)
     file_path: Path = path / "setup.cfg"
     assert file_path.is_file(), "Expected a setup.cfg file in the directory."
-    verify_not_adopted(args.path)
+    if not args.force:
+        verify_not_adopted(args.path)
 
     conf = ConfigParser()
     conf.read(path / "setup.cfg")
@@ -209,6 +214,7 @@ def existing(args):
 
 def clean_repo(args):
     path: Path = args.path
+    path = path.resolve()
 
     assert path.is_dir(), f"Expected {path} to be an existing directory"
 
@@ -243,6 +249,7 @@ def main(args=None):
     sub = subparsers.add_parser("existing", help="Adopt skeleton in existing repo")
     sub.set_defaults(func=existing)
     sub.add_argument("path", type=Path, help="Path to new repo to existing repo")
+    sub.add_argument("--force", action="store_true", help="force readoption")
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
