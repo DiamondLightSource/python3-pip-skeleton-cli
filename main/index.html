@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>python3-pip-skeleton &mdash; python3-pip-skeleton 2.1.dev24+g8fc2f78 documentation</title>
+  <title>python3-pip-skeleton &mdash; python3-pip-skeleton 3.0.2.dev7+g721c104 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -51,6 +51,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="how-to/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how-to/existing.html">How to adopt the skeleton in an existing repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how-to/update.html">How to update to the latest skeleton structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="how-to/excalidraw.html">How to embed Excalidraw diagrams</a></li>
@@ -60,10 +61,11 @@
 <li class="toctree-l1"><a class="reference internal" href="explanations/why-use-skeleton.html">Why use a skeleton structure?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="explanations/why-src.html">Why use a source directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="explanations/why-pre-commit.html">Why use pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/features.html">Feature Update History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/decisions.html">Architectural Decision Records</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="reference/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/releases">Releases</a></li>
 <li class="toctree-l1"><a class="reference external" href="genindex.html#http://">Index</a></li>
 </ul>
@@ -129,18 +131,18 @@ Python projects.</p>
 - which verifies all the things that CI does</p></li>
 <li><p>If you use VSCode, it will run black, flake8, isort and mypy on save</p></li>
 </ul>
-<p>The the related <code class="docutils literal notranslate"><span class="pre">skeleton</span></code> repo <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton">skeleton</a> for this module contains the source
+<p>The the related <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton">skeleton</a> repo for this module contains the source
 code that can be merged into new or existing projects, and pulled from to
 keep them up to date. It can also serve as a working example for those who
 would prefer to cherry-pick.</p>
-<p>This <code class="docutils literal notranslate"><span class="pre">cli</span></code> repo contains the
+<p>This <code class="docutils literal notranslate"><span class="pre">python3-pip-skeleton-cli</span></code> repo contains the
 docs and a command line tool to ease the adoption of this skeleton into a
 new project like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
 </pre></div>
 </div>
 <p>and existing projects:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">existing</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">existing</span><span class="o">/</span><span class="n">repo</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">existing</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">existing</span><span class="o">/</span><span class="n">repo</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
 </pre></div>
 </div>
 <section id="how-the-documentation-is-structured">
@@ -157,6 +159,7 @@ side-bar.</p>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/installation.html#check-your-version-of-python">Check your version of python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/installation.html#create-a-virtual-environment">Create a virtual environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/installation.html#installing-the-library">Installing the library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/installation.html#running-in-a-container">Running in a container</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/new.html">Creating a new repo from the skeleton</a><ul>
@@ -176,6 +179,19 @@ side-bar.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="how-to/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-to/contributing.html#running-the-tests">Running the tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="how-to/contributing.html#to-run-in-a-container">To run in a container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="how-to/contributing.html#to-run-locally">To run locally</a></li>
+<li class="toctree-l3"><a class="reference internal" href="how-to/contributing.html#checks">Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="how-to/contributing.html#code-styling">Code Styling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to/contributing.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to/contributing.html#release-process">Release Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to/contributing.html#checking-dependencies">Checking Dependencies</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="how-to/existing.html">How to adopt the skeleton in an existing repo</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="how-to/existing.html#example-merge">Example merge</a></li>
 </ul>
@@ -198,28 +214,29 @@ side-bar.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="explanations/why-src.html">Why use a source directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="explanations/why-pre-commit.html">Why use pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/features.html">Feature Update History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="explanations/features.html#august-18th-2022">August 18th 2022</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/decisions.html">Architectural Decision Records</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="explanations/decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="explanations/decisions/0001-record-architecture-decisions.html#status">Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/decisions/0001-record-architecture-decisions.html#context">Context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/decisions/0001-record-architecture-decisions.html#decision">Decision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="explanations/decisions/0001-record-architecture-decisions.html#consequences">Consequences</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
 <section class="columns" id="reference">
 <h3><a class="reference internal" href="reference.html"><span class="doc">Reference</span></a><a class="headerlink" href="#reference" title="Permalink to this heading"></a></h3>
-<p>Practical step-by-step guides for the more experienced user.</p>
+<p>Technical reference material including APIs and release notes.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="reference/contributing.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/contributing.html#running-the-tests">Running the tests</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/contributing.html#to-run-in-a-container">To run in a container</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/contributing.html#to-run-locally">To run locally</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/contributing.html#checks">Checks</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="reference/contributing.html#code-styling">Code Styling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/contributing.html#documentation">Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/contributing.html#release-process">Release Process</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/contributing.html#checking-dependencies">Checking Dependencies</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/releases">Releases</a></li>
 <li class="toctree-l1"><a class="reference external" href="genindex.html#http://">Index</a></li>
 </ul>

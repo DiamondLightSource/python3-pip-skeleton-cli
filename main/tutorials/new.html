@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creating a new repo from the skeleton &mdash; python3-pip-skeleton 2.1.dev24+g8fc2f78 documentation</title>
+  <title>Creating a new repo from the skeleton &mdash; python3-pip-skeleton 3.0.2.dev7+g721c104 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to adopt the skeleton in an existing repo" href="../how-to/existing.html" />
+    <link rel="next" title="Contributing" href="../how-to/contributing.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -59,6 +59,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/existing.html">How to adopt the skeleton in an existing repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/update.html">How to update to the latest skeleton structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/excalidraw.html">How to embed Excalidraw diagrams</a></li>
@@ -68,10 +69,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-use-skeleton.html">Why use a skeleton structure?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-src.html">Why use a source directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-pre-commit.html">Why use pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/features.html">Feature Update History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/decisions.html">Architectural Decision Records</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/releases">Releases</a></li>
 <li class="toctree-l1"><a class="reference external" href="genindex.html#http://">Index</a></li>
 </ul>
@@ -104,7 +106,7 @@
 <h1>Creating a new repo from the skeleton<a class="headerlink" href="#creating-a-new-repo-from-the-skeleton" title="Permalink to this heading"></a></h1>
 <p>Once you have followed the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> tutorial, you can use the
 commandline tool to make a new repo that inherits the skeleton:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
 </pre></div>
 </div>
 <p>This will:</p>
@@ -145,9 +147,6 @@ run this, there will be some failing tests:</p>
 <span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_changed_README_body</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">change</span> <span class="o">./</span><span class="n">README</span><span class="o">.</span><span class="n">rst</span> <span class="n">to</span> <span class="n">include</span> <span class="n">some</span> <span class="n">features</span> <span class="ow">and</span> <span class="n">why</span> <span class="n">people</span> <span class="n">should</span> <span class="n">use</span> <span class="n">it</span>
 <span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_removed_CHANGELOG_note</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">change</span> <span class="o">./</span><span class="n">CHANGELOG</span><span class="o">.</span><span class="n">rst</span> <span class="n">To</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">note</span> <span class="n">at</span> <span class="n">the</span> <span class="n">top</span>
 <span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_changed_CHANGELOG</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">change</span> <span class="o">./</span><span class="n">CHANGELOG</span><span class="o">.</span><span class="n">rst</span> <span class="n">To</span> <span class="n">summarize</span> <span class="n">changes</span> <span class="n">to</span> <span class="n">your</span> <span class="n">module</span> <span class="k">as</span> <span class="n">you</span> <span class="n">make</span> <span class="n">them</span>
-<span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_docs_ref_api_changed</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">change</span> <span class="o">./</span><span class="n">docs</span><span class="o">/</span><span class="n">reference</span><span class="o">/</span><span class="n">api</span><span class="o">.</span><span class="n">rst</span> <span class="n">to</span> <span class="n">introduce</span> <span class="n">the</span> <span class="n">API</span> <span class="k">for</span> <span class="n">your</span> <span class="n">module</span>
-<span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_how_tos_written</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">delete</span> <span class="o">./</span><span class="n">docs</span><span class="o">/</span><span class="n">how</span><span class="o">-</span><span class="n">to</span><span class="o">/</span><span class="n">accomplish</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">task</span><span class="o">.</span><span class="n">rst</span> <span class="ow">and</span> <span class="n">write</span> <span class="n">some</span> <span class="n">docs</span><span class="o">/</span><span class="n">how</span><span class="o">-</span><span class="n">tos</span>
-<span class="n">FAILED</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_boilerplate_removed</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_explanations_written</span> <span class="o">-</span> <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Please</span> <span class="n">delete</span> <span class="o">./</span><span class="n">docs</span><span class="o">/</span><span class="n">explanations</span><span class="o">/</span><span class="n">why</span><span class="o">-</span><span class="ow">is</span><span class="o">-</span><span class="n">something</span><span class="o">-</span><span class="n">so</span><span class="o">.</span><span class="n">rst</span> <span class="ow">and</span> <span class="n">write</span> <span class="n">some</span> <span class="n">docs</span><span class="o">/</span><span class="n">explanations</span>
 <span class="o">==========================================================================</span> <span class="mi">8</span> <span class="n">failed</span><span class="p">,</span> <span class="mi">5</span> <span class="n">passed</span> <span class="ow">in</span> <span class="mf">0.28</span><span class="n">s</span> <span class="o">==========================================================================</span>
 </pre></div>
 </div>
@@ -197,7 +196,7 @@ the <a class="reference internal" href="../how-to.html"><span class="doc">How-to
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../how-to/existing.html" class="btn btn-neutral float-right" title="How to adopt the skeleton in an existing repo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../how-to/contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
