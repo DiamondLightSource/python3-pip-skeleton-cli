@@ -134,7 +134,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Check runtime
-        run: for i in ${{ steps.meta.outputs.tags }}; do docker run ${i} --version; done
+        # check that the first tag can run with --version parameter
+        run: docker run $(echo ${{ steps.meta.outputs.tags }} | sed -e 's/\s.*$//') --version
 
       - name: Upload build files
         uses: actions/upload-artifact@v3
