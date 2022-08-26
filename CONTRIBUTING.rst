@@ -75,7 +75,7 @@ The code in this repository conforms to standards set by the following tools:
 - isort_ for import ordering
 - mypy_ for static type checking
 
-flake8 and black be run by pre-commit_. You can run the above checks on
+flake8 and black and isort are run by pre-commit_. You can run the above checks on
 all files with this command::
 
     $ tox -e pre-commit,mypy
@@ -140,7 +140,7 @@ Release Process
 Releases are only made when the commandline tool needs to be released.
 When this happens:
 
-- Choose a new PEP440 compliant release number
+- Choose a new PEP440 compliant release number (see https://peps.python.org/pep-0440/)
 - Go to the GitHub release_ page
 - Choose ``Draft New Release``
 - Click ``Choose Tag`` and supply the new tag you chose (click create new tag)
