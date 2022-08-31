@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Why use a skeleton structure? &mdash; python3-pip-skeleton 3.0.4.dev7+gb3109d7 documentation</title>
+  <title>Creating a PyPI Token &mdash; python3-pip-skeleton 3.0.4.dev7+gb3109d7 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Why use a source directory" href="why-src.html" />
-    <link rel="prev" title="Creating a PyPI Token" href="../how-to/pypi.html" /> 
+    <link rel="next" title="Why use a skeleton structure?" href="../explanations/why-use-skeleton.html" />
+    <link rel="prev" title="How to embed Excalidraw diagrams" href="excalidraw.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,24 +51,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/new.html">Creating a new repo from the skeleton</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/existing.html">How to adopt the skeleton in an existing repo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/update.html">How to update to the latest skeleton structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/excalidraw.html">How to embed Excalidraw diagrams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/pypi.html">Creating a PyPI Token</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="existing.html">How to adopt the skeleton in an existing repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="update.html">How to update to the latest skeleton structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excalidraw.html">How to embed Excalidraw diagrams</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a PyPI Token</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Why use a skeleton structure?</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#why-do-you-need-the-commandline-tool">Why do you need the commandline tool?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-happens-if-the-merges-become-too-difficult">What happens if the merges become too difficult?</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="why-src.html">Why use a source directory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="why-pre-commit.html">Why use pre-commit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Update History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="decisions.html">Architectural Decision Records</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/why-use-skeleton.html">Why use a skeleton structure?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/why-src.html">Why use a source directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/why-pre-commit.html">Why use pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/features.html">Feature Update History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/decisions.html">Architectural Decision Records</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -90,9 +86,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Why use a skeleton structure?</li>
+      <li>Creating a PyPI Token</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/explanations/why-use-skeleton.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/how-to/pypi.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -100,44 +96,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="why-use-a-skeleton-structure">
-<h1>Why use a skeleton structure?<a class="headerlink" href="#why-use-a-skeleton-structure" title="Permalink to this heading"></a></h1>
-<p>Many projects start from some kind of template. These define some basic
-structure, customized with project specific variables, that developers can add
-their code into. One example of this is <a class="reference external" href="https://cookiecutter.readthedocs.io">cookiecutter</a>.</p>
-<p>The problem with this approach is that it is difficult to apply changes to the
-template into projects that have been cut from it. Individual changes have to be
-copy/pasted into the code, leading to partially applied fixes and missed
-updates.</p>
-<p>This module takes a different approach, as explained in <a class="reference external" href="https://blog.jaraco.com/a-project-skeleton-for-python-projects/">jaraco’s blog post</a>.
-It is a repo that can be forked, and updates merged to the skeleton can be
-merged into projects tracking it with a <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> operation. No more
-copy/pasting.</p>
-<section id="why-do-you-need-the-commandline-tool">
-<h2>Why do you need the commandline tool?<a class="headerlink" href="#why-do-you-need-the-commandline-tool" title="Permalink to this heading"></a></h2>
-<p>The reason for the commandline tool is because this skeleton module has more
-code and docs content than <a class="reference external" href="https://github.com/jaraco/skeleton">jaraco/skeleton</a>. There are numerous references to
-the repo and package name, so the commandline tool applies a single commit on
-top of the repo that customizes it to the particular project. Once the initial
-creation/adoption has occurred however, a simple <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is sufficient to
-keep it updated.</p>
-</section>
-<section id="what-happens-if-the-merges-become-too-difficult">
-<h2>What happens if the merges become too difficult?<a class="headerlink" href="#what-happens-if-the-merges-become-too-difficult" title="Permalink to this heading"></a></h2>
-<p>If projects diverge too much, then merging in changes will become increasingly
-difficult. This is probably a sign that the approach the project has taken is
-too different from the skeleton structure for it to be of much benefit. At this
-point, the merge can be abandoned, the section from <code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.rst</span></code>
-deleted, and the project need not pull from the skeleton repo any more.</p>
-</section>
+  <section id="creating-a-pypi-token">
+<h1>Creating a PyPI Token<a class="headerlink" href="#creating-a-pypi-token" title="Permalink to this heading"></a></h1>
+<p>To publish your package on PyPI requires a PyPI account and for GitHub Actions
+to have a PyPI token authorizing access to that account.</p>
+<p>The simplest approach is to set up a PyPI token that is scoped to your PyPI account
+and add it to the secrets for your GitHub Organization (or user). This means
+that all new projects created in the Organization will automatically gain
+permission to publish to PyPI.</p>
+<p>Alternatively you can create a project scoped token for each project. This
+is more work but more secure as a bad actor that obtains the key can only
+affect a single project.</p>
+<p>If you do not already have a PyPI account use this link: <a class="reference external" href="https://pypi.org/account/register/">create_account</a>.</p>
+<p>To learn how to create a token and store it in Github see: <a class="reference external" href="https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/#saving-credentials-on-github">adding_a_token</a>.
+You can ignore the other sections of the page regarding Github Actions because
+these are already provided by skeleton. Note that skeleton uses <code class="docutils literal notranslate"><span class="pre">PYPI_TOKEN</span></code>
+as the secret name instead of <code class="docutils literal notranslate"><span class="pre">PYPI_API_TOKEN</span></code> described in the link.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../how-to/pypi.html" class="btn btn-neutral float-left" title="Creating a PyPI Token" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="why-src.html" class="btn btn-neutral float-right" title="Why use a source directory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="excalidraw.html" class="btn btn-neutral float-left" title="How to embed Excalidraw diagrams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../explanations/why-use-skeleton.html" class="btn btn-neutral float-right" title="Why use a skeleton structure?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

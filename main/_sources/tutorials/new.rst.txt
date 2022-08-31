@@ -31,6 +31,15 @@ You can then run any entry points declared in setup.cfg e.g.::
 will run the python interpreter with access to all the packages you need to
 develop your repo.
 
+PyPI Token
+----------
+
+The Github Actions Continuous Integration will publish your package to PyPI.
+To do so you need a PyPI account and and a PyPI Token configured in your 
+project or github Organization. 
+
+see `../how-to/pypi`
+
 Running the tests
 -----------------
 
