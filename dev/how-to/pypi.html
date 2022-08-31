@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to update to the latest skeleton structure &mdash; python3-pip-skeleton 2.0.2.dev30+g66c37e6 documentation</title>
+  <title>Creating a PyPI Token &mdash; python3-pip-skeleton 2.0.2.dev30+g66c37e6 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to embed Excalidraw diagrams" href="excalidraw.html" />
-    <link rel="prev" title="How to adopt the skeleton in an existing repo" href="existing.html" /> 
+    <link rel="next" title="Why use a skeleton structure?" href="../explanations/why-use-skeleton.html" />
+    <link rel="prev" title="How to embed Excalidraw diagrams" href="excalidraw.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,9 +54,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="existing.html">How to adopt the skeleton in an existing repo</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How to update to the latest skeleton structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="update.html">How to update to the latest skeleton structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="excalidraw.html">How to embed Excalidraw diagrams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pypi.html">Creating a PyPI Token</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a PyPI Token</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul>
@@ -86,9 +86,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>How to update to the latest skeleton structure</li>
+      <li>Creating a PyPI Token</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/how-to/update.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/how-to/pypi.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,28 +96,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-to-update-to-the-latest-skeleton-structure">
-<h1>How to update to the latest skeleton structure<a class="headerlink" href="#how-to-update-to-the-latest-skeleton-structure" title="Permalink to this heading"></a></h1>
-<p>If you used the commandline tool to create your repo (or adopt the skeleton
-structure in an existing repo) some time ago, there may be some changes to the
-structure that you could pick up. You can optionally check what differences
-these changes make to the files by doing:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git fetch https://github.com/epics-containers/python3-pip-skeleton main
-$ git diff ...FETCH_HEAD
-</pre></div>
-</div>
-<p>To merge the changes in do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git pull https://github.com/epics-containers/python3-pip-skeleton main
-</pre></div>
-</div>
+  <section id="creating-a-pypi-token">
+<h1>Creating a PyPI Token<a class="headerlink" href="#creating-a-pypi-token" title="Permalink to this heading"></a></h1>
+<p>To publish your package on PyPI requires a PyPI account and for GitHub Actions
+to have a PyPI token authorizing access to that account.</p>
+<p>The simplest approach is to set up a PyPI token that is scoped to your PyPI account
+and add it to the secrets for your GitHub Organization (or user). This means
+that all new projects created in the Organization will automatically gain
+permission to publish to PyPI.</p>
+<p>Alternatively you can create a project scoped token for each project. This
+is more work but more secure as a bad actor that obtains the key can only
+affect a single project.</p>
+<p>If you do not already have a PyPI account use this link: <a class="reference external" href="https://pypi.org/account/register/">create_account</a>.</p>
+<p>To learn how to create a token and store it in Github see: <a class="reference external" href="https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/#saving-credentials-on-github">adding_a_token</a>.
+You can ignore the other sections of the page regarding Github Actions because
+these are already provided by skeleton. Note that skeleton uses <code class="docutils literal notranslate"><span class="pre">PYPI_TOKEN</span></code>
+as the secret name instead of <code class="docutils literal notranslate"><span class="pre">PYPI_API_TOKEN</span></code> described in the link.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="existing.html" class="btn btn-neutral float-left" title="How to adopt the skeleton in an existing repo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="excalidraw.html" class="btn btn-neutral float-right" title="How to embed Excalidraw diagrams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="excalidraw.html" class="btn btn-neutral float-left" title="How to embed Excalidraw diagrams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../explanations/why-use-skeleton.html" class="btn btn-neutral float-right" title="Why use a skeleton structure?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

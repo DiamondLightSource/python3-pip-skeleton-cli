@@ -4,7 +4,7 @@ How to adopt the skeleton in an existing repo
 If you have an existing repo and would like to adopt the skeleton structure
 then you can use the commandline tool to merge the skeleton into your repo::
 
-    python3-pip-skeleton existing /path/to/existing/repo
+    python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
 
 This will:
 
@@ -16,6 +16,9 @@ This will:
 - Push that merge branch back to the existing repo
 - Merge with the currently checked out branch, leaving you to fix the conflicts
 
+.. note::
+
+    To enable publishing to PyPI see `../how-to/pypi` 
 
 Example merge
 -------------
