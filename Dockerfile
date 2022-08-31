@@ -30,9 +30,10 @@ ENV PATH=/venv/bin:$PATH
 RUN cd /project && \
     pip install --upgrade pip && \
     pip install -r requirements.txt dist/*.whl && \
-    pip freeze  > requirements.txt && \
+    pip freeze  > dist/requirements.txt && \
     # we don't want to include our own wheel in requirements - remove with sed
-    sed -i '/file:\/\//d' requirements.txt
+    # and replace with a comment to avoid a zero length asset upload later
+    sed -i '/file:/s/^/# Requirements for /' dist/requirements.txt
 
 FROM python:3.10-slim as runtime
 

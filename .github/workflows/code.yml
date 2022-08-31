@@ -115,8 +115,6 @@ jobs:
         run: |
           docker run --name test build bash /project/.github/workflows/container_tests.sh
           docker cp test:/project/dist .
-          docker cp test:/project/requirements.txt .
-          docker cp test:/project/requirements_dev.txt .
           docker cp test:/project/cov.xml .
 
       - name: Upload coverage to Codecov
@@ -140,11 +138,8 @@ jobs:
       - name: Upload build files
         uses: actions/upload-artifact@v3
         with:
-          name: build_files
-          path: |
-            dist
-            requirements.txt
-            requirements_dev.txt
+          name: dist
+          path: dist/*
 
   sdist:
     needs: container
@@ -158,7 +153,7 @@ jobs:
         # Replace this with the cli command if different to the repo name
         # (In the python3-pip-skeleton-cli this is already renamed)
         run: |
-          pip install build_files/dist/*.gz
+          pip install dist/*.gz
           python3-pip-skeleton --version
 
   release:
@@ -176,8 +171,7 @@ jobs:
         uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5 # v0.1.14
         with:
           files: |
-            build_files/*
-            build_files/dist/*
+            dist/*
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -185,5 +179,5 @@ jobs:
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.pypi_token }}
-        run: pipx run twine upload build_files/dist/*
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: pipx run twine upload dist/*/whl dist/*.tar.gz
