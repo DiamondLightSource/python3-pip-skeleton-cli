@@ -12,7 +12,7 @@ from . import __version__
 __all__ = ["main"]
 
 # The source of the skeleton module to pull from
-SKELETON = "https://github.com/epics-containers/python3-pip-skeleton"
+SKELETON = "https://github.com/DiamondLightSource/python3-pip-skeleton"
 # The name of the merge branch that will be created
 MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
@@ -62,7 +62,7 @@ def merge_skeleton(
     repo = path.name
 
     def replace_text(text: str) -> str:
-        text = text.replace("epics-containers", org)
+        text = text.replace("DiamondLightSource", org)
         text = text.replace("python3-pip-skeleton", repo)
         text = text.replace("python3_pip_skeleton", package)
         text = text.replace("Firstname Lastname", full_name)

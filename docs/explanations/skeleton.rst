@@ -7,7 +7,7 @@ The python3-pip-skeleton_ repo has a protected main branch and is restricted to
 rebase PRs only. 
 It is also squashed occasionally so some careful procedures are required.
 
-.. _python3-pip-skeleton: https://github.com/epics-containers/python3-pip-skeleton
+.. _python3-pip-skeleton: https://github.com/DiamondLightSource/python3-pip-skeleton
 
 main
 ----
