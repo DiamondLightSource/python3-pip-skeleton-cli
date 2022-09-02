@@ -12,10 +12,10 @@ are two sorts of contributions:
   the cli-repo_ with with a PR raised back to the ``main`` branch
   here: PR2_
 
-.. _skeleton-repo: https://github.com/epics-containers/python3-pip-skeleton
-.. _cli-repo: https://github.com/epics-containers/python3-pip-skeleton-cli
-.. _PR:  https://github.com/epics-containers/python3-pip-skeleton/pulls
-.. _PR2:  https://github.com/epics-containers/python3-pip-skeleton-cli/pulls
+.. _skeleton-repo: https://github.com/DiamondLightSource/python3-pip-skeleton
+.. _cli-repo: https://github.com/DiamondLightSource/python3-pip-skeleton-cli
+.. _PR:  https://github.com/DiamondLightSource/python3-pip-skeleton/pulls
+.. _PR2:  https://github.com/DiamondLightSource/python3-pip-skeleton-cli/pulls
 
 Apart from this, ``main`` branch in both repos should always be deployable,
 and are considered the latest release.
@@ -32,7 +32,7 @@ To run in a container
 
 Use vscode devcontainer as follows::
 
-    $ git clone git://github.com/epics-containers/python3-pip-skeleton.git
+    $ git clone git://github.com/DiamondLightSource/python3-pip-skeleton.git
     $ vscode python3-pip-skeleton
     Click on 'Reopen in Container' when prompted
     In a vscode Terminal:
@@ -45,7 +45,7 @@ To run locally
 Get the source source code and run the unit tests directly
 on your workstation as follows::
 
-    $ git clone git://github.com/epics-containers/python3-pip-skeleton.git
+    $ git clone git://github.com/DiamondLightSource/python3-pip-skeleton.git
     $ cd python3-pip-skeleton
     $ virtualenv .venv
     $ source .venv/bin/activate
@@ -152,7 +152,7 @@ When this happens:
 Note that tagging and pushing to the main branch has the same effect except that
 you will not get the option to edit the release notes.
 
-.. _release: https://github.com/epics-containers/python3-pip-skeleton/releases
+.. _release: https://github.com/DiamondLightSource/python3-pip-skeleton/releases
 
 
 Checking Dependencies
