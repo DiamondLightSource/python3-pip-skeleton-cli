@@ -24,7 +24,7 @@ IGNORE_RANGES = {
     "CONTRIBUTING.rst": ("\nUpdating the tools\n", None),
 }
 
-SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
+SKELETON_ROOT_COMMIT = "de6d5f161b940ebd052ee3123a7250a0776dcf50"
 
 
 def git(*args, cwd=None) -> str:
