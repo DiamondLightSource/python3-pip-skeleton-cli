@@ -23,6 +23,7 @@ IGNORE_FILES = ["CHANGELOG.rst", "test_boilerplate_removed.py"]
 IGNORE_RANGES = {
     "CONTRIBUTING.rst": ("\nUpdating the tools\n", None),
 }
+
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
 
 

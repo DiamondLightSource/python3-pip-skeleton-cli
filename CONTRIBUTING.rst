@@ -7,6 +7,7 @@ are two sorts of contributions:
 - Changes to the skeleton structure should be made on a branch
   of the skeleton-repo_ with a PR
   raised back to the ``main`` branch from here: PR_.
+  see `Skeleton` for more details.
 - Changes to the docs or commandline tool should be made on a branch in 
   the cli-repo_ with with a PR raised back to the ``main`` branch
   here: PR2_
@@ -145,6 +146,7 @@ When this happens:
 - Choose ``Draft New Release``
 - Click ``Choose Tag`` and supply the new tag you chose (click create new tag)
 - Click ``Generate release notes``, review and edit these notes
+- If this is a pre-release then check the ``This is a pre-release`` check-box.
 - Choose a title and click ``Publish Release``
 
 Note that tagging and pushing to the main branch has the same effect except that
