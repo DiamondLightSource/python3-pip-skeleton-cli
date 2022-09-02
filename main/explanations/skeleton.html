@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Why use pre-commit &mdash; python3-pip-skeleton 3.0.5.dev11+g0b26551 documentation</title>
+  <title>Working on the Skeleton Repo &mdash; python3-pip-skeleton 3.0.5.dev11+g0b26551 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,8 +22,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Architectural Decision Records" href="decisions.html" />
-    <link rel="prev" title="Why use a source directory" href="why-src.html" /> 
+    <link rel="prev" title="1. Record architecture decisions" href="decisions/0001-record-architecture-decisions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -62,9 +61,15 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="why-use-skeleton.html">Why use a skeleton structure?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="why-src.html">Why use a source directory</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Why use pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why-pre-commit.html">Why use pre-commit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="decisions.html">Architectural Decision Records</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skeleton.html">Working on the Skeleton Repo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working on the Skeleton Repo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main">main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dev-archive">dev-archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process-for-making-a-change">Process for making a change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process-for-squashing-main">Process for squashing main</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -86,9 +91,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Why use pre-commit</li>
+      <li>Working on the Skeleton Repo</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/explanations/why-pre-commit.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/explanations/skeleton.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,95 +101,117 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="why-use-pre-commit">
-<h1>Why use pre-commit<a class="headerlink" href="#why-use-pre-commit" title="Permalink to this heading"></a></h1>
-<p>There are a number of things that CI needs to run:</p>
-<ul class="simple">
-<li><p>pytest</p></li>
-<li><p>black</p></li>
-<li><p>mypy</p></li>
-<li><p>flake8</p></li>
-<li><p>isort</p></li>
+  <section id="working-on-the-skeleton-repo">
+<span id="skeleton"></span><h1>Working on the Skeleton Repo<a class="headerlink" href="#working-on-the-skeleton-repo" title="Permalink to this heading"></a></h1>
+<p>The <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton">python3-pip-skeleton</a> repo has a protected main branch and is restricted to
+rebase PRs only.
+It is also squashed occasionally so some careful procedures are required.</p>
+<section id="main">
+<h2>main<a class="headerlink" href="#main" title="Permalink to this heading"></a></h2>
+<p>This branch is what all adopters of the skeleton project merge from so needs
+to be kept tidy.
+In particular it must not have any #nnn which would refer to the wrong commit
+when merged into other repos (and github will see them and add incorrect
+messages in PRs and Issues). This branch is protected from push and
+restricted so that it can only be updated by a PR with REBASE.</p>
+</section>
+<section id="dev-archive">
+<h2>dev-archive<a class="headerlink" href="#dev-archive" title="Permalink to this heading"></a></h2>
+<p>This branch to tracks all commits, including those that are squashed out of
+main. Force push is disallowed on this branch so that it can be kept as a
+safe record of the history.</p>
+</section>
+<section id="process-for-making-a-change">
+<h2>Process for making a change<a class="headerlink" href="#process-for-making-a-change" title="Permalink to this heading"></a></h2>
+<p>To make changes. First take a new branch off of main, make your changes
+and do a pull request to rebase main on the branch.</p>
+<ul>
+<li><p>get a branch on main</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout main</p></li>
+<li><p>git reset –hard origin/main            # because main may have been rebased</p></li>
+<li><p>git checkout -b feature</p></li>
 </ul>
-<p>The initial approach this module took was to integrate everything
-under pytest that had a plugin, and isort under flake8:</p>
-<div class="graphviz"><object data="../_images/graphviz-d4e7b8406fb415647e7da6cc53b1d99fd5abf2cf.svg" type="image/svg+xml" class="graphviz">
-<p class="warning">digraph initial {
-bgcolor=transparent
-graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
-node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
-
-subgraph cluster_0 {
-  label = &quot;pytest&quot;
-  &quot;pytest-black&quot;
-  &quot;pytest-mypy&quot;
-  subgraph cluster_1 {
-    label = &quot;pytest-flake8&quot;
-    &quot;flake8-isort&quot;
-  }
-}
-}</p></object></div>
-<p>This had the advantage that a <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests</span></code> run in CI would catch and
-report all test failures, but made each run take longer than it needed to. Also,
-flake8 states that it <a class="reference external" href="https://flake8.pycqa.org/en/latest/user/python-api.html">does not have a public, stable, Python API</a> so did not
-recommend the approach taken by pytest-flake8.</p>
-<p>To address this, the tree was rearranged:</p>
-<div class="graphviz"><object data="../_images/graphviz-e7b058250963a789adcb77f1bcc146c976870f79.svg" type="image/svg+xml" class="graphviz">
-<p class="warning">digraph rearranged {
-bgcolor=transparent
-graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
-node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
-
-pytest
-black
-mypy
-subgraph cluster_1 {
-  label = &quot;flake8&quot;
-  &quot;flake8-isort&quot;
-}
-}</p></object></div>
-<p>If using VSCode, this will still run black, flake8 and mypy on file save, but
-for those using other editors and for CI another solution was needed. Enter
-<a class="reference external" href="https://pre-commit.com/">pre-commit</a>. This allows hooks to be run at <code class="docutils literal notranslate"><span class="pre">git</span>
-<span class="pre">commit</span></code> time on just the files that have changed, as well as on all tracked
-files by CI. All that is needed is a one time install of the git commit hook:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pre-commit install
-</pre></div>
-</div>
-<p>The graph now looks like:</p>
-<div class="graphviz"><object data="../_images/graphviz-57e99f22a3e31eccc314f4db8413c4d4b5b2a6c6.svg" type="image/svg+xml" class="graphviz">
-<p class="warning">digraph rearranged {
-bgcolor=transparent
-graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
-node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
-
-pytest
-subgraph cluster_0 {
-  label = &quot;pre-commit&quot;
-  black
-  mypy
-  subgraph cluster_1 {
-    label = &quot;flake8&quot;
-    &quot;flake8-isort&quot;
-  }
-}
-}</p></object></div>
-<p>Now the workflow looks like this:</p>
-<ul class="simple">
-<li><p>Save file, VSCode runs black, flake8 and mypy on it</p></li>
-<li><p>Run pytest until tests pass</p></li>
-<li><p>Commit files and pre-commit runs black, flake8 and mypy on them</p></li>
-<li><p>Push to remote and CI runs black, flake8, mypy once on all files, then pytest
-multiple times in a test matrix</p></li>
+</div></blockquote>
+</li>
+<li><p>Do the changes and test in CI with:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git add –all</p></li>
+<li><p>git commit -m’my changes’</p></li>
+<li><p>git push -u origin feature</p></li>
 </ul>
+</div></blockquote>
+</li>
+<li><p>When happy with changes use PR to rebase main on feature.</p></li>
+<li><p>Next delete feature:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git push origin :feature</p></li>
+<li><p>git checkout main</p></li>
+<li><p>git branch -fd feature</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="process-for-squashing-main">
+<h2>Process for squashing main<a class="headerlink" href="#process-for-squashing-main" title="Permalink to this heading"></a></h2>
+<p>Once a year or so tidy up the history of main to make new adoptions easy.
+Otherwise multiple changes to the same line in the history may cause multiple
+merge conflicts on that line during re-merge of skeleton into projects
+that have already adopted.</p>
+<p>Perform these steps</p>
+<ul>
+<li><p>Get the dev-archive branch to remember your main commits</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout dev-archive</p></li>
+<li><p>git merge main</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If there are conflicts</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout –theirs</p></li>
+<li><p>git add –all</p></li>
+<li><p>git commit          # the commit message will be ‘merged …’ you can
+add to it if needed</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt>Now squash main right back to the original ededf000</dt><dd><ul class="simple">
+<li><p>git checkout main</p></li>
+<li><p>git reset –hard /origin/main</p></li>
+<li><p>git rebase -i ededf000</p></li>
+<li><p>In the rebase edit screen replace all <code class="docutils literal notranslate"><span class="pre">pick</span></code> with <code class="docutils literal notranslate"><span class="pre">s</span></code> except the first
+one. save and quit</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Now create a handoff branch</dt><dd><ul class="simple">
+<li><p>git checkout dev-archive</p></li>
+<li><p>git checkout -b handoff/202x-xx-xx</p></li>
+<li><p>git merge main</p></li>
+<li><p>git push -u origin handoff/202x-xx-xx</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="why-src.html" class="btn btn-neutral float-left" title="Why use a source directory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="decisions.html" class="btn btn-neutral float-right" title="Architectural Decision Records" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="decisions/0001-record-architecture-decisions.html" class="btn btn-neutral float-left" title="1. Record architecture decisions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

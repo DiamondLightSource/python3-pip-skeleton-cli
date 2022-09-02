@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contributing &mdash; python3-pip-skeleton 3.0.5.dev8+ge862dcd documentation</title>
+  <title>Contributing &mdash; python3-pip-skeleton 3.0.5.dev11+g0b26551 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -75,8 +75,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-use-skeleton.html">Why use a skeleton structure?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-src.html">Why use a source directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/why-pre-commit.html">Why use pre-commit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/features.html">Feature Update History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/decisions.html">Architectural Decision Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/skeleton.html">Working on the Skeleton Repo</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
@@ -115,7 +115,8 @@ are two sorts of contributions:</p>
 <ul class="simple">
 <li><p>Changes to the skeleton structure should be made on a branch
 of the <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton">skeleton-repo</a> with a PR
-raised back to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch from here: <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/pulls">PR</a>.</p></li>
+raised back to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch from here: <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton/pulls">PR</a>.
+see <a class="reference internal" href="../explanations/skeleton.html#skeleton"><span class="std std-ref">Working on the Skeleton Repo</span></a> for more details.</p></li>
 <li><p>Changes to the docs or commandline tool should be made on a branch in
 the <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton-cli">cli-repo</a> with with a PR raised back to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch
 here: <a class="reference external" href="https://github.com/epics-containers/python3-pip-skeleton-cli/pulls">PR2</a></p></li>
@@ -239,6 +240,7 @@ When this happens:</p>
 <li><p>Choose <code class="docutils literal notranslate"><span class="pre">Draft</span> <span class="pre">New</span> <span class="pre">Release</span></code></p></li>
 <li><p>Click <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">Tag</span></code> and supply the new tag you chose (click create new tag)</p></li>
 <li><p>Click <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">release</span> <span class="pre">notes</span></code>, review and edit these notes</p></li>
+<li><p>If this is a pre-release then check the <code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">pre-release</span></code> check-box.</p></li>
 <li><p>Choose a title and click <code class="docutils literal notranslate"><span class="pre">Publish</span> <span class="pre">Release</span></code></p></li>
 </ul>
 <p>Note that tagging and pushing to the main branch has the same effect except that
