@@ -8,7 +8,7 @@ Technical reference material including APIs and release notes.
 .. toctree::
     :caption: Reference
 
-    Releases <https://github.com/epics-containers/python3-pip-skeleton/releases>
+    Releases <https://github.com/DiamondLightSource/python3-pip-skeleton/releases>
     Index <genindex.html#http://>
 
 ..
