@@ -12,7 +12,7 @@ import python3_pip_skeleton
 # -- General configuration ------------------------------------------------
 
 # General information about the project.
-project = "python3-pip-skeleton"
+project = "python3-pip-skeleton-cli"
 
 # The full version, including alpha/beta/rc tags.
 release = python3_pip_skeleton.__version__
