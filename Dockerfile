@@ -1,6 +1,6 @@
 # This file is for use as a devcontainer and a runtime container
-# 
-# The devcontainer should use the build target and run as root with podman 
+#
+# The devcontainer should use the build target and run as root with podman
 # or docker with user namespaces.
 #
 FROM python:3.10 as build
@@ -26,6 +26,7 @@ RUN cd /project && \
 
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
+ENV TOX_DIRECT=1
 
 RUN cd /project && \
     pip install --upgrade pip && \
@@ -43,5 +44,5 @@ COPY --from=build /venv/ /venv/
 ENV PATH=/venv/bin:$PATH
 
 # change this entrypoint if it is not the same as the repo
-ENTRYPOINT ["python3-pip-skeleton"]
+ENTRYPOINT ["python3-pip-skeleton-cli"]
 CMD ["--version"]
