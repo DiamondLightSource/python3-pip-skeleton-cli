@@ -132,8 +132,8 @@ Developer instructions in docs/developer/tutorials/dev-install.rst
             str(module),
         )
     assert (
-        f"{MERGE_BRANCH} already exists. \
-                Please run 'python3-pip-skeleton clean' to remove it."
+        f"{MERGE_BRANCH} already exists. "
+        + "Please run 'python3-pip-skeleton clean' to remove it."
         in str(excinfo.value)
     )
 

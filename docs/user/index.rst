@@ -46,7 +46,6 @@ side-bar.
             explanations/why-use-skeleton
             explanations/why-src
             explanations/why-pre-commit
-            explanations/decisions
             explanations/skeleton            
 
         +++

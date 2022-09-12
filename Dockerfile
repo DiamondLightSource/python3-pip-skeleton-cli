@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y && \
     build-essential \
     busybox \
     git \
+    graphviz \
     net-tools \
     vim \
     && rm -rf /var/lib/apt/lists/* \

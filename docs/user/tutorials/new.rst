@@ -101,4 +101,4 @@ What next?
 
 Now you can make the repo your own, add code, write docs, delete what you don't
 like, then push a tag and CI will make a release and push it to PyPI. Look at
-the `../how-to` for articles on these and other topics.
+the `How-To <../index>` for articles on these and other topics.

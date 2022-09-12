@@ -95,4 +95,4 @@ Finally the results were committed, pushed, merged to main::
     $ git commit
     $ git push github adopt-skeleton
 
-.. image:: ../images/git_merge.png
+.. image:: ../../images/git_merge.png
