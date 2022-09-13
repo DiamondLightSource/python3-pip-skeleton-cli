@@ -4,27 +4,27 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/main/"
   },
   {
-    "name": "2.0.2",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
-  },
-  {
-    "name": "3.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0/"
-  },
-  {
-    "name": "3.0.4",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0.4/"
-  },
-  {
-    "name": "3.1",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1/"
+    "name": "3.2.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.0/"
   },
   {
     "name": "3.1.0",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1.0/"
   },
   {
-    "name": "3.2.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.0/"
+    "name": "3.0.4",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0.4/"
+  },
+  {
+    "name": "3.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0/"
+  },
+  {
+    "name": "2.0.2",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
+  },
+  {
+    "name": "3.1",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1/"
   }
 ]
