@@ -10,6 +10,6 @@ Starting the container
 
 To pull the container from github container registry and run::
 
-    $ docker run ghcr.io/DiamondLightSource/python3-pip-skeleton-cli:main --version
+    $ docker run --rm ghcr.io/DiamondLightSource/python3-pip-skeleton-cli:main --version
 
 To get a released version, use a numbered release instead of ``main``.
