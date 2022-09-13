@@ -1,6 +1,6 @@
 # This file is for use as a devcontainer and a runtime container
-# 
-# The devcontainer should use the build target and run as root with podman 
+#
+# The devcontainer should use the build target and run as root with podman
 # or docker with user namespaces.
 #
 FROM python:3.10 as build
@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y && \
     build-essential \
     busybox \
     git \
+    graphviz \
     net-tools \
     vim \
     && rm -rf /var/lib/apt/lists/* \
@@ -26,6 +27,7 @@ RUN cd /project && \
 
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
+ENV TOX_DIRECT=1
 
 RUN cd /project && \
     pip install --upgrade pip && \

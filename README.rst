@@ -1,4 +1,4 @@
-python3-pip-skeleton
+python3-pip-skeleton-cli
 ===========================
 
 |code_ci| |docs_ci| |coverage| |pypi_version| |license|
@@ -43,16 +43,16 @@ and existing projects::
 
     python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
 
-.. |code_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton/workflows/Code%20CI/badge.svg?branch=main
-    :target: https://github.com/DiamondLightSource/python3-pip-skeleton/actions?query=workflow%3A%22Code+CI%22
+.. |code_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/workflows/Code%20CI/badge.svg?branch=main
+    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions?query=workflow%3A%22Code+CI%22
     :alt: Code CI
 
-.. |docs_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton/workflows/Docs%20CI/badge.svg?branch=main
-    :target: https://github.com/DiamondLightSource/python3-pip-skeleton/actions?query=workflow%3A%22Docs+CI%22
+.. |docs_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/workflows/Docs%20CI/badge.svg?branch=main
+    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions?query=workflow%3A%22Docs+CI%22
     :alt: Docs CI
 
-.. |coverage| image:: https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton/branch/main/graph/badge.svg
-    :target: https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton
+.. |coverage| image:: https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton-cli/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton-cli
     :alt: Test Coverage
 
 .. |pypi_version| image:: https://img.shields.io/pypi/v/python3-pip-skeleton.svg
@@ -67,5 +67,4 @@ and existing projects::
     Anything below this line is used when viewing README.rst and will be replaced
     when included in index.rst
 
-See https://DiamondLightSource.github.io/python3-pip-skeleton-cli for 
-more detailed documentation.
+See https://DiamondLightSource.github.io/python3-pip-skeleton-cli for more detailed documentation.

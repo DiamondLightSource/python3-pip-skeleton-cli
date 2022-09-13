@@ -66,12 +66,10 @@ def merge_skeleton(
         return text
 
     branches = list_branches(path)
-
-    if MERGE_BRANCH in branches:
-        raise Exception(
-            f"{MERGE_BRANCH} already exists. \
-                Please run 'python3-pip-skeleton clean' to remove it."
-        )
+    assert MERGE_BRANCH not in branches, (
+        f"{MERGE_BRANCH} already exists. "
+        "Please run 'python3-pip-skeleton clean' to remove it."
+    )
     with GitTemporaryDirectory() as git_tmp:
         # Clone existing repo into tmp so we don't mess up if we fail
         # half way through
@@ -86,7 +84,8 @@ def merge_skeleton(
         # Merge in the skeleton commits
         git_tmp("pull", "--rebase=false", SKELETON, "main")
         # Move things around
-        git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
+        if package != "python3_pip_skeleton":
+            git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
         # Change contents of all children known to git
         for relative_child in git_tmp("ls-files").splitlines():
             child = Path(git_tmp.name) / relative_child
