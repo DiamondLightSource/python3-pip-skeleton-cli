@@ -26,5 +26,9 @@
   {
     "name": "3.1",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1/"
+  },
+  {
+    "name": "coretl-patch-1",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/coretl-patch-1/"
   }
 ]
