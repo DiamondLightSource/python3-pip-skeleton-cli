@@ -138,7 +138,7 @@ html_theme_options = dict(
     icon_links=[
         dict(
             name="PyPI",
-            url=f"https://pypi.org/project/{project}",
+            url=f"https://pypi.org/project/python3-pip-skeleton",
             icon="fas fa-cube",
         )
     ],
