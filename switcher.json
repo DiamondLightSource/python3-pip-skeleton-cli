@@ -1,34 +1,34 @@
 [
   {
-    "version": "main",
+    "name": "main",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/main/"
   },
   {
-    "version": "3.2.0",
+    "name": "3.2.0",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.0/"
   },
   {
-    "version": "3.1.0",
+    "name": "3.1.0",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1.0/"
   },
   {
-    "version": "3.0.4",
+    "name": "3.0.4",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0.4/"
   },
   {
-    "version": "3.0",
+    "name": "3.0",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0/"
   },
   {
-    "version": "0.0.1",
+    "name": "0.0.1",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1/"
   },
   {
-    "version": "2.0.2",
+    "name": "2.0.2",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
   },
   {
-    "version": "test-lockfiles",
+    "name": "test-lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/test-lockfiles/"
   }
 ]
