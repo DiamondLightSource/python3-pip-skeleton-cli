@@ -26,9 +26,9 @@ It integrates the following tools:
   - which verifies all the things that CI does
 - If you use VSCode, it will run black, flake8, isort and mypy on save
 
-The the related skeleton_ repo for this module contains the source 
-code that can be merged into new or existing projects, and pulled from to 
-keep them up to date. It can also serve as a working example for those who 
+The the related skeleton_ repo for this module contains the source
+code that can be merged into new or existing projects, and pulled from to
+keep them up to date. It can also serve as a working example for those who
 would prefer to cherry-pick.
 
 .. _skeleton: https://github.com/DiamondLightSource/python3-pip-skeleton
@@ -43,12 +43,12 @@ and existing projects::
 
     python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
 
-.. |code_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/workflows/Code%20CI/badge.svg?branch=main
-    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions?query=workflow%3A%22Code+CI%22
+.. |code_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/code.yml/badge.svg?branch=main
+    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/code.yml
     :alt: Code CI
 
-.. |docs_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/workflows/Docs%20CI/badge.svg?branch=main
-    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions?query=workflow%3A%22Docs+CI%22
+.. |docs_ci| image:: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/docs.yml/badge.svg?branch=main
+    :target: https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/docs.yml
     :alt: Docs CI
 
 .. |coverage| image:: https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton-cli/branch/main/graph/badge.svg
