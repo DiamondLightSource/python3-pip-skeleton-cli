@@ -8,36 +8,21 @@ FROM python:3.10 as build
 # Add any system dependencies for the developer/build environment here
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-    build-essential \
     busybox \
-    git \
-    net-tools \
-    vim \
     && rm -rf /var/lib/apt/lists/* \
     && busybox --install
 
 COPY . /project
 WORKDIR /project
 
-# make the wheel outside of the venv so 'build' does not dirty requirements.txt
-RUN pip install --upgrade pip build && \
-    export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) && \
-    git diff && \
-    python -m build && \
-    touch requirements.txt
-
 # set up a virtual environment and put it in PATH
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
-# install the wheel and generate the requirements file
+# install the wheel
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt dist/*.whl && \
-    mkdir -p lockfiles && \
-    pip freeze  > lockfiles/requirements.txt && \
-    # we don't want to include our own wheel in requirements - remove with sed
-    # and replace with a comment to avoid a zero length asset upload later
-    sed -i '/file:/s/^/# Requirements for /' lockfiles/requirements.txt
+    touch requirements.txt && \
+    pip install -r requirements.txt dist/*.whl
 
 FROM python:3.10-slim as runtime
 
