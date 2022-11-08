@@ -7,8 +7,7 @@ on:
     # Run every Monday at 8am to check latest versions of dependencies
     - cron: "0 8 * * WED"
 env:
-  # the target python version. Make sure the Dockerfile uses the same
-  # version for its build and runtime targets.
+  # Target python version. Make sure Dockerfile FROM's match this.
   PYTHON: "3.10"
 
 jobs:
@@ -24,12 +23,12 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{env.PYTHON}}
+          python-version: ${{ env.PYTHON }}
 
       - name: Lint
         run: |
-          touch requirements_dev.txt requirements.txt
-          pip install -r requirements.txt -r requirements_dev.txt -e .[dev]
+          touch requirements_dev_py${{ env.PYTHON }}.txt requirements.txt
+          pip install -r requirements.txt -r requirements_dev_py${{ env.PYTHON }}.txt -e .[dev]
           tox -e pre-commit,mypy
 
   test:
@@ -60,7 +59,7 @@ jobs:
         run: |
           pip install .[dev]
           mkdir -p lockfiles
-          pip freeze > lockfiles/requirements-dev-py${{ matrix.python }}.txt
+          pip freeze > lockfiles/requirements_dev_py${{ matrix.python }}.txt
 
       - name: Run tests
         run: pytest tests
@@ -90,12 +89,12 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{env.PYTHON}}
+          python-version: ${{ env.PYTHON }}
 
       - name: Build Sdist and wheel
         run: |
           export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) && \
-          pipx run --python $(which python${{env.PYTHON}}) build
+          pipx run --python $(which python${{ env.PYTHON }}) build
 
       # ${GITHUB_REPOSITORY##*/} is the repo name without org
       # Replace this with the cli command if different to the repo name
@@ -124,7 +123,6 @@ jobs:
 
   container:
     needs: [dist]
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
 
     permissions:
@@ -137,11 +135,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v3
+      # image names must be all lower case
+      - run: |
+          echo IMAGE_REPOSITORY=ghcr.io/$(tr '[:upper:]' '[:lower:]' <<< "${{ github.repository }}") >> $GITHUB_ENV
 
-      - name: PrepareReg Names
-        run: |
-          echo IMAGE_REPOSITORY=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
+      - uses: actions/download-artifact@v3
 
       - name: Log in to GitHub Docker Registry
         if: github.event_name != 'pull_request'
@@ -155,7 +153,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{env.IMAGE_REPOSITORY}}
+          images: ${{ env.IMAGE_REPOSITORY }}
           tags: |
             type=ref,event=tag
             type=raw,value=latest
@@ -167,22 +165,21 @@ jobs:
       - name: Build runtime image
         uses: docker/build-push-action@v3
         with:
-          push: true
-          load: true
+          push: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
+          load: ${{ ! (github.event_name == 'push' && startsWith(github.ref, 'refs/tags')) }}
           tags: ${{ steps.meta.outputs.tags }}
           context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Test cli works in runtime image
-        # check that the first tag can run with --version parameter
-        run: docker run ${{env.IMAGE_REPOSITORY}}:latest --version
-
-      # TODO upload a tar of the image for later publishing
-      # TODO OR do the publish here ??? if its quick enough - MUCH easier ?
+        # check that the latest tag can run with --version parameter
+        run: docker run ${{ env.IMAGE_REPOSITORY }} --version
 
   release:
     # upload to PyPI and make a release on every tag
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     needs: [lint, dist]
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
     runs-on: ubuntu-latest
 
     steps:

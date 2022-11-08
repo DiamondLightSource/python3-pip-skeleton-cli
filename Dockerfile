@@ -5,12 +5,12 @@
 #
 FROM python:3.10 as build
 
-# Add any system dependencies for the developer/build environment here
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    busybox \
-    && rm -rf /var/lib/apt/lists/* \
-    && busybox --install
+# Add any system dependencies for the developer/build environment here e.g.
+# RUN apt-get update && apt-get upgrade -y && \
+#     apt-get install -y --no-install-recommends \
+#     busybox \
+#     && rm -rf /var/lib/apt/lists/* \
+#     && busybox --install
 
 COPY . /project
 WORKDIR /project
@@ -20,8 +20,9 @@ RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
 # install the wheel
-RUN pip install --upgrade pip && \
-    touch requirements.txt && \
+RUN touch requirements.txt && \
+    for i in requirements.txt .gitignore lockfiles; do echo $i >> .gitignore; done && \
+    git diff && \
     pip install -r requirements.txt dist/*.whl
 
 FROM python:3.10-slim as runtime
