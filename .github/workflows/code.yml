@@ -103,10 +103,7 @@ jobs:
           # If more than one module in src/ replace with module name to test
           python -m $(ls src) --version
 
-      - name: Test Publish to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Check for packaging errors
         run: pipx run twine check dist/*
 
       - name: Upload sdist and wheel as artifacts
