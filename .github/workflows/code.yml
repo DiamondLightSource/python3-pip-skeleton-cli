@@ -24,11 +24,8 @@ jobs:
 
       - name: Lint
         run: |
-          touch requirements-lint.txt requirements.txt
-          pip install -r requirements.txt -r requirements-lint.txt -e .[dev]
+          .github/workflows/pip_install.sh lint -e .[dev]
           tox -e pre-commit,mypy
-          mkdir -p lockfiles
-          pip freeze > lockfiles/requirements-lint.txt
 
       - name: Upload lockfiles
         uses: actions/upload-artifact@v3
@@ -66,10 +63,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install with latest dependencies
-        run: |
-          pip install .[dev]
-          mkdir -p lockfiles
-          pip freeze > lockfiles/requirements-test-${{ matrix.python }}-${{ matrix.os }}.txt
+        run: .github/workflows/pip_install.sh test-${{ matrix.python }}-${{ matrix.os }} .[dev]
 
       - name: Run tests
         run: pytest tests
@@ -105,14 +99,10 @@ jobs:
         run: |
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
-          # replace with module name if necessary
-          MODULE=$(ls src | head -1) && \
-          python -m ${MODULE} --version
+          # If more than one module in src/ replace with module name to test
+          python -m $(ls src) --version
 
-      - name: Test Publish to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Check for packaging errors
         run: pipx run twine check dist/*
 
       - name: Upload sdist and wheel as artifacts
@@ -192,10 +182,6 @@ jobs:
 
     steps:
       - uses: actions/download-artifact@v3
-
-      - name: fixup requirements files
-        # use sed to comment out the self references in requirements files
-        run: sed -i '/file:/s/^/# Requirements for /' lockfiles/requirements*.txt
 
       - name: Github Release
         # We pin to the SHA, not the tag, for security reasons.
