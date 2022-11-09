@@ -17,7 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # use a version of python that does not require setup.py
       - name: Setup python
         uses: actions/setup-python@v4
         with:
@@ -25,9 +24,17 @@ jobs:
 
       - name: Lint
         run: |
-          touch requirements_${{ github.job }}.txt requirements.txt
-          pip install -r requirements.txt -r requirements_${{ github.job }}.txt -e .[dev]
+          touch requirements-lint.txt requirements.txt
+          pip install -r requirements.txt -r requirements-lint.txt -e .[dev]
           tox -e pre-commit,mypy
+          mkdir -p lockfiles
+          pip freeze > lockfiles/requirements-lint.txt
+
+      - name: Upload lockfiles
+        uses: actions/upload-artifact@v3
+        with:
+          name: lockfiles
+          path: lockfiles
 
   test:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
@@ -35,7 +42,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"] # can add windows-latest, macos-latest
-        python: ["3.8", "3.9", "3.10"]
+        python: ["3.8", "3.9", "3.10", "3.11"]
 
     runs-on: ${{ matrix.os }}
     env:
@@ -68,7 +75,7 @@ jobs:
           name: ${{ matrix.python }}/${{ matrix.os }}
           files: cov.xml
 
-      - name: Upload lock files
+      - name: Upload lockfiles
         uses: actions/upload-artifact@v3
         with:
           name: lockfiles
@@ -92,8 +99,9 @@ jobs:
       # ${GITHUB_REPOSITORY##*/} is the repo name without org
       # Replace this with the cli command if different to the repo name
       - name: Test cli works in sdist installed in local python
-        run: touch requirements.txt &&
-          pip install -r requirements.txt dist/*.whl &&
+        run: |
+          touch requirements.txt
+          pip install -r requirements.txt dist/*.whl
           ${GITHUB_REPOSITORY##*/} --version
 
       - name: Upload sdist and wheel as artifacts
@@ -159,7 +167,7 @@ jobs:
           mkdir -p lockfiles
           docker run --entrypoint pip ${{ env.IMAGE_REPOSITORY }} freeze > lockfiles/requirements.txt
 
-      - name: Upload requirements.txt freeze file
+      - name: Upload lockfiles
         uses: actions/upload-artifact@v3
         with:
           name: lockfiles

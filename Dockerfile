@@ -3,7 +3,7 @@
 # The devcontainer should use the build target and run as root with podman
 # or docker with user namespaces.
 #
-FROM python:3.10 as build
+FROM python:3.11 as build
 
 # Add any system dependencies for the developer/build environment here e.g.
 # RUN apt-get update && apt-get upgrade -y && \
@@ -23,7 +23,7 @@ ENV PATH=/venv/bin:$PATH
 RUN touch requirements.txt && \
     pip install -r requirements.txt dist/*.whl
 
-FROM python:3.10-slim as runtime
+FROM python:3.11-slim as runtime
 
 # Add apt-get system dependecies for runtime here if needed
 
