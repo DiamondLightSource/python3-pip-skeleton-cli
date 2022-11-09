@@ -98,11 +98,17 @@ jobs:
 
       # ${GITHUB_REPOSITORY##*/} is the repo name without org
       # Replace this with the cli command if different to the repo name
-      - name: Test cli works in sdist installed in local python
+      - name: Test cli works using the wheel installed in local python
         run: |
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
           ${GITHUB_REPOSITORY##*/} --version
+
+      - name: Test Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: pipx run twine check dist/*
 
       - name: Upload sdist and wheel as artifacts
         uses: actions/upload-artifact@v3
