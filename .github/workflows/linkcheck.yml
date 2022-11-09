@@ -1,6 +1,7 @@
 name: Link Check
 
 on:
+  workflow_dispatch:
   schedule:
     # Run every Monday at 8am to check URL links still resolve
     - cron: "0 8 * * WED"
@@ -31,4 +32,4 @@ jobs:
           pip install -r requirements_dev.txt -e .[dev]
 
       - name: Check links
-        run: tox -e docs -- -b linkcheck
+        run: tox -e docs build -- -b linkcheck
