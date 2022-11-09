@@ -24,11 +24,8 @@ jobs:
 
       - name: Lint
         run: |
-          touch requirements-lint.txt requirements.txt
-          pip install -r requirements.txt -r requirements-lint.txt -e .[dev]
+          .github/workflows/pip_install.sh lint -e .[dev]
           tox -e pre-commit,mypy
-          mkdir -p lockfiles
-          pip freeze > lockfiles/requirements-lint.txt
 
       - name: Upload lockfiles
         uses: actions/upload-artifact@v3
@@ -61,10 +58,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install with latest dependencies
-        run: |
-          pip install .[dev]
-          mkdir -p lockfiles
-          pip freeze > lockfiles/requirements-test-${{ matrix.python }}-${{ matrix.os }}.txt
+        run: .github/workflows/pip_install.sh test-${{ matrix.python }}-${{ matrix.os }} .[dev]
 
       - name: Run tests
         run: pytest tests
@@ -101,7 +95,7 @@ jobs:
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
           # If more than one module in src/ replace with module name to test
-          python -m $(ls src) --version
+          python -m $(ls src | head -1) --version
 
       - name: Check for packaging errors
         run: pipx run twine check dist/*
