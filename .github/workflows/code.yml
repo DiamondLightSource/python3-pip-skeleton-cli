@@ -6,9 +6,6 @@ on:
   schedule:
     # Run every Monday at 8am to check latest versions of dependencies
     - cron: "0 8 * * WED"
-env:
-  # Target python version. Make sure Dockerfile FROM's match this.
-  PYTHON: "3.10"
 
 jobs:
   lint:
@@ -20,15 +17,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # use a version of python that does not require setup.py
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON }}
+          python-version: "3.x"
 
       - name: Lint
         run: |
-          touch requirements_dev_py${{ env.PYTHON }}.txt requirements.txt
-          pip install -r requirements.txt -r requirements_dev_py${{ env.PYTHON }}.txt -e .[dev]
+          touch requirements_${{ github.job }}.txt requirements.txt
+          pip install -r requirements.txt -r requirements_${{ github.job }}.txt -e .[dev]
           tox -e pre-commit,mypy
 
   test:
@@ -59,7 +57,7 @@ jobs:
         run: |
           pip install .[dev]
           mkdir -p lockfiles
-          pip freeze > lockfiles/requirements_dev_py${{ matrix.python }}.txt
+          pip freeze > lockfiles/requirements-test-${{ matrix.python }}-${{ matrix.os }}.txt
 
       - name: Run tests
         run: pytest tests
@@ -86,28 +84,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON }}
-
       - name: Build Sdist and wheel
         run: |
           export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) && \
-          pipx run --python $(which python${{ env.PYTHON }}) build
+          pipx run build
 
       # ${GITHUB_REPOSITORY##*/} is the repo name without org
       # Replace this with the cli command if different to the repo name
       - name: Test cli works in sdist installed in local python
-        run: |
-          touch requirements.txt
-          pip install -r requirements.txt dist/*.gz ${GITHUB_REPOSITORY##*/} --version
-
-      # create a requirements.txt to be published as a github release asset
-      - name: get a requirements.txt from the installed sdist
-        run: |
-          mkdir -p lockfiles
-          pip freeze > lockfiles/requirements.txt
+        run: touch requirements.txt &&
+          pip install -r requirements.txt dist/*.whl &&
+          ${GITHUB_REPOSITORY##*/} --version
 
       - name: Upload sdist and wheel as artifacts
         uses: actions/upload-artifact@v3
@@ -115,14 +102,8 @@ jobs:
           name: dist
           path: dist
 
-      - name: Upload lock files
-        uses: actions/upload-artifact@v3
-        with:
-          name: lockfiles
-          path: lockfiles
-
   container:
-    needs: [dist]
+    needs: [lint, dist, test]
     runs-on: ubuntu-latest
 
     permissions:
@@ -132,13 +113,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       # image names must be all lower case
       - run: |
           echo IMAGE_REPOSITORY=ghcr.io/$(tr '[:upper:]' '[:lower:]' <<< "${{ github.repository }}") >> $GITHUB_ENV
 
+      # obtain the python wheel from the dist step
       - uses: actions/download-artifact@v3
 
       - name: Log in to GitHub Docker Registry
@@ -174,11 +154,20 @@ jobs:
 
       - name: Test cli works in runtime image
         # check that the latest tag can run with --version parameter
-        run: docker run ${{ env.IMAGE_REPOSITORY }} --version
+        run: |
+          docker run ${{ env.IMAGE_REPOSITORY }} --version
+          mkdir -p lockfiles
+          docker run --entrypoint pip ${{ env.IMAGE_REPOSITORY }} freeze > lockfiles/requirements.txt
+
+      - name: Upload requirements.txt freeze file
+        uses: actions/upload-artifact@v3
+        with:
+          name: lockfiles
+          path: lockfiles
 
   release:
     # upload to PyPI and make a release on every tag
-    needs: [lint, dist]
+    needs: [lint, dist, test]
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
     runs-on: ubuntu-latest
 

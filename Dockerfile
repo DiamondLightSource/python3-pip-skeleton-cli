@@ -21,8 +21,6 @@ ENV PATH=/venv/bin:$PATH
 
 # install the wheel
 RUN touch requirements.txt && \
-    for i in requirements.txt .gitignore lockfiles; do echo $i >> .gitignore; done && \
-    git diff && \
     pip install -r requirements.txt dist/*.whl
 
 FROM python:3.10-slim as runtime

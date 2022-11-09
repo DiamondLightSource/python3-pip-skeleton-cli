@@ -31,4 +31,4 @@ jobs:
           pip install -r requirements_dev.txt -e .[dev]
 
       - name: Check links
-        run: tox -e docs -- -b linkcheck
+        run: tox -e docs build -- -b linkcheck
