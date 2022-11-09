@@ -100,9 +100,8 @@ jobs:
         run: |
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
-          # replace with module name if necessary
-          MODULE=$(ls src | head -1) && \
-          python -m ${MODULE} --version
+          # If more than one module in src/ replace with module name to test
+          python -m $(ls src) --version
 
       - name: Test Publish to PyPI
         env:
