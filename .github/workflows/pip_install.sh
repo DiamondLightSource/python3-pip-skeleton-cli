@@ -12,4 +12,4 @@ shift
 touch requirements-${suffix}.txt
 pip install -r requirements-${suffix}.txt "${@}"
 mkdir -p lockfiles
-pip freeze > lockfiles/requirements-${suffix}.txt
+pip freeze --exclude-editable > lockfiles/requirements-${suffix}.txt
