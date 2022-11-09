@@ -100,7 +100,7 @@ jobs:
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
           # If more than one module in src/ replace with module name to test
-          python -m $(ls src) --version
+          python -m $(ls src | head -1) --version
 
       - name: Check for packaging errors
         run: pipx run twine check dist/*
