@@ -102,12 +102,13 @@ jobs:
           pipx run build
 
       # ${GITHUB_REPOSITORY##*/} is the repo name without org
-      # Replace this with the cli command if different to the repo name
+      # Replace this with the module name is different to the repo name
+      # (python3-pip-skeleton-cli already replaces it with python3-pip-skeleton)
       - name: Test cli works using the wheel installed in local python
         run: |
           touch requirements.txt
           pip install -r requirements.txt dist/*.whl
-          ${GITHUB_REPOSITORY##*/} --version
+          python -m python3_pip_skeleton --version
 
       - name: Test Publish to PyPI
         env:
