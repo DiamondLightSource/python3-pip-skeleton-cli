@@ -9,12 +9,13 @@ FROM base as build
 #     desired-packages \
 #     && rm -rf /var/lib/apt/lists/*
 
-COPY . /project
-WORKDIR /project
-
 # set up a virtual environment and put it in PATH
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
+
+# Copy the project over
+COPY . /project
+WORKDIR /project
 
 # install the wheel
 RUN pip install -r lockfiles/requirements.txt dist/*.whl
