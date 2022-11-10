@@ -1,8 +1,5 @@
-# This file is for use as a devcontainer and a runtime container
-#
-# The devcontainer should use the build target and run as root with podman
-# or docker with user namespaces.
-#
+# This file is for use as a runtime container only, it depends on dist/
+# and lockfiles being made outside the container
 FROM python:3.11 as build
 
 # Add any system dependencies for the developer/build environment here e.g.
@@ -11,8 +8,7 @@ FROM python:3.11 as build
 #     desired-packages \
 #     && rm -rf /var/lib/apt/lists/*
 
-COPY dist /project/dist
-COPY lockfiles /project/lockfiles
+COPY . /project
 WORKDIR /project
 
 # set up a virtual environment and put it in PATH

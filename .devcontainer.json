@@ -1,12 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json
 {
     "name": "Python 3 Developer Container",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "target": "build",
-        "context": ".",
-        "args": {}
-    },
+    "image": "python:3.11",
     "remoteEnv": {
         "DISPLAY": "${localEnv:DISPLAY}"
     },
