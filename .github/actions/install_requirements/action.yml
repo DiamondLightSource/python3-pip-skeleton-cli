@@ -1,0 +1,54 @@
+name: "install requirements"
+description: "run pip install with requirements and upload resulting requirements"
+inputs:
+  requirements_file:
+    description: "name of requirements file to use and upload"
+    required: true
+  install_options:
+    description: "parameters to pass to pip install"
+    required: true
+  python_version:
+    description: "python version to install"
+    default: "3.x"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python_version }}
+
+    - name: Pip Install
+      run: |
+        touch ${{ inputs.requirements_file }}
+        # -c uses requirements.txt as constraints, see 'Validate requirements file'
+        pip install -c ${{ inputs.requirements_file }} ${{ inputs.install_options }}
+      shell: bash
+
+    - name: Create Lockfile
+      run: |
+        mkdir -p lockfiles
+        pip freeze --exclude-editable > lockfiles/${{ inputs.requirements_file }}
+        # delete the self referencing line
+        sed -i  '/file:/d' lockfiles/${{ inputs.requirements_file }}
+      shell: bash
+
+    # This eliminates the class of problems where the requirements being given no
+    # longer match what the packages themselves dictate. E.g. In the rare instance
+    # where I install some-package which used to depend on vulnerable-dependency
+    # but now uses good-dependency (despite being nominally the same version)
+    # pip will install both if given a requirements file with -r
+    - name: Validate requirements file
+      run: if [ -s ${{ inputs.requirements_file }} ] ; then
+        diff ${{ inputs.requirements_file }} lockfiles/${{ inputs.requirements_file }};
+        echo "requirements files match";
+        fi
+      shell: bash
+
+    - name: Upload lockfiles
+      uses: actions/upload-artifact@v3
+      with:
+        name: lockfiles
+        path: lockfiles

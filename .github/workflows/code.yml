@@ -17,15 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - name: Install
+        uses: ./.github/actions/install_requirements
         with:
-          python-version: "3.x"
+          requirements_file: requirements-lint.txt
+          install_options: -e .[dev]
 
       - name: Lint
-        run: |
-          .github/workflows/pip_install.sh lint -e .[dev]
-          tox -e pre-commit,mypy
+        run: tox -e pre-commit,mypy
 
       - name: Upload lockfiles
         uses: actions/upload-artifact@v3
@@ -40,6 +39,12 @@ jobs:
       matrix:
         os: ["ubuntu-latest"] # can add windows-latest, macos-latest
         python: ["3.8", "3.9", "3.10", "3.11"]
+        install: ["-e .[dev]"]
+        # Make one version be non-editable to test both paths of version code
+        include:
+          - os: "ubuntu-latest"
+            python: "3.8"
+            install: ".[dev]"
 
     runs-on: ${{ matrix.os }}
     env:
@@ -52,13 +57,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+      - name: Install
+        uses: ./.github/actions/install_requirements
         with:
-          python-version: ${{ matrix.python }}
-
-      - name: Install with latest dependencies
-        run: .github/workflows/pip_install.sh test-${{ matrix.python }}-${{ matrix.os }} .[dev]
+          python_version: ${{ matrix.python }}
+          requirements_file: requirements-test-${{ matrix.os }}-${{ matrix.python }}.txt
+          install_options: ${{ matrix.install }}
 
       - name: Run tests
         run: pytest tests
@@ -68,12 +72,6 @@ jobs:
         with:
           name: ${{ matrix.python }}/${{ matrix.os }}
           files: cov.xml
-
-      - name: Upload lockfiles
-        uses: actions/upload-artifact@v3
-        with:
-          name: lockfiles
-          path: lockfiles
 
   dist:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
@@ -119,8 +117,8 @@ jobs:
         uses: actions/checkout@v3
 
       # image names must be all lower case
-      - run: |
-          echo IMAGE_REPOSITORY=ghcr.io/$(tr '[:upper:]' '[:lower:]' <<< "${{ github.repository }}") >> $GITHUB_ENV
+      - name: Generate image repo name
+        run: echo IMAGE_REPOSITORY=ghcr.io/$(tr '[:upper:]' '[:lower:]' <<< "${{ github.repository }}") >> $GITHUB_ENV
 
       # obtain the python wheel from the dist step
       - uses: actions/download-artifact@v3
@@ -157,11 +155,11 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test cli works in runtime image
-        # check that the latest tag can run with --version parameter
         run: |
           docker run ${{ env.IMAGE_REPOSITORY }} --version
           mkdir -p lockfiles
-          docker run --entrypoint pip ${{ env.IMAGE_REPOSITORY }} freeze > lockfiles/requirements.txt
+          docker run --entrypoint pip ${{ env.IMAGE_REPOSITORY }} freeze | \
+            sed '/file:/s/^/# Requirements for /' > lockfiles/requirements.txt
 
       - name: Upload lockfiles
         uses: actions/upload-artifact@v3
@@ -177,10 +175,6 @@ jobs:
 
     steps:
       - uses: actions/download-artifact@v3
-
-      - name: fixup requirements files
-        # use sed to comment out the self references in requirements files
-        run: sed -i '/file:/s/^/# Requirements for /' lockfiles/requirements*.txt
 
       - name: Github Release
         # We pin to the SHA, not the tag, for security reasons.

@@ -8,9 +8,8 @@ FROM python:3.11 as build
 # Add any system dependencies for the developer/build environment here e.g.
 # RUN apt-get update && apt-get upgrade -y && \
 #     apt-get install -y --no-install-recommends \
-#     busybox \
-#     && rm -rf /var/lib/apt/lists/* \
-#     && busybox --install
+#     desired-packages \
+#     && rm -rf /var/lib/apt/lists/*
 
 COPY . /project
 WORKDIR /project

@@ -6,10 +6,11 @@
 
 # usage: install_with_requirements.sh suffix [remaining parameters to pip install]
 
-suffix=$1
+requirements_file=$1
 shift
 
-touch requirements-${suffix}.txt
-pip install -r requirements-${suffix}.txt "${@}"
+touch ${requirements_file}
+pip install -r ${requirements_file} "${@}"
 mkdir -p lockfiles
-pip freeze --exclude-editable > lockfiles/requirements-${suffix}.txt
+# get a freeze of the installed packages but delete the self referencing line
+pip freeze --exclude-editable | sed '/file:/d' > lockfiles/${requirements_file}
