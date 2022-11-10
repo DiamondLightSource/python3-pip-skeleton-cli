@@ -11,7 +11,8 @@ FROM python:3.11 as build
 #     desired-packages \
 #     && rm -rf /var/lib/apt/lists/*
 
-COPY . /project
+COPY dist /project/dist
+COPY lockfiles /project/lockfiles
 WORKDIR /project
 
 # set up a virtual environment and put it in PATH
@@ -19,8 +20,7 @@ RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
 # install the wheel
-RUN touch requirements.txt && \
-    pip install -r requirements.txt dist/*.whl
+RUN pip install -r lockfiles/requirements.txt dist/*.whl
 
 FROM python:3.11-slim as runtime
 

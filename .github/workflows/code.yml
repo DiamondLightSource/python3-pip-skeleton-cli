@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install
+      - name: Install python packages
         uses: ./.github/actions/install_requirements
         with:
           requirements_file: requirements-lint.txt
@@ -25,12 +25,6 @@ jobs:
 
       - name: Lint
         run: tox -e pre-commit,mypy
-
-      - name: Upload lockfiles
-        uses: actions/upload-artifact@v3
-        with:
-          name: lockfiles
-          path: lockfiles
 
   test:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
@@ -55,9 +49,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          # Need this to get version number from last tag
           fetch-depth: 0
 
-      - name: Install
+      - name: Install python packages
         uses: ./.github/actions/install_requirements
         with:
           python_version: ${{ matrix.python }}
@@ -65,7 +60,7 @@ jobs:
           install_options: ${{ matrix.install }}
 
       - name: Run tests
-        run: pytest tests
+        run: pytest
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -78,31 +73,38 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - name: Checkout Source
+      - name: Checkout
         uses: actions/checkout@v3
         with:
+          # Need this to get version number from last tag
           fetch-depth: 0
 
-      - name: Build Sdist and wheel
+      - name: Build sdist and wheel
         run: |
           export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) && \
           pipx run build
-
-      - name: Test module --version works using the installed wheel
-        run: |
-          touch requirements.txt
-          pip install -r requirements.txt dist/*.whl
-          # If more than one module in src/ replace with module name to test
-          python -m $(ls src | head -1) --version
-
-      - name: Check for packaging errors
-        run: pipx run twine check dist/*
 
       - name: Upload sdist and wheel as artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist
+
+      - name: Check for packaging errors
+        run: pipx run twine check dist/*
+
+      - name: Install python packages
+        uses: ./.github/actions/install_requirements
+        with:
+          # Must match dockerfile
+          python_version: "3.11"
+          requirements_file: requirements.txt
+          install_options: dist/*.whl
+
+      - name: Test module --version works using the installed wheel
+        run: |
+          # If more than one module in src/ replace with module name to test
+          python -m $(ls src | head -1) --version
 
   container:
     needs: [lint, dist, test]
@@ -120,8 +122,8 @@ jobs:
       - name: Generate image repo name
         run: echo IMAGE_REPOSITORY=ghcr.io/$(tr '[:upper:]' '[:lower:]' <<< "${{ github.repository }}") >> $GITHUB_ENV
 
-      # obtain the python wheel from the dist step
-      - uses: actions/download-artifact@v3
+      - name: Download wheel and lockfiles
+        uses: actions/download-artifact@v3
 
       - name: Log in to GitHub Docker Registry
         if: github.event_name != 'pull_request'
@@ -155,17 +157,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test cli works in runtime image
-        run: |
-          docker run ${{ env.IMAGE_REPOSITORY }} --version
-          mkdir -p lockfiles
-          docker run --entrypoint pip ${{ env.IMAGE_REPOSITORY }} freeze | \
-            sed '/file:/s/^/# Requirements for /' > lockfiles/requirements.txt
-
-      - name: Upload lockfiles
-        uses: actions/upload-artifact@v3
-        with:
-          name: lockfiles
-          path: lockfiles
+        run: docker run ${{ env.IMAGE_REPOSITORY }} --version
 
   release:
     # upload to PyPI and make a release on every tag
@@ -175,6 +167,10 @@ jobs:
 
     steps:
       - uses: actions/download-artifact@v3
+
+      - name: Fixup blank lockfiles
+        # Github release artifacts can't be blank
+        run: for f in lockfiles/*; [ -s $f ] || echo '# No requirements' >> $f; done
 
       - name: Github Release
         # We pin to the SHA, not the tag, for security reasons.

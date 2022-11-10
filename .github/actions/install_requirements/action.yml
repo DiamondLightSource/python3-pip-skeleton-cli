@@ -1,18 +1,18 @@
-name: "install requirements"
-description: "run pip install with requirements and upload resulting requirements"
+name: Install requirements
+description: Run pip install with requirements and upload resulting requirements
 inputs:
   requirements_file:
-    description: "name of requirements file to use and upload"
+    description: Name of requirements file to use and upload
     required: true
   install_options:
-    description: "parameters to pass to pip install"
+    description: Parameters to pass to pip install
     required: true
   python_version:
-    description: "python version to install"
+    description: Python version to install
     default: "3.x"
 
 runs:
-  using: "composite"
+  using: composite
 
   steps:
     - name: Setup python
@@ -20,31 +20,19 @@ runs:
       with:
         python-version: ${{ inputs.python_version }}
 
-    - name: Pip Install
+    - name: Pip install
       run: |
         touch ${{ inputs.requirements_file }}
         # -c uses requirements.txt as constraints, see 'Validate requirements file'
         pip install -c ${{ inputs.requirements_file }} ${{ inputs.install_options }}
       shell: bash
 
-    - name: Create Lockfile
+    - name: Create lockfile
       run: |
         mkdir -p lockfiles
         pip freeze --exclude-editable > lockfiles/${{ inputs.requirements_file }}
         # delete the self referencing line
-        sed -i  '/file:/d' lockfiles/${{ inputs.requirements_file }}
-      shell: bash
-
-    # This eliminates the class of problems where the requirements being given no
-    # longer match what the packages themselves dictate. E.g. In the rare instance
-    # where I install some-package which used to depend on vulnerable-dependency
-    # but now uses good-dependency (despite being nominally the same version)
-    # pip will install both if given a requirements file with -r
-    - name: Validate requirements file
-      run: if [ -s ${{ inputs.requirements_file }} ] ; then
-        diff ${{ inputs.requirements_file }} lockfiles/${{ inputs.requirements_file }};
-        echo "requirements files match";
-        fi
+        sed -i '/file:/d' lockfiles/${{ inputs.requirements_file }}
       shell: bash
 
     - name: Upload lockfiles
@@ -52,3 +40,19 @@ runs:
       with:
         name: lockfiles
         path: lockfiles
+
+    # This eliminates the class of problems where the requirements being given no
+    # longer match what the packages themselves dictate. E.g. In the rare instance
+    # where I install some-package which used to depend on vulnerable-dependency
+    # but now uses good-dependency (despite being nominally the same version)
+    # pip will install both if given a requirements file with -r
+    - name: If requirements file exists, check it matches pip installed packages
+      run: |
+        if [ -s ${{ inputs.requirements_file }} ]; then
+          if ! diff -u ${{ inputs.requirements_file }} lockfiles/${{ inputs.requirements_file }}; then
+            echo "Error: ${{ inputs.requirements_file }} need the above changes to be exhaustive"
+            exit 1
+          fi
+        fi
+      shell: bash
+
