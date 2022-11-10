@@ -6,6 +6,9 @@ on:
   schedule:
     # Run every Monday at 8am to check latest versions of dependencies
     - cron: "0 8 * * WED"
+env:
+  # The target python version, which must match the Dockerfile version
+  CONTAINER_PYTHON: "3.11"
 
 jobs:
   lint:
@@ -96,8 +99,7 @@ jobs:
       - name: Install python packages
         uses: ./.github/actions/install_requirements
         with:
-          # Must match dockerfile
-          python_version: "3.11"
+          python_version: ${{env.CONTAINER_PYTHON}}
           requirements_file: requirements.txt
           install_options: dist/*.whl
 
