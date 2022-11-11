@@ -5,7 +5,9 @@
         "dockerfile": "Dockerfile",
         "target": "build",
         "context": ".",
-        "args": {}
+        "args": {
+            "PIP_OPTIONS": "-e .[dev]"
+        }
     },
     "remoteEnv": {
         "DISPLAY": "${localEnv:DISPLAY}"
@@ -24,6 +26,7 @@
     "initializeCommand": "bash -c 'for i in $HOME/.inputrc; do [ -f $i ] || touch $i; done'",
     "runArgs": [
         "--net=host",
+        "--security-opt=label=type:container_runtime_t",
         "-v=${localEnv:HOME}/.ssh:/root/.ssh",
         "-v=${localEnv:HOME}/.inputrc:/root/.inputrc"
     ],
@@ -33,7 +36,5 @@
     ],
     // make the workspace folder the same inside and outside of the container
     "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
-    "workspaceFolder": "${localWorkspaceFolder}",
-    // After the container is created, install the python project in editable form
-    "postCreateCommand": "pip install $([ -f requirements_dev.txt ] && echo -r requirements_dev.txt ) -e .[dev]"
+    "workspaceFolder": "${localWorkspaceFolder}"
 }

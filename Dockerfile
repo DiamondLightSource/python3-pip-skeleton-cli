@@ -3,25 +3,27 @@
 # The devcontainer should use the build target and run as root with podman
 # or docker with user namespaces.
 #
-FROM python:3.11 as build
+FROM python:3.11 as base
+FROM base as build
+
+ARG PIP_OPTIONS
 
 # Add any system dependencies for the developer/build environment here e.g.
 # RUN apt-get update && apt-get upgrade -y && \
 #     apt-get install -y --no-install-recommends \
-#     busybox \
-#     && rm -rf /var/lib/apt/lists/* \
-#     && busybox --install
-
-COPY . /project
-WORKDIR /project
+#     desired-packages \
+#     && rm -rf /var/lib/apt/lists/*
 
 # set up a virtual environment and put it in PATH
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
-# install the wheel
-RUN touch requirements.txt && \
-    pip install -r requirements.txt dist/*.whl
+# Copy the project over
+COPY . /project
+WORKDIR /project
+
+# install python package into /venv
+RUN pip install ${PIP_OPTIONS}
 
 FROM python:3.11-slim as runtime
 
