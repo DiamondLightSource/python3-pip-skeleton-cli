@@ -125,6 +125,7 @@ jobs:
 
       - name: Download wheel and lockfiles
         uses: actions/download-artifact@v3
+        path: .devcontainer
 
       - name: Log in to GitHub Docker Registry
         if: github.event_name != 'pull_request'
@@ -155,7 +156,7 @@ jobs:
           push: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags') }}
           load: ${{ ! (github.event_name == 'push' && startsWith(github.ref, 'refs/tags')) }}
           tags: ${{ steps.meta.outputs.tags }}
-          context: .
+          context: .devcontainer
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -170,10 +171,6 @@ jobs:
 
     steps:
       - uses: actions/download-artifact@v3
-
-      - name: Fixup blank lockfiles
-        # Github release artifacts can't be blank
-        run: for f in lockfiles/*; do [ -s $f ] || echo '# No requirements' >> $f; done
 
       - name: Github Release
         # We pin to the SHA, not the tag, for security reasons.

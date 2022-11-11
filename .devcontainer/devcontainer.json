@@ -4,9 +4,9 @@
     "build": {
         "dockerfile": "Dockerfile",
         "target": "build",
-        "context": ".",
+        // Only upgrade pip, we will install the project below
         "args": {
-            "PIP_OPTIONS": "-e .[dev]"
+            "PIP_OPTIONS": "--upgrade pip"
         }
     },
     "remoteEnv": {
@@ -14,8 +14,7 @@
     },
     // Set *default* container specific settings.json values on container create.
     "settings": {
-        "python.defaultInterpreterPath": "/venv/bin/python",
-        "python.linting.enabled": true
+        "python.defaultInterpreterPath": "/venv/bin/python"
     },
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
@@ -36,5 +35,7 @@
     ],
     // make the workspace folder the same inside and outside of the container
     "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
-    "workspaceFolder": "${localWorkspaceFolder}"
+    "workspaceFolder": "${localWorkspaceFolder}",
+    // After the container is created, install the python project in editable form
+    "postCreateCommand": "pip install -e .[dev]"
 }
