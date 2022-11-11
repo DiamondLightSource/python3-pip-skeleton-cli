@@ -33,7 +33,6 @@ runs:
         pip freeze --exclude-editable > lockfiles/${{ inputs.requirements_file }}
         # delete the self referencing line and make sure it isn't blank
         sed -i '/file:/d' lockfiles/${{ inputs.requirements_file }}
-        [ -s ${{ inputs.requirements_file }} ] || echo '# No requirements' >> ${{ inputs.requirements_file }}
       shell: bash
 
     - name: Upload lockfiles
