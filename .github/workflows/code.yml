@@ -125,7 +125,8 @@ jobs:
 
       - name: Download wheel and lockfiles
         uses: actions/download-artifact@v3
-        path: .devcontainer
+        with:
+          path: .devcontainer
 
       - name: Log in to GitHub Docker Registry
         if: github.event_name != 'pull_request'
