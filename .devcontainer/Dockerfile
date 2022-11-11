@@ -3,8 +3,7 @@
 # The devcontainer should use the build target and run as root with podman
 # or docker with user namespaces.
 #
-FROM python:3.11 as base
-FROM base as build
+FROM python:3.11 as build
 
 ARG PIP_OPTIONS
 
@@ -18,9 +17,9 @@ ARG PIP_OPTIONS
 RUN python -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
-# Copy the project over
-COPY . /project
-WORKDIR /project
+# Copy any required context for the pip install over
+COPY . /context
+WORKDIR /context
 
 # install python package into /venv
 RUN pip install ${PIP_OPTIONS}
