@@ -23,7 +23,7 @@ jobs:
       - name: Install python packages
         uses: ./.github/actions/install_requirements
         with:
-          requirements_file: requirements-lint.txt
+          requirements_file: requirements-dev-3.x.txt
           install_options: -e .[dev]
 
       - name: Lint

@@ -1,3 +1,5 @@
+# Ignore folders that can be large.
+# This saves time copying them into the context at the start of a build.
 build/
 .mypy_cache
 .tox
