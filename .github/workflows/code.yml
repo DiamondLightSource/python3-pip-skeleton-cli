@@ -158,8 +158,10 @@ jobs:
           load: ${{ ! (github.event_name == 'push' && startsWith(github.ref, 'refs/tags')) }}
           tags: ${{ steps.meta.outputs.tags }}
           context: .devcontainer
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # If you have a long docker build, uncomment the following to turn on caching
+          # For short build times this makes it a little slower
+          #cache-from: type=gha
+          #cache-to: type=gha,mode=max
 
       - name: Test cli works in runtime image
         run: docker run ${{ env.IMAGE_REPOSITORY }} --version
