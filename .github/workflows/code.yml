@@ -67,6 +67,9 @@ jobs:
           requirements_file: requirements-test-${{ matrix.os }}-${{ matrix.python }}.txt
           install_options: ${{ matrix.install }}
 
+      - name: List dependency tree
+        run: pipdeptree
+
       - name: Run tests
         run: pytest
 
