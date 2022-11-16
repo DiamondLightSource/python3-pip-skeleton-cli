@@ -68,6 +68,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
   },
   {
+    "version": "dev",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
+  },
+  {
     "version": "lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
