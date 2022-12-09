@@ -26,7 +26,7 @@ It integrates the following tools:
   - which verifies all the things that CI does
 - If you use VSCode, it will run black, flake8, isort and mypy on save
 
-The the related skeleton_ repo for this module contains the source
+The related skeleton_ repo for this module contains the source
 code that can be merged into new or existing projects, and pulled from to
 keep them up to date. It can also serve as a working example for those who
 would prefer to cherry-pick.
