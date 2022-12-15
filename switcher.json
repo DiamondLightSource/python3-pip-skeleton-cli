@@ -76,6 +76,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
   },
   {
+    "version": "garryod-conda-docs",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-conda-docs/"
+  },
+  {
     "version": "lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
