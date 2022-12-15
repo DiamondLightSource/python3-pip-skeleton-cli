@@ -30,7 +30,8 @@ side-bar.
             how-to/existing
             how-to/update
             how-to/excalidraw
-            how-to/pypi            
+            how-to/pypi
+            how-to/conda
 
         +++
 
