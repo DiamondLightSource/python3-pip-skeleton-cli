@@ -173,16 +173,16 @@ name = "Firstname Lastname"
 email = "email@address.com"
 """
 
-def parse_for_author_name_email(path: Path) -> tuple:
+
+def obtain_author_name_email(path: Path) -> tuple:
     author: str = ""
     author_email: str = ""
-    file_path_setup_cfg: Path  = path / "setup.cfg"
-    file_path_pyproject_toml: Path  = path / "pyproject.toml"
+    file_path_setup_cfg: Path = path / "setup.cfg"
+    file_path_pyproject_toml: Path = path / "pyproject.toml"
 
-    # We parse for an author name, email. The order we'll
-    # We want to make sure author and email are recieved together to avoid mismatches from obtaining in different places.
+    # Parse for an author name, email. The order of preference used is setup.cfg -> pyproject.toml -> .git -> user input.
+    # author and email are recieved together to avoid mismatches from obtaining in different places.
 
-    
     conf = ConfigParser()
 
     if file_path_setup_cfg.is_file():
@@ -195,29 +195,37 @@ def parse_for_author_name_email(path: Path) -> tuple:
                 if "author_email" in conf["metadata"]:
                     author_email = conf["metadata"]["author_email"]
         except Exception as exception:
-            print("\033[1mUnable to parse setup.cfg because of the following error, will try other sources:\033[0m")
+            print(
+                "\033[1mUnable to parse setup.cfg because of the following error, will try other sources:\033[0m"
+            )
             print(exception)
             print()
-    
+
     if (not author or not author_email) and file_path_pyproject_toml.is_file():
         try:
             conf.read(file_path_pyproject_toml)
-            
+
             if "[project.authors]" in conf:
                 if "name" in conf["[project.authors]"]:
                     # .toml have strings in quotes we need to filter out
-                    author = conf["[project.authors]"]["name"].replace('"','')
+                    author = conf["[project.authors]"]["name"].replace('"', "")
                 if "email" in conf["[project.authors]"]:
-                    author_email = conf["[project.authors]"]["email"].replace('"','')
+                    author_email = conf["[project.authors]"]["email"].replace('"', "")
         except ParsingError as exception:
             # We want to use something else if the pyproject.toml has some errors.
-            print("\033[1mUnable to parse project.toml because of the following error, will try other sources:\033[0m")
+            print(
+                "\033[1mUnable to parse project.toml because of the following error, will try other sources:\033[0m"
+            )
             print(exception)
-            print() 
+            print()
 
     if not author or not author_email:
-        author = str(git("--git-dir", path / ".git", "config", "--get", "user.name").strip())
-        author_email = str(git("--git-dir", path / ".git", "config", "--get", "user.email").strip())
+        author = str(
+            git("--git-dir", path / ".git", "config", "--get", "user.name").strip()
+        )
+        author_email = str(
+            git("--git-dir", path / ".git", "config", "--get", "user.email").strip()
+        )
 
     # If all else fails, just ask the user.
     if not author or not author_email:
@@ -229,9 +237,9 @@ def parse_for_author_name_email(path: Path) -> tuple:
 
     assert author, "Inputted no author"
     assert author_email, "Inputted no author_email"
-    
+
     return author, author_email
-    
+
 
 def existing(args):
     path: Path = args.path
@@ -243,7 +251,7 @@ def existing(args):
     if not args.force:
         verify_not_adopted(args.path)
 
-    author, author_email = parse_for_author_name_email(path)
+    author, author_email = obtain_author_name_email(path)
 
     merge_skeleton(
         path=args.path,
