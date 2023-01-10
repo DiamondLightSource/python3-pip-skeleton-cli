@@ -72,6 +72,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
   },
   {
+    "version": "45_existing_command_should_be_best_effort",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/45_existing_command_should_be_best_effort/"
+  },
+  {
     "version": "dev",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
   },
