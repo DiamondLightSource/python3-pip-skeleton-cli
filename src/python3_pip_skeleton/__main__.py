@@ -180,8 +180,10 @@ def obtain_author_name_email(path: Path) -> tuple:
     file_path_setup_cfg: Path = path / "setup.cfg"
     file_path_pyproject_toml: Path = path / "pyproject.toml"
 
-    # Parse for an author name, email. The order of preference used is setup.cfg -> pyproject.toml -> .git -> user input.
-    # author and email are recieved together to avoid mismatches from obtaining in different places.
+    # Parse for an author name, email. The order of preference used is
+    # setup.cfg -> pyproject.toml -> .git -> user input.
+    # Author and Email are recieved together to avoid mismatches from
+    # obtaining in different places.
 
     conf = ConfigParser()
 
@@ -196,7 +198,8 @@ def obtain_author_name_email(path: Path) -> tuple:
                     author_email = conf["metadata"]["author_email"]
         except Exception as exception:
             print(
-                "\033[1mUnable to parse setup.cfg because of the following error, will try other sources:\033[0m"
+                "\033[1mUnable to parse setup.cfg because of the following error, "
+                "will try other sources:\033[0m"
             )
             print(exception)
             print()
@@ -214,7 +217,8 @@ def obtain_author_name_email(path: Path) -> tuple:
         except ParsingError as exception:
             # We want to use something else if the pyproject.toml has some errors.
             print(
-                "\033[1mUnable to parse project.toml because of the following error, will try other sources:\033[0m"
+                "\033[1mUnable to parse project.toml because of the following error, "
+                "will try other sources:\033[0m"
             )
             print(exception)
             print()
