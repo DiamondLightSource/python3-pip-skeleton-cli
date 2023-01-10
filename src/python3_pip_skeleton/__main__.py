@@ -1,7 +1,7 @@
 import re
 import shutil
 from argparse import ArgumentParser
-from configparser import ConfigParser
+from configparser import ConfigParser, ParsingError
 from pathlib import Path
 from subprocess import STDOUT, CalledProcessError, call, check_output
 from tempfile import TemporaryDirectory
@@ -160,12 +160,78 @@ def new(args):
     )
 
 
-cfg_issue = """Missing parameter in setup.cfg. Expected format:
+cfg_issue = """Missing parameter in setup.cfg/pyproject.toml/.git, Expected format:
+------- setup.cfg
 [metadata]
 name = example
 author = Firstname Lastname
-author_email = email@address.com"""
+author_email = email@address.com
 
+------- pyproject.toml
+[[project.authors]]
+name = "Firstname Lastname"
+email = "email@address.com"
+"""
+
+def parse_for_author_name_email(path: Path) -> tuple:
+    author: str = ""
+    author_email: str = ""
+    file_path_setup_cfg: Path  = path / "setup.cfg"
+    file_path_pyproject_toml: Path  = path / "pyproject.toml"
+
+    # We parse for an author name, email. The order we'll
+    # We want to make sure author and email are recieved together to avoid mismatches from obtaining in different places.
+
+    
+    conf = ConfigParser()
+
+    if file_path_setup_cfg.is_file():
+        try:
+            conf.read(file_path_setup_cfg)
+
+            if "metadata" in conf:
+                if "author" in conf["metadata"]:
+                    author = conf["metadata"]["author"]
+                if "author_email" in conf["metadata"]:
+                    author_email = conf["metadata"]["author_email"]
+        except Exception as exception:
+            print("\033[1mUnable to parse setup.cfg because of the following error, will try other sources:\033[0m")
+            print(exception)
+            print()
+    
+    if (not author or not author_email) and file_path_pyproject_toml.is_file():
+        try:
+            conf.read(file_path_pyproject_toml)
+            
+            if "[project.authors]" in conf:
+                if "name" in conf["[project.authors]"]:
+                    # .toml have strings in quotes we need to filter out
+                    author = conf["[project.authors]"]["name"].replace('"','')
+                if "email" in conf["[project.authors]"]:
+                    author_email = conf["[project.authors]"]["email"].replace('"','')
+        except ParsingError as exception:
+            # We want to use something else if the pyproject.toml has some errors.
+            print("\033[1mUnable to parse project.toml because of the following error, will try other sources:\033[0m")
+            print(exception)
+            print() 
+
+    if not author or not author_email:
+        author = str(git("--git-dir", path / ".git", "config", "--get", "user.name").strip())
+        author_email = str(git("--git-dir", path / ".git", "config", "--get", "user.email").strip())
+
+    # If all else fails, just ask the user.
+    if not author or not author_email:
+        print(cfg_issue)
+        print("Enter author name manually:")
+        author = str(input())
+        print("Enter author email manually:")
+        author_email = str(input())
+
+    assert author, "Inputted no author"
+    assert author_email, "Inputted no author_email"
+    
+    return author, author_email
+    
 
 def existing(args):
     path: Path = args.path
@@ -173,21 +239,17 @@ def existing(args):
 
     assert path.is_dir(), f"Expected {path} to be an existing directory"
     package = validate_package(args)
-    file_path: Path = path / "setup.cfg"
-    assert file_path.is_file(), "Expected a setup.cfg file in the directory."
+
     if not args.force:
         verify_not_adopted(args.path)
 
-    conf = ConfigParser()
-    conf.read(path / "setup.cfg")
-    assert "metadata" in conf, cfg_issue
-    assert "author" in conf["metadata"], cfg_issue
-    assert "author_email" in conf["metadata"], cfg_issue
+    author, author_email = parse_for_author_name_email(path)
+
     merge_skeleton(
         path=args.path,
         org=args.org,
-        full_name=conf["metadata"]["author"],
-        email=conf["metadata"]["author_email"],
+        full_name=author,
+        email=author_email,
         package=package,
     )
 
