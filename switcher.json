@@ -84,6 +84,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-conda-docs/"
   },
   {
+    "version": "garryod-fix-virtual",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-fix-virtual/"
+  },
+  {
     "version": "lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
