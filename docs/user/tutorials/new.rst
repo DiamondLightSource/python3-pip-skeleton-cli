@@ -24,6 +24,15 @@ pip to install packages in a virtual environment::
     source .venv/bin/activate
     pip install -e .[dev]
 
+.. note::
+
+    You may wish to deactivate any existing virual environments before sourcing the new
+    environment. Deactivation can be performed by executing:
+
+    - :code:`conda deactivate` for conda
+    - :code:`deactivate` for venv or virtualenv
+    - :code:`exit` for pipenv
+
 You can then run any entry points declared in setup.cfg e.g.::
 
     python3-pip-skeleton --version
