@@ -84,6 +84,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-conda-docs/"
   },
   {
+    "version": "garryod-deactivate-other-venv",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-deactivate-other-venv/"
+  },
+  {
     "version": "garryod-fix-virtual",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-fix-virtual/"
   },
