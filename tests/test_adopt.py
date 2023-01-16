@@ -1,10 +1,10 @@
 import subprocess
 import sys
-from configparser import ConfigParser
 from os import makedirs
 from pathlib import Path
 
 import pytest
+import toml
 
 from python3_pip_skeleton import __main__, __version__
 
@@ -40,10 +40,9 @@ def test_new_module(tmp_path: Path):
         "Developer instructions in docs/developer/tutorials/dev-install.rst"
     )
 
-    conf = ConfigParser()
-    conf.read(module / "setup.cfg")
-    assert conf["metadata"]["author"] == "Firstname Lastname"
-    assert conf["metadata"]["author_email"] == "me@myaddress.com"
+    conf = toml.load(module / "pyproject.toml")
+    assert conf["project"]["authors"][0]["email"] == "me@myaddress.com"
+    assert conf["project"]["authors"][0]["name"] == "Firstname Lastname"
     api_rst = module / "docs" / "user" / "reference" / "api.rst"
     assert (
         "Version number as calculated by https://github.com/pypa/setuptools_scm"
@@ -68,7 +67,6 @@ def test_new_module(tmp_path: Path):
     out = ctx.value.args[0]
     print(out)
     assert "4 failed, 1 passed" in out
-    assert "Please change description in ./setup.cfg" in out
     assert "Please change ./README.rst" in out
 
 
