@@ -76,6 +76,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/45_existing_command_should_be_best_effort/"
   },
   {
+    "version": "50_user_guide_recommends_creating_venv_",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/50_user_guide_recommends_creating_venv_/"
+  },
+  {
     "version": "dev",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
   },
