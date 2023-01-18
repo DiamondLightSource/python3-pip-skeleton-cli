@@ -1,5 +1,5 @@
-5. Use containers
-=================
+12. Use containers
+==================
 
 Date: 2023-01-18
 
@@ -25,11 +25,10 @@ Provide a single Dockerfile that can build two kinds of container:
 
 CI builds the runtime container and publishes it to ghcr.io.
 
-a .devcontainer folder provides the means to build and launch the developer
+A .devcontainer folder provides the means to build and launch the developer
 container using vscode.
 
 Consequences
 ------------
 
 We can label projects as cloud native.
-
