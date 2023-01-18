@@ -32,7 +32,7 @@ side-bar.
             how-to/lint
             how-to/update-tools
             how-to/make-release
-            how-to/test-container
+            how-to/pin-requirements
 
         +++
 
