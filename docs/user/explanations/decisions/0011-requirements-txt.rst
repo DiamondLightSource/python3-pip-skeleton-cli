@@ -1,5 +1,5 @@
-5. Use pyproject.toml
-=====================
+11. Pinning Requirements
+========================
 
 Date: 2023-01-18
 
