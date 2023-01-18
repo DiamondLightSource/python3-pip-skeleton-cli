@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>8. Use tox and pre-commit &#8212; python3-pip-skeleton-cli 3.3.1.dev33+gae67553 documentation</title>
+    <title>8. Use tox and pre-commit &#8212; python3-pip-skeleton-cli 3.3.1.dev34+ga4a3a24 documentation</title>
   
   
   
@@ -369,10 +369,10 @@
 <li class="toctree-l2"><a class="reference internal" href="0009-sphinx-theme.html">9. Sphinx Theme</a></li>
 <li class="toctree-l2"><a class="reference internal" href="0010-vscode-settings.html">10. Include vscode settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="0011-requirements-txt.html">5. Use pyproject.toml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="0012-containers.html">5. Use containers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../why-use-skeleton.html">Why use a skeleton structure?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../why-pre-commit.html">Why use pre-commit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../skeleton.html">Working on the Skeleton Repo</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -429,6 +429,103 @@ rapid inner-loop developer experience.</p>
 see <a class="reference external" href="https://tox.wiki/en/latest/">https://tox.wiki/en/latest/</a>.</p>
 <p>pre-commit provides a hook into git commit which runs some of the checks
 against the changes you are about to commit.</p>
+</section>
+<section id="decision-detail">
+<h2>Decision detail<a class="headerlink" href="#decision-detail" title="Permalink to this heading">#</a></h2>
+<p>There are a number of things that CI needs to run:</p>
+<ul class="simple">
+<li><p>pytest</p></li>
+<li><p>black</p></li>
+<li><p>mypy</p></li>
+<li><p>flake8</p></li>
+<li><p>isort</p></li>
+<li><p>build documentation</p></li>
+</ul>
+<p>The initial approach this module took was to integrate everything
+under pytest that had a plugin, and isort under flake8:</p>
+<div class="graphviz"><object data="../../../_images/graphviz-5b1b374fdaa25bc52937a5d78bb3a0fcb3c51c31.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph initial {
+bgcolor=transparent
+graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
+node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
+
+subgraph cluster_0 {
+  label = &quot;pytest&quot;
+  &quot;pytest-black&quot;
+  &quot;pytest-mypy&quot;
+  subgraph cluster_1 {
+    label = &quot;pytest-flake8&quot;
+    &quot;flake8-isort&quot;
+  }
+}
+}</p></object></div>
+<p>This had the advantage that a <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests</span></code> run in CI would catch and
+report all test failures, but made each run take longer than it needed to. Also,
+flake8 states that it <a class="reference external" href="https://flake8.pycqa.org/en/latest/user/python-api.html">does not have a public, stable, Python API</a> so did not
+recommend the approach taken by pytest-flake8.</p>
+<p>To address this, the tree was rearranged:</p>
+<div class="graphviz"><object data="../../../_images/graphviz-18b66c819491934ac72dbaa3b8e8c64910812b73.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph rearranged {
+bgcolor=transparent
+graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
+node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
+
+pytest
+black
+mypy
+subgraph cluster_1 {
+  label = &quot;flake8&quot;
+  &quot;flake8-isort&quot;
+}
+}</p></object></div>
+<p>If using VSCode, this will still run black, flake8 and mypy on file save, but
+for those using other editors and for CI another solution was needed. Enter
+<a class="reference external" href="https://pre-commit.com/">pre-commit</a>. This allows hooks to be run at <code class="docutils literal notranslate"><span class="pre">git</span>
+<span class="pre">commit</span></code> time on just the files that have changed, as well as on all tracked
+files by CI. All that is needed is a one time install of the git commit hook:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pre-commit install
+</pre></div>
+</div>
+<p>Finally tox was added to run all of the CI checks including
+the documentation build. mypy was moved out of the pre-commit and into tox
+because it was quite long running and
+therefore intrusive. tox can be invoked to run all the checks in
+parallel with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -p
+</pre></div>
+</div>
+<p>The graph now looks like:</p>
+<div class="graphviz"><object data="../../../_images/graphviz-aa5c42e1f96f9cbdecfc08136dc97428b1c30278.svg" type="image/svg+xml" class="graphviz">
+<p class="warning">digraph rearranged {
+bgcolor=transparent
+graph [fontname=&quot;Lato&quot; fontsize=10 style=filled fillcolor=&quot;#8BC4E9&quot;]
+node [fontname=&quot;Lato&quot; fontsize=10 shape=box style=filled fillcolor=&quot;#8BC4E9&quot;]
+
+subgraph cluster_0
+{
+    label = &quot;tox -p&quot;
+    pytest
+    mypy
+    &quot;sphinx-build&quot;
+    subgraph cluster_1 {
+        label = &quot;pre-commit&quot;
+        black
+        subgraph cluster_2 {
+            label = &quot;flake8&quot;
+            &quot;flake8-isort&quot;
+        }
+    }
+}
+}</p></object></div>
+<p>Now the workflow looks like this:</p>
+<ul class="simple">
+<li><p>Save file, VSCode runs black, flake8 and mypy on it</p></li>
+<li><p>Run ‘tox -p’ and fix issues until it succeeds</p></li>
+<li><p>Commit files and pre-commit runs black and flake8 on them (if the
+developer had not run tox then this catches some of the most common issues)</p></li>
+<li><p>Push to remote and CI runs black, flake8, mypy once on all files
+(using tox), then pytest multiple times in a test matrix</p></li>
+</ul>
 </section>
 <section id="consequences">
 <h2>Consequences<a class="headerlink" href="#consequences" title="Permalink to this heading">#</a></h2>
@@ -490,6 +587,11 @@ help avoid some of the most common mistakes.</p>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#decision">
    Decision
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-detail">
+   Decision detail
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">

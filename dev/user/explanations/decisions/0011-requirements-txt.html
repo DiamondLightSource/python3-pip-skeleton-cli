@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>5. Use pyproject.toml &#8212; python3-pip-skeleton-cli 3.3.1.dev33+gae67553 documentation</title>
+    <title>5. Use pyproject.toml &#8212; python3-pip-skeleton-cli 3.3.1.dev34+ga4a3a24 documentation</title>
   
   
   
@@ -52,7 +52,7 @@
     <link rel="shortcut icon" href="../../../_static/dls-favicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Why use a skeleton structure?" href="../why-use-skeleton.html" />
+    <link rel="next" title="5. Use containers" href="0012-containers.html" />
     <link rel="prev" title="10. Include vscode settings" href="0010-vscode-settings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
@@ -369,10 +369,10 @@
 <li class="toctree-l2"><a class="reference internal" href="0009-sphinx-theme.html">9. Sphinx Theme</a></li>
 <li class="toctree-l2"><a class="reference internal" href="0010-vscode-settings.html">10. Include vscode settings</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">5. Use pyproject.toml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="0012-containers.html">5. Use containers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../why-use-skeleton.html">Why use a skeleton structure?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../why-pre-commit.html">Why use pre-commit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../skeleton.html">Working on the Skeleton Repo</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -428,12 +428,15 @@ when there are issues.</p>
 <h2>Decision<a class="headerlink" href="#decision" title="Permalink to this heading">#</a></h2>
 <p>Have every release generate requirements.txt files using pip freeze and
 publish them as release assets.</p>
-<p>Request that the user to download the asset and commit it into the repo in order
+<p>Request that the user download the asset and commit it into the repo in order
 to lock dependencies for the next CI build.</p>
+<p>TODO: link to the How-To on pinning requirements to be written in
+python3-pip-skeleton developer documentation.</p>
 </section>
 <section id="consequences">
 <h2>Consequences<a class="headerlink" href="#consequences" title="Permalink to this heading">#</a></h2>
-<p>There is less overhead managing fg lock files.</p>
+<p>There is less overhead in managing lock files. Incoming issues with dependencies
+will be highlighted early but can be worked around quickly if needed.</p>
 </section>
 </section>
 
@@ -452,10 +455,10 @@ to lock dependencies for the next CI build.</p>
           <p class="prev-next-title">10. Include vscode settings</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="../why-use-skeleton.html" title="next page">
+  <a class='right-next' id="next-link" href="0012-containers.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Why use a skeleton structure?</p>
+      <p class="prev-next-title">5. Use containers</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
