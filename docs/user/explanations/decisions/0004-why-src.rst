@@ -1,8 +1,23 @@
-Why use a source directory
-==========================
+4. Use a source directory
+=========================
 
-This skeleton repo has made the decision to use a source directory. The reasons
-for this are set out in `Hynek's article`_ and summarized below.
+Date: 2023-01-18
+
+Status
+------
+
+Accepted
+
+Context
+-------
+
+We need to decide how to structure the source code in skeleton based projects.
+
+
+Decision
+--------
+
+As per `Hynek's article`_ and summarized below.
 
 .. _Hynek's article: https://hynek.me/articles/testing-packaging/
 
@@ -26,3 +41,8 @@ This is tested in CI in the following way:
   checks that all files needed for the tests are packaged with the distribution.
 
 .. _editable install: https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs
+
+Consequences
+------------
+
+See the article linked above.
