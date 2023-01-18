@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Creating a new repo from the skeleton &#8212; python3-pip-skeleton-cli 3.3.1.dev29+g650d394 documentation</title>
+    <title>Creating a new repo from the skeleton &#8212; python3-pip-skeleton-cli 3.3.1.dev31+g21ec7b6 documentation</title>
   
   
   
@@ -421,6 +421,16 @@ pip to install packages in a virtual environment:</p>
 <span class="n">source</span> <span class="o">.</span><span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span><span class="p">[</span><span class="n">dev</span><span class="p">]</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may wish to deactivate any existing virual environments before sourcing the new
+environment. Deactivation can be performed by executing:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code> for conda</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">deactivate</span></code> for venv or virtualenv</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">exit</span></code> for pipenv</p></li>
+</ul>
 </div>
 <p>You can then run any entry points declared in setup.cfg e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="o">--</span><span class="n">version</span>

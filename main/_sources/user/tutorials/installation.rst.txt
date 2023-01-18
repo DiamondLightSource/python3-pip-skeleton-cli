@@ -19,6 +19,15 @@ installation will not interfere with any existing Python software::
     $ python3 -m venv /path/to/venv
     $ source /path/to/venv/bin/activate
 
+.. note::
+
+    You may wish to deactivate any existing virual environments before sourcing the new
+    environment. Deactivation can be performed by executing:
+    
+    - :code:`conda deactivate` for conda
+    - :code:`deactivate` for venv or virtualenv
+    - :code:`exit` for pipenv
+
 
 Installing the library
 ----------------------
