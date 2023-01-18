@@ -43,11 +43,10 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
-            explanations/docs-structure
+            explanations/decisions
             explanations/why-use-skeleton
-            explanations/why-src
             explanations/why-pre-commit
-            explanations/skeleton            
+            explanations/skeleton
 
         +++
 
