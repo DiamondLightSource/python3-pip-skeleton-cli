@@ -20,7 +20,7 @@ Getting started with your new repo
 Your new repo has a workflow based on pip. The first thing to do is to use
 pip to install packages in a virtual environment::
 
-    virtual .venv
+    python -m venv .venv
     source .venv/bin/activate
     pip install -e .[dev]
 
