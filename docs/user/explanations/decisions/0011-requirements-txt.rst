@@ -22,11 +22,15 @@ Decision
 Have every release generate requirements.txt files using pip freeze and
 publish them as release assets.
 
-Request that the user to download the asset and commit it into the repo in order
+Request that the user download the asset and commit it into the repo in order
 to lock dependencies for the next CI build.
+
+TODO: link to the How-To on pinning requirements to be written in
+python3-pip-skeleton developer documentation.
 
 Consequences
 ------------
 
-There is less overhead managing fg lock files.
+There is less overhead in managing lock files. Incoming issues with dependencies
+will be highlighted early but can be worked around quickly if needed.
 
