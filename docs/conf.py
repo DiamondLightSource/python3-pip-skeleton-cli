@@ -166,7 +166,7 @@ html_theme_options = dict(
         json_url=switcher_json,
         version_match=version,
     ),
-    check_switcher=False,
+    check_switcher=True,
     navbar_end=["theme-switcher", "icon-links", "version-switcher"],
     external_links=[
         dict(
