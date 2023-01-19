@@ -45,7 +45,6 @@ side-bar.
 
             explanations/decisions
             explanations/why-use-skeleton
-            explanations/skeleton
 
         +++
 
