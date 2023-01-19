@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Why Use a Skeleton Structure? &#8212; python3-pip-skeleton-cli 3.3.1.dev37+g0e51916 documentation</title>
+    <title>Skeleton Project Structure &#8212; python3-pip-skeleton-cli 3.3.1.dev37+g0e51916 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/why-use-skeleton';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/structure';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://DiamondLightSource.github.io/python3-pip-skeleton-cli/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -52,8 +52,8 @@
     <link rel="shortcut icon" href="../../_static/dls-favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Architectural Decision Records" href="decisions.html" />
-    <link rel="prev" title="Skeleton Project Structure" href="structure.html" />
+    <link rel="next" title="Why Use a Skeleton Structure?" href="why-use-skeleton.html" />
+    <link rel="prev" title="Creating an Anaconda Token" href="../how-to/conda.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -358,8 +358,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="structure.html">Skeleton Project Structure</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Why Use a Skeleton Structure?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Skeleton Project Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why-use-skeleton.html">Why Use a Skeleton Structure?</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="decisions/0003-docs-structure.html">3. Standard documentation structure</a></li>
@@ -410,35 +410,47 @@
             
             <article class="bd-article" role="main">
               
-  <section id="why-use-a-skeleton-structure">
-<h1>Why Use a Skeleton Structure?<a class="headerlink" href="#why-use-a-skeleton-structure" title="Permalink to this heading">#</a></h1>
-<p>Many projects start from some kind of template. These define some basic
-structure, customized with project specific variables, that developers can add
-their code into. One example of this is <a class="reference external" href="https://cookiecutter.readthedocs.io">cookiecutter</a>.</p>
-<p>The problem with this approach is that it is difficult to apply changes to the
-template into projects that have been cut from it. Individual changes have to be
-copy/pasted into the code, leading to partially applied fixes and missed
-updates.</p>
-<p>This module takes a different approach, as explained in <a class="reference external" href="https://blog.jaraco.com/a-project-skeleton-for-python-projects/">jaraco’s blog post</a>.
-It is a repo that can be forked, and updates merged to the skeleton can be
-merged into projects tracking it with a <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> operation. No more
-copy/pasting.</p>
-<section id="why-do-you-need-the-commandline-tool">
-<h2>Why do you need the commandline tool?<a class="headerlink" href="#why-do-you-need-the-commandline-tool" title="Permalink to this heading">#</a></h2>
-<p>The reason for the commandline tool is because this skeleton module has more
-code and docs content than <a class="reference external" href="https://github.com/jaraco/skeleton">jaraco/skeleton</a>. There are numerous references to
-the repo and package name, so the commandline tool applies a single commit on
-top of the repo that customizes it to the particular project. Once the initial
-creation/adoption has occurred however, a simple <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is sufficient to
-keep it updated.</p>
+  <section id="skeleton-project-structure">
+<h1>Skeleton Project Structure<a class="headerlink" href="#skeleton-project-structure" title="Permalink to this heading">#</a></h1>
+<p>The skeleton project has the following folders at the root level.</p>
+<section id="src">
+<h2>src<a class="headerlink" href="#src" title="Permalink to this heading">#</a></h2>
+<p>This folder contains the source code for the project. Typically this
+contains a single folder with the package name for the project and the
+folder contains python modules files.</p>
+<p>See <a class="reference internal" href="decisions/0004-why-src.html#src"><span class="std std-ref">4. Use a source directory</span></a> for details.</p>
 </section>
-<section id="what-happens-if-the-merges-become-too-difficult">
-<h2>What happens if the merges become too difficult?<a class="headerlink" href="#what-happens-if-the-merges-become-too-difficult" title="Permalink to this heading">#</a></h2>
-<p>If projects diverge too much, then merging in changes will become increasingly
-difficult. This is probably a sign that the approach the project has taken is
-too different from the skeleton structure for it to be of much benefit. At this
-point, the merge can be abandoned, the section from <code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.rst</span></code>
-deleted, and the project need not pull from the skeleton repo any more.</p>
+<section id="tests">
+<h2>tests<a class="headerlink" href="#tests" title="Permalink to this heading">#</a></h2>
+<p>This folder holds all of the tests that will be run by pytest, both locally
+and in CI.</p>
+<p>See <a class="reference internal" href="../../developer/how-to/run-tests.html#using-pytest"><span class="std std-ref">Run the tests using pytest</span></a></p>
+</section>
+<section id="docs">
+<h2>docs<a class="headerlink" href="#docs" title="Permalink to this heading">#</a></h2>
+<p>This folder contains the source for sphinx documentation.</p>
+<p>See <a class="reference internal" href="decisions/0003-docs-structure.html#documentation-structure"><span class="std std-ref">3. Standard documentation structure</span></a> for details.</p>
+</section>
+<section id="github">
+<h2>.github<a class="headerlink" href="#github" title="Permalink to this heading">#</a></h2>
+<p>Configuration for the Continuous Integration Workflow on
+github</p>
+</section>
+<section id="vscode-specific-folders">
+<h2>VSCode specific folders<a class="headerlink" href="#vscode-specific-folders" title="Permalink to this heading">#</a></h2>
+<section id="devcontainer">
+<h3>.devcontainer<a class="headerlink" href="#devcontainer" title="Permalink to this heading">#</a></h3>
+<p>Configuration for running the developer container for this project
+in VSCode.</p>
+</section>
+<section id="vscode">
+<h3>.vscode<a class="headerlink" href="#vscode" title="Permalink to this heading">#</a></h3>
+<p>VSCode settings for this project.</p>
+<ul class="simple">
+<li><p>enable static analysis in the editor</p></li>
+<li><p>enables python debugging.</p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -450,17 +462,17 @@ deleted, and the project need not pull from the skeleton repo any more.</p>
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="structure.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="../how-to/conda.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Skeleton Project Structure</p>
+          <p class="prev-next-title">Creating an Anaconda Token</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="decisions.html" title="next page">
+  <a class='right-next' id="next-link" href="why-use-skeleton.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Architectural Decision Records</p>
+      <p class="prev-next-title">Why Use a Skeleton Structure?</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -481,14 +493,41 @@ deleted, and the project need not pull from the skeleton repo any more.</p>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#why-do-you-need-the-commandline-tool">
-   Why do you need the commandline tool?
+  <a class="reference internal nav-link" href="#src">
+   src
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-happens-if-the-merges-become-too-difficult">
-   What happens if the merges become too difficult?
+  <a class="reference internal nav-link" href="#tests">
+   tests
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#docs">
+   docs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#github">
+   .github
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vscode-specific-folders">
+   VSCode specific folders
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#devcontainer">
+     .devcontainer
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vscode">
+     .vscode
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -504,7 +543,7 @@ deleted, and the project need not pull from the skeleton repo any more.</p>
   
 
 <div class="tocsection editthispage">
-    <a href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/edit/dev/docs/user/explanations/why-use-skeleton.rst">
+    <a href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/edit/dev/docs/user/explanations/structure.rst">
         <i class="fa-solid fa-pencil"></i> Edit this page
     </a>
 </div>
@@ -514,7 +553,7 @@ deleted, and the project need not pull from the skeleton repo any more.</p>
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
-    <a href="../../_sources/user/explanations/why-use-skeleton.rst.txt">
+    <a href="../../_sources/user/explanations/structure.rst.txt">
         <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>

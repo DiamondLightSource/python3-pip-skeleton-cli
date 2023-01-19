@@ -1,3 +1,5 @@
+.. _documentation structure:
+
 3. Standard documentation structure
 ===================================
 
