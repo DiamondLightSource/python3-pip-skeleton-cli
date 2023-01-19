@@ -1,4 +1,4 @@
-9. Sphinx Theme
+9. Sphinx theme
 ===============
 
 Date: 2023-01-18

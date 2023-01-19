@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Run the tests using pytest &#8212; python3-pip-skeleton-cli 3.3.1.dev36+gff667c5 documentation</title>
+    <title>Working on the Skeleton Repo &#8212; python3-pip-skeleton-cli 3.3.1.dev36+gff667c5 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'developer/how-to/run-tests';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developer/explanations/skeleton';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://DiamondLightSource.github.io/python3-pip-skeleton-cli/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -52,8 +52,8 @@
     <link rel="shortcut icon" href="../../_static/dls-favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Run static analysis using mypy" href="static-analysis.html" />
-    <link rel="prev" title="Build the docs using sphinx" href="build-docs.html" />
+    <link rel="next" title="Standards" href="../reference/standards.html" />
+    <link rel="prev" title="Make a release" href="../how-to/make-release.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -347,18 +347,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/dev-install.html">Developer install</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-docs.html">Build the docs using sphinx</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run the tests using pytest</a></li>
-<li class="toctree-l1"><a class="reference internal" href="static-analysis.html">Run static analysis using mypy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lint.html">Run linting using pre-commit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="update-tools.html">Update the tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="make-release.html">Make a release</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contribute.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/build-docs.html">Build the docs using sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run-tests.html">Run the tests using pytest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/static-analysis.html">Run static analysis using mypy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/lint.html">Run linting using pre-commit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/update-tools.html">Update the tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/make-release.html">Make a release</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../explanations/skeleton.html">Working on the Skeleton Repo</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working on the Skeleton Repo</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -394,14 +394,110 @@
             
             <article class="bd-article" role="main">
               
-  <section id="run-the-tests-using-pytest">
-<h1>Run the tests using pytest<a class="headerlink" href="#run-the-tests-using-pytest" title="Permalink to this heading">#</a></h1>
-<p>Testing is done with <a class="reference external" href="https://pytest.org/">pytest</a>. It will find functions in the project that <a class="reference external" href="https://docs.pytest.org/explanation/goodpractices.html#test-discovery">look
-like tests</a>, and run them to check for errors. You can run it with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e pytest
-</pre></div>
-</div>
-<p>It will also report coverage to the commandline and to <code class="docutils literal notranslate"><span class="pre">cov.xml</span></code>.</p>
+  <section id="working-on-the-skeleton-repo">
+<span id="skeleton"></span><h1>Working on the Skeleton Repo<a class="headerlink" href="#working-on-the-skeleton-repo" title="Permalink to this heading">#</a></h1>
+<p>The <a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton">python3-pip-skeleton</a> repo has a protected main branch and is restricted to
+rebase PRs only.
+It is also squashed occasionally so some careful procedures are required.</p>
+<section id="main">
+<h2>main<a class="headerlink" href="#main" title="Permalink to this heading">#</a></h2>
+<p>This branch is what all adopters of the skeleton project merge from so needs
+to be kept tidy.
+In particular it must not have any #nnn which would refer to the wrong commit
+when merged into other repos (and github will see them and add incorrect
+messages in PRs and Issues). This branch is protected from push and
+restricted so that it can only be updated by a PR with REBASE.</p>
+</section>
+<section id="dev-archive">
+<h2>dev-archive<a class="headerlink" href="#dev-archive" title="Permalink to this heading">#</a></h2>
+<p>This branch to tracks all commits, including those that are squashed out of
+main. Force push is disallowed on this branch so that it can be kept as a
+safe record of the history.</p>
+</section>
+<section id="process-for-making-a-change">
+<h2>Process for making a change<a class="headerlink" href="#process-for-making-a-change" title="Permalink to this heading">#</a></h2>
+<p>To make changes. First take a new branch off of main, make your changes
+and do a pull request to rebase main on the branch.</p>
+<ul>
+<li><p>get a branch on main</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout main</p></li>
+<li><p>git reset –hard origin/main            # because main may have been rebased</p></li>
+<li><p>git checkout -b feature</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Do the changes and test in CI with:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git add –all</p></li>
+<li><p>git commit -m’my changes’</p></li>
+<li><p>git push -u origin feature</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>When happy with changes use PR to rebase main on feature.</p></li>
+<li><p>Next delete feature:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git push origin :feature</p></li>
+<li><p>git checkout main</p></li>
+<li><p>git branch -fd feature</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="process-for-squashing-main">
+<h2>Process for squashing main<a class="headerlink" href="#process-for-squashing-main" title="Permalink to this heading">#</a></h2>
+<p>Once a year or so tidy up the history of main to make new adoptions easy.
+Otherwise multiple changes to the same line in the history may cause multiple
+merge conflicts on that line during re-merge of skeleton into projects
+that have already adopted.</p>
+<p>Perform these steps</p>
+<ul>
+<li><p>Get the dev-archive branch to remember your main commits</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout dev-archive</p></li>
+<li><p>git merge main</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If there are conflicts</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git checkout –theirs</p></li>
+<li><p>git add –all</p></li>
+<li><p>git commit          # the commit message will be ‘merged …’ you can
+add to it if needed</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt>Now squash main right back to the original ededf000</dt><dd><ul class="simple">
+<li><p>git checkout main</p></li>
+<li><p>git reset –hard /origin/main</p></li>
+<li><p>git rebase -i ededf000</p></li>
+<li><p>In the rebase edit screen replace all <code class="docutils literal notranslate"><span class="pre">pick</span></code> with <code class="docutils literal notranslate"><span class="pre">s</span></code> except the first
+one. save and quit</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Now create a handoff branch</dt><dd><ul class="simple">
+<li><p>git checkout dev-archive</p></li>
+<li><p>git checkout -b handoff/202x-xx-xx</p></li>
+<li><p>git merge main</p></li>
+<li><p>git push -u origin handoff/202x-xx-xx</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
 </section>
 
 
@@ -412,17 +508,17 @@ like tests</a>, and run them to check for errors. You can run it with:</p>
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="build-docs.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="../how-to/make-release.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Build the docs using sphinx</p>
+          <p class="prev-next-title">Make a release</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="static-analysis.html" title="next page">
+  <a class='right-next' id="next-link" href="../reference/standards.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Run static analysis using mypy</p>
+      <p class="prev-next-title">Standards</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -437,6 +533,38 @@ like tests</a>, and run them to check for errors. You can run it with:</p>
               
 <div class="toc-item">
   
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#main">
+   main
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dev-archive">
+   dev-archive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-for-making-a-change">
+   Process for making a change
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-for-squashing-main">
+   Process for squashing main
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
 <div id="searchbox"></div>
 </div>
 
@@ -444,7 +572,7 @@ like tests</a>, and run them to check for errors. You can run it with:</p>
   
 
 <div class="tocsection editthispage">
-    <a href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/edit/dev/docs/developer/how-to/run-tests.rst">
+    <a href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/edit/dev/docs/developer/explanations/skeleton.rst">
         <i class="fa-solid fa-pencil"></i> Edit this page
     </a>
 </div>
@@ -454,7 +582,7 @@ like tests</a>, and run them to check for errors. You can run it with:</p>
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
-    <a href="../../_sources/developer/how-to/run-tests.rst.txt">
+    <a href="../../_sources/developer/explanations/skeleton.rst.txt">
         <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>
