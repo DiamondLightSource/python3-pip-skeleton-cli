@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>python3-pip-skeleton-cli &#8212; python3-pip-skeleton-cli 3.3.1.dev33+g0da9c5a documentation</title>
+    <title>python3-pip-skeleton-cli &#8212; python3-pip-skeleton-cli 3.3.1.dev44+g2932aa9 documentation</title>
   
   
   
@@ -358,9 +358,9 @@
   <section id="python3-pip-skeleton-cli">
 <h1>python3-pip-skeleton-cli<a class="headerlink" href="#python3-pip-skeleton-cli" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/code.yml"><img alt="Code CI" src="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/code.yml/badge.svg?branch=main" /></a> <a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/docs.yml"><img alt="Docs CI" src="https://github.com/DiamondLightSource/python3-pip-skeleton-cli/actions/workflows/docs.yml/badge.svg?branch=main" /></a> <a class="reference external" href="https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton-cli"><img alt="Test Coverage" src="https://codecov.io/gh/DiamondLightSource/python3-pip-skeleton-cli/branch/main/graph/badge.svg" /></a> <a class="reference external" href="https://pypi.org/project/python3-pip-skeleton"><img alt="Latest PyPI version" src="https://img.shields.io/pypi/v/python3-pip-skeleton.svg" /></a> <a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="Apache License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a></p>
-<p>This skeleton module (inspired by <a class="reference external" href="https://blog.jaraco.com/skeleton/">jaraco/skeleton</a>) is a generic Python project structure
-which provides a means to keep tools and techniques in sync between multiple
-Python projects.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3-pip-skeleton-cli</span></code> provides the documentation
+and a command line tool to enable the adoption of <a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton">python3-pip-skeleton</a>
+into a new or existing Python project.</p>
 <table class="table">
 <tbody>
 <tr class="row-odd"><td><p>PyPI</p></td>
@@ -377,7 +377,14 @@ Python projects.</p>
 </tr>
 </tbody>
 </table>
-<p>It integrates the following tools:</p>
+<p>The related <a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton">python3-pip-skeleton</a> repository contains the source
+code that can be merged into new or existing projects, and pulled from to
+keep them up to date. It can also serve as a working example for those who
+would prefer to cherry-pick.</p>
+<p><a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton">python3-pip-skeleton</a> is inspired by <a class="reference external" href="https://blog.jaraco.com/skeleton/">jaraco/skeleton</a>.
+It provides a generic Python project structure
+and allows developers to keep tools and techniques in sync between multiple
+Python projects. It integrates the following tools:</p>
 <ul class="simple">
 <li><p>pip and setuptools_scm for version management</p></li>
 <li><p>Pre-commit with black, flake8 and isort for static analysis</p></li>
@@ -388,20 +395,17 @@ Python projects.</p>
 - which verifies all the things that CI does</p></li>
 <li><p>If you use VSCode, it will run black, flake8, isort and mypy on save</p></li>
 </ul>
-<p>The related <a class="reference external" href="https://github.com/DiamondLightSource/python3-pip-skeleton">skeleton</a> repo for this module contains the source
-code that can be merged into new or existing projects, and pulled from to
-keep them up to date. It can also serve as a working example for those who
-would prefer to cherry-pick.</p>
-<p>This <code class="docutils literal notranslate"><span class="pre">python3-pip-skeleton-cli</span></code> repo contains the
-docs and a command line tool to ease the adoption of this skeleton into a
-new project like this:</p>
+<section id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h2>
+<p>To create a new project based on skeleton:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
 </pre></div>
 </div>
-<p>and existing projects:</p>
+<p>or to adopt skeleton into existing projects:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">existing</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">existing</span><span class="o">/</span><span class="n">repo</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
 </pre></div>
 </div>
+</section>
 <section id="how-the-documentation-is-structured">
 <h2>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this heading">#</a></h2>
 <p>The documentation is split into 2 sections:</p>
