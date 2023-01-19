@@ -1,4 +1,4 @@
-11. Pinning Requirements
+11. Pinning requirements
 ========================
 
 Date: 2023-01-18

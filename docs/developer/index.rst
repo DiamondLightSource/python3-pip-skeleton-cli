@@ -43,6 +43,8 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
+            explanations/skeleton
+
         +++
 
         Explanations of how and why the architecture is why it is.
