@@ -32,6 +32,8 @@ side-bar.
             how-to/lint
             how-to/update-tools
             how-to/make-release
+            how-to/pin-requirements
+            how-to/test-container
 
         +++
 
@@ -43,7 +45,7 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
-            explanations/decisions
+            explanations/skeleton
 
         +++
 
