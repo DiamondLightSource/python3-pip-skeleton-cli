@@ -1,3 +1,5 @@
+.. _src:
+
 4. Use a source directory
 =========================
 

@@ -3,10 +3,9 @@ python3-pip-skeleton-cli
 
 |code_ci| |docs_ci| |coverage| |pypi_version| |license|
 
-This skeleton module (inspired by `jaraco/skeleton
-<https://blog.jaraco.com/skeleton/>`_) is a generic Python project structure
-which provides a means to keep tools and techniques in sync between multiple
-Python projects.
+``python3-pip-skeleton-cli`` provides the documentation
+and a command line tool to enable the adoption of python3-pip-skeleton_
+into a new or existing Python project.
 
 ============== ==============================================================
 PyPI           ``pip install python3-pip-skeleton``
@@ -15,7 +14,16 @@ Documentation  https://DiamondLightSource.github.io/python3-pip-skeleton-cli
 Releases       https://github.com/DiamondLightSource/python3-pip-skeleton-cli/releases
 ============== ==============================================================
 
-It integrates the following tools:
+The related python3-pip-skeleton_ repository contains the source
+code that can be merged into new or existing projects, and pulled from to
+keep them up to date. It can also serve as a working example for those who
+would prefer to cherry-pick.
+
+python3-pip-skeleton_ is inspired by `jaraco/skeleton
+<https://blog.jaraco.com/skeleton/>`_.
+It provides a generic Python project structure
+and allows developers to keep tools and techniques in sync between multiple
+Python projects. It integrates the following tools:
 
 - pip and setuptools_scm for version management
 - Pre-commit with black, flake8 and isort for static analysis
@@ -26,20 +34,17 @@ It integrates the following tools:
   - which verifies all the things that CI does
 - If you use VSCode, it will run black, flake8, isort and mypy on save
 
-The related skeleton_ repo for this module contains the source
-code that can be merged into new or existing projects, and pulled from to
-keep them up to date. It can also serve as a working example for those who
-would prefer to cherry-pick.
 
-.. _skeleton: https://github.com/DiamondLightSource/python3-pip-skeleton
+.. _python3-pip-skeleton: https://github.com/DiamondLightSource/python3-pip-skeleton
 
-This ``python3-pip-skeleton-cli`` repo contains the
-docs and a command line tool to ease the adoption of this skeleton into a
-new project like this::
+Quick start
+-----------
+
+To create a new project based on skeleton::
 
     python3-pip-skeleton new /path/to/be/created --org my_github_user_or_org
 
-and existing projects::
+or to adopt skeleton into existing projects::
 
     python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
 

@@ -43,8 +43,9 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
-            explanations/decisions
+            explanations/structure
             explanations/why-use-skeleton
+            explanations/decisions
 
         +++
 
