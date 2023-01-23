@@ -80,6 +80,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/50_user_guide_recommends_creating_venv_/"
   },
   {
+    "version": "52_documentation_on_installation_requires_clarification_for_zsh",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/52_documentation_on_installation_requires_clarification_for_zsh/"
+  },
+  {
     "version": "dev",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
   },
