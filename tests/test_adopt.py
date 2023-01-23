@@ -89,6 +89,42 @@ def test_new_module_existing_dir(tmp_path: Path):
     assert "to not exist, or be an empty dir" in str(excinfo.value)
 
 
+def test_new_module_merge_from_valid_branch(tmp_path: Path):
+    module = tmp_path / "my-module"
+    check_output(
+        sys.executable,
+        "-m",
+        "python3_pip_skeleton",
+        "new",
+        "--org=myorg",
+        "--package=my_module",
+        "--full-name=Firstname Lastname",
+        "--email=me@myaddress.com",
+        "--from-branch=main",
+        str(module),
+    )
+    assert check_output("git", "branch", cwd=module).strip() == "* main"
+
+
+def test_new_module_merge_from_invalid_branch(tmp_path: Path):
+    module = tmp_path / "my-module"
+
+    with pytest.raises(ValueError) as excinfo:
+        check_output(
+            sys.executable,
+            "-m",
+            "python3_pip_skeleton",
+            "new",
+            "--org=myorg",
+            "--package=my_module",
+            "--full-name=Firstname Lastname",
+            "--email=me@myaddress.com",
+            "--from-branch=fail",
+            str(module),
+        )
+    assert "couldn't find remote ref fail" in str(excinfo.value)
+
+
 def test_existing_module(tmp_path: Path):
     module = tmp_path / "scanspec"
     __main__.git(
@@ -169,3 +205,27 @@ def test_existing_module_already_adopted(tmp_path: Path):
             str(module),
         )
     assert "already adopted skeleton" in str(excinfo.value)
+
+
+def test_existing_module_merge_from_invalid_branch(tmp_path: Path):
+    module = tmp_path / "scanspec"
+    __main__.git(
+        "clone",
+        "--depth",
+        "1",
+        "--branch",
+        "0.5.3",
+        "https://github.com/dls-controls/scanspec",
+        str(module),
+    )
+    with pytest.raises(ValueError) as excinfo:
+        check_output(
+            sys.executable,
+            "-m",
+            "python3_pip_skeleton",
+            "existing",
+            "--org=epics-containers",
+            "--from-branch=fail",
+            str(module),
+        )
+    assert "couldn't find remote ref fail" in str(excinfo.value)

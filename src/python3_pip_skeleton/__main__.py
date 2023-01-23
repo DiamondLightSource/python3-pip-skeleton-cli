@@ -52,6 +52,7 @@ def merge_skeleton(
     org: str,
     full_name: str,
     email: str,
+    from_branch: str,
     package,
 ):
     path = path.resolve()
@@ -82,7 +83,7 @@ def merge_skeleton(
         # will do the wrong thing
         shutil.rmtree(git_tmp / "src", ignore_errors=True)
         # Merge in the skeleton commits
-        git_tmp("pull", "--rebase=false", SKELETON, "main")
+        git_tmp("pull", "--rebase=false", SKELETON, from_branch or "main")
         # Move things around
         if package != "python3_pip_skeleton":
             git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
@@ -156,6 +157,7 @@ def new(args):
         org=args.org,
         full_name=args.full_name or git("config", "--get", "user.name").strip(),
         email=args.email or git("config", "--get", "user.email").strip(),
+        from_branch=args.from_branch,
         package=package,
     )
 
@@ -188,6 +190,7 @@ def existing(args):
         org=args.org,
         full_name=conf["metadata"]["author"],
         email=conf["metadata"]["author_email"],
+        from_branch=args.from_branch,
         package=package,
     )
 
@@ -225,6 +228,11 @@ def main(args=None):
     sub.add_argument(
         "--email", default=None, help="Email address, defaults to git config user.email"
     )
+    sub.add_argument(
+        "--from-branch",
+        default=None,
+        help="Merge from skeleton branch, defaults to main",
+    )
     # Add a command for adopting in existing repo
     sub = subparsers.add_parser("existing", help="Adopt skeleton in existing repo")
     sub.set_defaults(func=existing)
@@ -233,6 +241,11 @@ def main(args=None):
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
+    )
+    sub.add_argument(
+        "--from-branch",
+        default=None,
+        help="Merge from skeleton branch, defaults to main",
     )
     # Add a command for cleaning an existing repo of skeleton code
     sub = subparsers.add_parser(
