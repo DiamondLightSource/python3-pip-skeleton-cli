@@ -84,7 +84,7 @@ First of the boilerplate files were removed::
 
 Then the merge conflicts were fixed, and the dependencies updated::
 
-    $ pip install -e '.[dev]\'
+    $ pip install -e .[dev]
 
 The tests and docs were then run and checked::
 
