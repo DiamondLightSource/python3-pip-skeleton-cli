@@ -22,7 +22,7 @@ pip to install packages in a virtual environment::
 
     python -m venv .venv
     source .venv/bin/activate
-    pip install -e .[dev]
+    pip install -e '.[dev]\'
 
 .. note::
 
