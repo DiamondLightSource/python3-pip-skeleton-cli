@@ -64,6 +64,7 @@ def merge_skeleton(
         text = text.replace("python3_pip_skeleton", package)
         text = text.replace("Firstname Lastname", full_name)
         text = text.replace("email@address.com", email)
+        text = text.replace("main", from_branch)
         return text
 
     branches = list_branches(path)
