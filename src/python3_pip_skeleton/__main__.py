@@ -84,7 +84,7 @@ def merge_skeleton(
         # will do the wrong thing
         shutil.rmtree(git_tmp / "src", ignore_errors=True)
         # Merge in the skeleton commits
-        git_tmp("pull", "--rebase=false", SKELETON, from_branch or "main")
+        git_tmp("pull", "--rebase=false", SKELETON, from_branch)
         # Move things around
         if package != "python3_pip_skeleton":
             git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
@@ -158,7 +158,7 @@ def new(args):
         org=args.org,
         full_name=args.full_name or git("config", "--get", "user.name").strip(),
         email=args.email or git("config", "--get", "user.email").strip(),
-        from_branch=args.from_branch,
+        from_branch=args.from_branch or "main",
         package=package,
     )
 
@@ -191,7 +191,7 @@ def existing(args):
         org=args.org,
         full_name=conf["metadata"]["author"],
         email=conf["metadata"]["author_email"],
-        from_branch=args.from_branch,
+        from_branch=args.from_branch or "main",
         package=package,
     )
 
