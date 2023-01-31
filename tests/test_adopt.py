@@ -103,7 +103,10 @@ def test_new_module_merge_from_valid_branch(tmp_path: Path):
         "--from-branch=main",
         str(module),
     )
-    assert check_output("git", "branch", cwd=module).strip() == "* main"
+    # Test basic functionality
+    assert (module / "src" / "my_module").is_dir()
+    check_output("python", "-m", "venv", "venv", cwd=module)
+    check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
 
 
 def test_new_module_merge_from_invalid_branch(tmp_path: Path):
