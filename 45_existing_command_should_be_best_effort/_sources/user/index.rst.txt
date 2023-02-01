@@ -31,7 +31,6 @@ side-bar.
             how-to/update
             how-to/excalidraw
             how-to/pypi
-            how-to/conda
 
         +++
 
@@ -43,11 +42,9 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
-            explanations/docs-structure
+            explanations/structure
             explanations/why-use-skeleton
-            explanations/why-src
-            explanations/why-pre-commit
-            explanations/skeleton            
+            explanations/decisions
 
         +++
 
