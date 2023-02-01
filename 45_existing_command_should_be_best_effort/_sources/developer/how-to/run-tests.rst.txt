@@ -1,3 +1,5 @@
+.. _using pytest:
+
 Run the tests using pytest
 ==========================
 

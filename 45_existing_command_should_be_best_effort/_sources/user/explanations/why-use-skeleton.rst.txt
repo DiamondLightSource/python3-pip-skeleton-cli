@@ -1,4 +1,4 @@
-Why use a skeleton structure?
+Why Use a Skeleton Structure?
 =============================
 
 Many projects start from some kind of template. These define some basic
