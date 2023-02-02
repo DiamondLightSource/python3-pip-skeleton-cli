@@ -88,6 +88,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/52_documentation_on_installation_requires_clarification_for_zsh_2/"
   },
   {
+    "version": "68_test_new_module_fails_locally",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/68_test_new_module_fails_locally/"
+  },
+  {
     "version": "add-from-branch-arg",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/add-from-branch-arg/"
   },
