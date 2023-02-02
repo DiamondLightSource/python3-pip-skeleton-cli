@@ -51,6 +51,7 @@ def test_new_module(tmp_path: Path):
     assert (module / "src" / "my_module").is_dir()
     assert check_output("git", "branch", cwd=module).strip() == "* main"
     check_output("python", "-m", "venv", "venv", cwd=module)
+    check_output("venv/bin/pip", "install", "--upgrade", "pip", cwd=module)
     check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
     check_output(
         "venv/bin/python",
