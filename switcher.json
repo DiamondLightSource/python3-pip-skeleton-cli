@@ -4,72 +4,72 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/main/"
   },
   {
-    "version": "3.3.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.3.0/"
-  },
-  {
-    "version": "3.2.2",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.2/"
-  },
-  {
-    "version": "3.2.1",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.1/"
-  },
-  {
-    "version": "3.2.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.0/"
-  },
-  {
-    "version": "3.1.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1.0/"
-  },
-  {
-    "version": "3.0.4",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0.4/"
-  },
-  {
-    "version": "3.0",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0/"
-  },
-  {
-    "version": "0.0.3",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.3/"
-  },
-  {
-    "version": "0.0.1b8",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b8/"
-  },
-  {
-    "version": "0.0.1b7",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b7/"
-  },
-  {
-    "version": "0.0.1b6",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b6/"
-  },
-  {
-    "version": "0.0.1b5",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b5/"
-  },
-  {
-    "version": "0.0.1b4",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b4/"
-  },
-  {
-    "version": "0.0.1b3",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b3/"
+    "version": "0.0.1b1",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b1/"
   },
   {
     "version": "0.0.1b2",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b2/"
   },
   {
-    "version": "0.0.1b1",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b1/"
+    "version": "0.0.1b3",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b3/"
+  },
+  {
+    "version": "0.0.1b4",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b4/"
+  },
+  {
+    "version": "0.0.1b5",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b5/"
+  },
+  {
+    "version": "0.0.1b6",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b6/"
+  },
+  {
+    "version": "0.0.1b7",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b7/"
+  },
+  {
+    "version": "0.0.1b8",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.1b8/"
+  },
+  {
+    "version": "0.0.3",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/0.0.3/"
   },
   {
     "version": "2.0.2",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/2.0.2/"
+  },
+  {
+    "version": "3.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0/"
+  },
+  {
+    "version": "3.0.4",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.0.4/"
+  },
+  {
+    "version": "3.1.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.1.0/"
+  },
+  {
+    "version": "3.2.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.0/"
+  },
+  {
+    "version": "3.2.1",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.1/"
+  },
+  {
+    "version": "3.2.2",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.2.2/"
+  },
+  {
+    "version": "3.3.0",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/3.3.0/"
   },
   {
     "version": "45_existing_command_should_be_best_effort",
@@ -86,10 +86,6 @@
   {
     "version": "52_documentation_on_installation_requires_clarification_for_zsh_2",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/52_documentation_on_installation_requires_clarification_for_zsh_2/"
-  },
-  {
-    "version": "68_test_new_module_fails_locally",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/68_test_new_module_fails_locally/"
   },
   {
     "version": "add-from-branch-arg",
