@@ -20,6 +20,10 @@ This will:
 
     To enable publishing to PyPI see `../how-to/pypi` 
 
+.. note::
+
+    To install the pre-commit see `../../developer/how-to/lint`
+
 Example merge
 -------------
 
