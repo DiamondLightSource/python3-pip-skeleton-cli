@@ -88,6 +88,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/52_documentation_on_installation_requires_clarification_for_zsh_2/"
   },
   {
+    "version": "67_add_instructions_to_automatically_install_pre_commit",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/67_add_instructions_to_automatically_install_pre_commit/"
+  },
+  {
     "version": "add-from-branch-arg",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/add-from-branch-arg/"
   },
