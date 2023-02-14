@@ -18,7 +18,7 @@ MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
 CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
 # Files not to change
-IGNORE_FILES = ["update-tools.rst", "test_boilerplate_removed.py"]
+IGNORE_FILES = ["update-tools.rst", "test_boilerplate_removed.py", "pin-requirements.rst"]
 
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
 
