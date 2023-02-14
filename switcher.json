@@ -96,6 +96,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/add-from-branch-arg/"
   },
   {
+    "version": "coretl-patch-1",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/coretl-patch-1/"
+  },
+  {
     "version": "dev",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/dev/"
   },
