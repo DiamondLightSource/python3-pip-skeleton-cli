@@ -49,6 +49,11 @@ project or github Organization.
 
 see `../how-to/pypi`
 
+Setting up pre-commit
+---------------------
+
+To install the pre-commit see `../../developer/how-to/lint`.
+
 Running the tests
 -----------------
 
