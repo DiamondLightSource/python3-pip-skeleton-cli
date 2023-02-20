@@ -142,7 +142,7 @@ def verify_not_adopted(root: Path):
     )
 
 
-def obtain_git_author_email(path : Path):
+def obtain_git_author_email(path: Path):
     author = str(
         git("--git-dir", path / ".git", "config", "--get", "user.name").strip()
     )
