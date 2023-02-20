@@ -2,6 +2,7 @@ import subprocess
 import sys
 from os import makedirs
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 import toml
@@ -233,3 +234,61 @@ def test_existing_module_merge_from_invalid_branch(tmp_path: Path):
             str(module),
         )
     assert "couldn't find remote ref fail" in str(excinfo.value)
+
+
+def test_obtain_git_author_email(tmp_path):
+    __main__.git("--git-dir", tmp_path / ".git", "init")
+    __main__.git("--git-dir", tmp_path / ".git", "config", "user.name", "Foo Bar")
+    __main__.git("--git-dir", tmp_path / ".git", "config", "user.email", "Foo@Bar")
+    assert __main__.obtain_git_author_email(tmp_path) == ("Foo Bar", "Foo@Bar")
+
+
+def test_obtain_author_name_email_setup_cfg(tmp_path):
+    cfg_str = """
+    [metadata]
+    author = Foo Bar
+    author_email = Foo@Bar
+    """
+    with open(tmp_path / "setup.cfg", "w+") as cfg_file:
+        cfg_file.write(cfg_str)
+    assert __main__.obtain_author_name_email(tmp_path) == ("Foo Bar", "Foo@Bar")
+
+
+def test_obtain_author_name_email_pyproject_toml(tmp_path):
+    toml_str = """
+    [[project.authors]]
+    email = "Foo@Bar"
+    name = "Foo Bar"
+    """
+    with open(tmp_path / "pyproject.toml", "w+") as toml_file:
+        toml_file.write(toml_str)
+    assert __main__.obtain_author_name_email(tmp_path) == ("Foo Bar", "Foo@Bar")
+
+
+@patch("python3_pip_skeleton.__main__.input", return_value="Foo")
+def test_obtain_author_name_email_botched_cfg_toml(input, tmp_path):
+    toml_str = """
+    email
+    name = "Foo Bar"
+    """
+    cfg_str = """
+    author = Foo Bar
+      author_email = Foo@Bar
+    """
+    with open(tmp_path / "setup.cfg", "w+") as cfg_file:
+        cfg_file.write(cfg_str)
+    with open(tmp_path / "pyproject.toml", "w+") as toml_file:
+        toml_file.write(toml_str)
+    assert __main__.obtain_author_name_email(tmp_path) == ("Foo", "Foo")
+
+
+def test_obtain_author_name_email_git(tmp_path):
+    __main__.git("--git-dir", tmp_path / ".git", "init")
+    __main__.git("--git-dir", tmp_path / ".git", "config", "user.name", "Foo Bar")
+    __main__.git("--git-dir", tmp_path / ".git", "config", "user.email", "Foo@Bar")
+    assert __main__.obtain_author_name_email(tmp_path) == ("Foo Bar", "Foo@Bar")
+
+
+@patch("python3_pip_skeleton.__main__.input", return_value="Foo")
+def test_obtain_author_name_email_terminal_output(input, tmp_path):
+    assert __main__.obtain_author_name_email(tmp_path) == ("Foo", "Foo")

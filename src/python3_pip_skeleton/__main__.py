@@ -142,7 +142,16 @@ def verify_not_adopted(root: Path):
     )
 
 
-def obtain_git_author_email(path: Path):
+def obtain_git_author_email(path: Path, force_local=True):
+    # If we force local then we require there to be a local .git we can look for
+    # the username and password on.
+    # If we don't force local then we will try to look for a local .git, if not found
+    # git will use the global user.[name, email].
+    if force_local and not (path / ".git").exists():
+        raise FileNotFoundError(
+            ".git could not be found when searching "
+            f"for a username and password in {path}"
+        )
     author = str(
         git("--git-dir", path / ".git", "config", "--get", "user.name").strip()
     )
@@ -168,7 +177,7 @@ def new(args):
     if args.full_name and args.email:
         author, author_email = args.full_name, args.email
     else:
-        author, author_email = obtain_git_author_email(Path("."))
+        author, author_email = obtain_git_author_email(Path("."), force_local=False)
 
     git("init", "-b", "main", cwd=path)
     print(f"Created git repo in {path}")
@@ -229,8 +238,12 @@ def obtain_author_name_email(path: Path) -> tuple:
         try:
             conf_toml = tomli.load(file)
             if "project" in conf_toml and "authors" in conf_toml["project"]:
-                if "author" in conf_toml["project"]["authors"][0]:
-                    author = conf_toml["project"]["authors"][0]["author"]
+                # pyproject.toml will use "author" or "name" so we look for both
+                for author_variable_name in ["author", "name"]:
+                    if author_variable_name in conf_toml["project"]["authors"][0]:
+                        author = conf_toml["project"]["authors"][0][
+                            author_variable_name
+                        ]
                 if "email" in conf_toml["project"]["authors"][0]:
                     author_email = conf_toml["project"]["authors"][0]["email"]
         except Exception as exception:
@@ -244,7 +257,13 @@ def obtain_author_name_email(path: Path) -> tuple:
         file.close()
 
     if not author or not author_email:
-        author, author_email = obtain_git_author_email(path)
+        try:
+            author, author_email = obtain_git_author_email(path)
+        except FileNotFoundError:
+            print(
+                "\033[1mUnable to find a .git in the repo,"
+                "will try other sources\033[0m"
+            )
 
     # If all else fails, just ask the user.
     if not author or not author_email:
@@ -331,6 +350,12 @@ def main(args=None):
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
+    )
+    sub.add_argument(
+        "--full-name", default=None, help="Full name, defaults to git config user.name"
+    )
+    sub.add_argument(
+        "--email", default=None, help="Email address, defaults to git config user.email"
     )
     sub.add_argument(
         "--from-branch",
