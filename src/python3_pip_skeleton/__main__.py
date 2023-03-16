@@ -5,7 +5,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from subprocess import STDOUT, CalledProcessError, call, check_output
 from tempfile import TemporaryDirectory
-from typing import List
+from typing import Dict, List
 
 from . import __version__
 
@@ -17,12 +17,15 @@ SKELETON = "https://github.com/DiamondLightSource/python3-pip-skeleton"
 MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
 CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
-# Files not to change
-IGNORE_FILES = [
-    "update-tools.rst",
-    "test_boilerplate_removed.py",
-    "pin-requirements.rst",
-]
+# Files not to change where IGNORE_FILES[x] is a list containing line numbers
+# in the file x to be ignored. An empty list will ignore the whole file.
+IGNORE_FILES: Dict[str, List[int]] = {
+    "update-tools.rst": [],
+    "test_boilerplate_removed.py": [],
+    "pin-requirements.rst": [],
+    "0002-switched-to-pip-skeleton.rst:": [],
+    "README.rst": [10],
+}
 
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
 
@@ -98,6 +101,19 @@ def merge_skeleton(
             if child.suffix in CHANGE_SUFFIXES and child.name not in IGNORE_FILES:
                 text = replace_text(child.read_text())
                 child.write_text(text)
+            # Replace the file, ignoring line numbers
+            elif (
+                child.suffix in CHANGE_SUFFIXES
+                and child.name in IGNORE_FILES
+                and IGNORE_FILES[child.name]
+            ):
+                original_text = child.read_text()
+                original_lines = original_text.splitlines()
+                replaced_lines = replace_text(original_text).splitlines()
+                for ignored_line in IGNORE_FILES[child.name]:
+                    replaced_lines[ignored_line - 1] = original_lines[ignored_line - 1]
+                child.write_text("\n".join(replaced_lines))
+
         # Commit what we have and push to the original repo
         git_tmp("commit", "-a", "-m", f"Rename python3-pip-skeleton -> {repo}")
         git_tmp("push", "origin", MERGE_BRANCH)
