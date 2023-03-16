@@ -112,6 +112,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/garryod-fix-virtual/"
   },
   {
+    "version": "incorrect_organization_replacement_in_general_README",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/incorrect_organization_replacement_in_general_README/"
+  },
+  {
     "version": "lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
