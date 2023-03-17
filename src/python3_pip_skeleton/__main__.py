@@ -147,6 +147,8 @@ def verify_not_adopted(root: Path):
 def new(args):
     path: Path = args.path
 
+    package = validate_package(args)
+
     if path.exists():
         assert path.is_dir() and not list(
             path.iterdir()
@@ -154,7 +156,6 @@ def new(args):
     else:
         path.mkdir(parents=True)
 
-    package = validate_package(args)
     git("init", "-b", "main", cwd=path)
     print(f"Created git repo in {path}")
     merge_skeleton(
