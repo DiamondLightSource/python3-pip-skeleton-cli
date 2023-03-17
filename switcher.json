@@ -120,6 +120,10 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
   {
+    "version": "new_directory_is_created_even_if_package_name_is_invalid",
+    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/new_directory_is_created_even_if_package_name_is_invalid/"
+  },
+  {
     "version": "test-lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/test-lockfiles/"
   }
