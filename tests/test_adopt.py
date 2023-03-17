@@ -1,6 +1,6 @@
 import subprocess
 import sys
-from os import makedirs
+from os import chdir, makedirs
 from pathlib import Path
 from unittest.mock import patch
 
@@ -24,7 +24,33 @@ def test_cli_version():
     assert output.strip() == __version__
 
 
-def test_new_module(tmp_path: Path):
+@pytest.mark.parametrize(
+    "extra_args", [(), ("--full-name=Firstname Lastname", "--email=me@myaddress.com")]
+)
+def test_new_module(extra_args, tmp_path: Path):
+    if not extra_args:
+        original_path = Path(".").absolute()
+        check_output("git", "init", str(tmp_path), cwd=tmp_path)
+        check_output(
+            "git",
+            "--git-dir",
+            str(tmp_path / ".git"),
+            "config",
+            "user.name",
+            "Firstname Lastname",
+            cwd=tmp_path,
+        )
+        check_output(
+            "git",
+            "--git-dir",
+            str(tmp_path / ".git"),
+            "config",
+            "user.email",
+            "me@myaddress.com",
+            cwd=tmp_path,
+        )
+        chdir(tmp_path)
+
     module = tmp_path / "my-module"
     output = check_output(
         sys.executable,
@@ -33,10 +59,13 @@ def test_new_module(tmp_path: Path):
         "new",
         "--org=myorg",
         "--package=my_module",
-        "--full-name=Firstname Lastname",
-        "--email=me@myaddress.com",
+        *extra_args,
         str(module),
     )
+
+    if not extra_args:
+        chdir(original_path)
+
     assert output.strip().endswith(
         "Developer instructions in docs/developer/tutorials/dev-install.rst"
     )
@@ -73,6 +102,7 @@ def test_new_module(tmp_path: Path):
 
 
 def test_new_module_existing_dir(tmp_path: Path):
+    print(Path(".").absolute())
     module = tmp_path / "my-module"
     makedirs(module / "existing_dir")
 
@@ -130,8 +160,19 @@ def test_new_module_merge_from_invalid_branch(tmp_path: Path):
     assert "couldn't find remote ref fail" in str(excinfo.value)
 
 
-def test_existing_module(tmp_path: Path):
+SETUP_CFG = """[metadata]
+    name = example
+    author = Firstname Lastname
+    author_email = email@address.com
+    """
+
+
+@pytest.mark.parametrize(
+    "extra_args", [(), ("--full-name=Firstname Lastname", "--email=me@myaddress.com")]
+)
+def test_existing_module(extra_args, tmp_path: Path):
     module = tmp_path / "scanspec"
+
     __main__.git(
         "clone",
         "--depth",
@@ -141,12 +182,17 @@ def test_existing_module(tmp_path: Path):
         "https://github.com/dls-controls/scanspec",
         str(module),
     )
+
+    with open(module / "setup.cfg", "w+") as setup_cfg:
+        setup_cfg.write(SETUP_CFG)
+
     output = check_output(
         sys.executable,
         "-m",
         "python3_pip_skeleton",
         "existing",
         "--org=epics-containers",
+        *extra_args,
         str(module),
     )
     assert output.endswith(
