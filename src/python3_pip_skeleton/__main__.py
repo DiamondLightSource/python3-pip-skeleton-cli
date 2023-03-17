@@ -1,5 +1,6 @@
 import re
 import shutil
+import sys
 from argparse import ArgumentParser
 from configparser import ConfigParser
 from pathlib import Path
@@ -261,6 +262,9 @@ def main(args=None):
     sub.add_argument("path", type=Path, help="Path to existing repo with skeleton code")
     # Parse args and run
     args = parser.parse_args(args)
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(2)
     args.func(args)
 
 
