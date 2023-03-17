@@ -264,7 +264,7 @@ def main(args=None):
     args = parser.parse_args(args)
     if len(sys.argv) == 1:
         parser.print_help()
-        sys.exit(2)
+        sys.exit()
     args.func(args)
 
 

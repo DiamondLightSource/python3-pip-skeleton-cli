@@ -2,6 +2,7 @@ import subprocess
 import sys
 from os import makedirs
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 import toml
@@ -21,6 +22,13 @@ def check_output(*args, cwd=None) -> str:
 def test_cli_version():
     output = check_output(sys.executable, "-m", "python3_pip_skeleton", "--version")
     assert output.strip() == __version__
+
+
+@patch("python3_pip_skeleton.__main__.ArgumentParser.print_help")
+def test_cli_no_arguments(mocked_print_help):
+    with pytest.raises(SystemExit):
+        __main__.main()
+    assert mocked_print_help.called
 
 
 def test_new_module(tmp_path: Path):
