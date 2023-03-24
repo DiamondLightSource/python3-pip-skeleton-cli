@@ -20,7 +20,11 @@ MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
 CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
 # Files not to change
-IGNORE_FILES = ["update-tools.rst", "test_boilerplate_removed.py"]
+IGNORE_FILES = [
+    "update-tools.rst",
+    "test_boilerplate_removed.py",
+    "pin-requirements.rst",
+]
 
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
 
@@ -165,14 +169,14 @@ def obtain_git_author_email(path: Path, force_local=True):
 def new(args):
     path: Path = args.path
 
+    package = validate_package(args)
+
     if path.exists():
         assert path.is_dir() and not list(
             path.iterdir()
         ), f"Expected {path} to not exist, or be an empty dir"
     else:
         path.mkdir(parents=True)
-
-    package = validate_package(args)
 
     if args.full_name and args.email:
         author, author_email = args.full_name, args.email
