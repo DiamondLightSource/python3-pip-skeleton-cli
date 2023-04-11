@@ -4,7 +4,7 @@ How to adopt the skeleton in an existing repo
 If you have an existing repo and would like to adopt the skeleton structure
 then you can use the commandline tool to merge the skeleton into your repo::
 
-    python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org
+    python3-pip-skeleton existing /path/to/existing/repo --org my_github_user_or_org --skeleton-org some_institution
 
 This will:
 
@@ -12,6 +12,7 @@ This will:
 - Take the package name from the repo name unless overridden by ``--package``
 - Clone the existing repo in /tmp
 - Create a new orphan merge branch from the skeleton repo
+- Use the version of the skeleton in ``some_institution``'s organization (default ``DiamondLightSource``)
 - Create a single commit that modifies the skeleton with the repo and package name
 - Push that merge branch back to the existing repo
 - Merge with the currently checked out branch, leaving you to fix the conflicts

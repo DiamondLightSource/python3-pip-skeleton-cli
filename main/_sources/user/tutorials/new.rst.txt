@@ -1,10 +1,10 @@
 Creating a new repo from the skeleton
 =====================================
 
-Once you have followed the `installation` tutorial, you can use the
+Once you have followed the ``installation`` tutorial, you can use the
 commandline tool to make a new repo that inherits the skeleton::
 
-    python3-pip-skeleton new /path/to/be/created --org my_github_user_or_org
+    python3-pip-skeleton new /path/to/be/created --org my_github_user_or_org --skeleton-org some_institution
 
 This will:
 
@@ -12,6 +12,7 @@ This will:
 - Take the package name from the repo name unless overridden by ``--package``
 - Create a new repo at the requested path, forked from the skeleton repo
 - Create a single commit that modifies the skeleton with the repo and package name
+- Use the version of the skeleton in ``some_institution``'s organization (default ``DiamondLightSource``)
 
 
 Getting started with your new repo
