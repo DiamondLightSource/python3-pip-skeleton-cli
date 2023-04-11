@@ -7,6 +7,8 @@ from subprocess import STDOUT, CalledProcessError, call, check_output
 from tempfile import TemporaryDirectory
 from typing import List
 
+import tomli
+
 from . import __version__
 
 __all__ = ["main"]
@@ -144,6 +146,26 @@ def verify_not_adopted(root: Path):
     )
 
 
+def obtain_git_author_email(path: Path, force_local=True):
+    # If we force local then we require there to be a local .git we can look for
+    # the username and password on.
+    # If we don't force local then we will try to look for a local .git, if not found
+    # git will use the global user.[name, email].
+    if force_local and not (path / ".git").exists():
+        raise FileNotFoundError(
+            ".git could not be found when searching "
+            f"for a username and password in {path}"
+        )
+    author = str(
+        git("--git-dir", path / ".git", "config", "--get", "user.name").strip()
+    )
+    author_email = str(
+        git("--git-dir", path / ".git", "config", "--get", "user.email").strip()
+    )
+
+    return author, author_email
+
+
 def new(args):
     path: Path = args.path
 
@@ -156,23 +178,109 @@ def new(args):
     else:
         path.mkdir(parents=True)
 
+    if args.full_name and args.email:
+        author, author_email = args.full_name, args.email
+    else:
+        author, author_email = obtain_git_author_email(Path("."), force_local=False)
+
     git("init", "-b", "main", cwd=path)
     print(f"Created git repo in {path}")
     merge_skeleton(
         path=path,
         org=args.org,
-        full_name=args.full_name or git("config", "--get", "user.name").strip(),
-        email=args.email or git("config", "--get", "user.email").strip(),
+        full_name=author,
+        email=author_email,
         from_branch=args.from_branch or "main",
         package=package,
     )
 
 
 cfg_issue = """Missing parameter in setup.cfg. Expected format:
-[metadata]
-name = example
-author = Firstname Lastname
-author_email = email@address.com"""
+    [metadata]
+    name = example
+    author = Firstname Lastname
+    author_email = email@address.com
+
+    ------- pyproject.toml
+    [[project.authors]]
+    name = "Firstname Lastname"
+    email = "email@address.com"
+"""
+
+
+def obtain_author_name_email(path: Path) -> tuple:
+    author: str = ""
+    author_email: str = ""
+    file_path_setup_cfg: Path = path / "setup.cfg"
+    file_path_pyproject_toml: Path = path / "pyproject.toml"
+
+    # Parse for an author name, email. The order of preference used is
+    # setup.cfg -> pyproject.toml -> .git -> user input.
+    # Author and Email are recieved together to avoid mismatches from
+    # obtaining in different places.
+
+    if file_path_setup_cfg.exists():
+        try:
+            conf_cfg = ConfigParser()
+            conf_cfg.read(file_path_setup_cfg)
+
+            if "metadata" in conf_cfg:
+                if "author" in conf_cfg["metadata"]:
+                    author = conf_cfg["metadata"]["author"]
+                if "author_email" in conf_cfg["metadata"]:
+                    author_email = conf_cfg["metadata"]["author_email"]
+        except Exception as exception:
+            print(
+                "\033[1mUnable to parse setup.cfg because of the following error, "
+                "will try other sources:\033[0m"
+            )
+            print(exception)
+            print()
+
+    if (not author or not author_email) and file_path_pyproject_toml.exists():
+        file = open(file_path_pyproject_toml, "rb")
+        try:
+            conf_toml = tomli.load(file)
+            if "project" in conf_toml and "authors" in conf_toml["project"]:
+                # pyproject.toml will use "author" or "name" so we look for both
+                for author_variable_name in ["author", "name"]:
+                    if author_variable_name in conf_toml["project"]["authors"][0]:
+                        author = conf_toml["project"]["authors"][0][
+                            author_variable_name
+                        ]
+                if "email" in conf_toml["project"]["authors"][0]:
+                    author_email = conf_toml["project"]["authors"][0]["email"]
+        except Exception as exception:
+            # We want to use something else if the pyproject.toml has some errors.
+            print(
+                "\033[1mUnable to parse project.toml because of the following error, "
+                "will try other sources:\033[0m"
+            )
+            print(exception)
+            print()
+        file.close()
+
+    if not author or not author_email:
+        try:
+            author, author_email = obtain_git_author_email(path)
+        except FileNotFoundError:
+            print(
+                "\033[1mUnable to find a .git in the repo,"
+                "will try other sources\033[0m"
+            )
+
+    # If all else fails, just ask the user.
+    if not author or not author_email:
+        print(cfg_issue)
+        print("Enter author name manually:")
+        author = str(input())
+        print("Enter author email manually:")
+        author_email = str(input())
+
+    assert author, "Inputted no author"
+    assert author_email, "Inputted no author_email"
+
+    return author, author_email
 
 
 def existing(args):
@@ -181,21 +289,20 @@ def existing(args):
 
     assert path.is_dir(), f"Expected {path} to be an existing directory"
     package = validate_package(args)
-    file_path: Path = path / "setup.cfg"
-    assert file_path.is_file(), "Expected a setup.cfg file in the directory."
+
     if not args.force:
         verify_not_adopted(args.path)
 
-    conf = ConfigParser()
-    conf.read(path / "setup.cfg")
-    assert "metadata" in conf, cfg_issue
-    assert "author" in conf["metadata"], cfg_issue
-    assert "author_email" in conf["metadata"], cfg_issue
+    if args.full_name and args.email:
+        author, author_email = args.full_name, args.email
+    else:
+        author, author_email = obtain_author_name_email(path)
+
     merge_skeleton(
         path=args.path,
         org=args.org,
-        full_name=conf["metadata"]["author"],
-        email=conf["metadata"]["author_email"],
+        full_name=author,
+        email=author_email,
         from_branch=args.from_branch or "main",
         package=package,
     )
@@ -247,6 +354,12 @@ def main(args=None):
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
+    )
+    sub.add_argument(
+        "--full-name", default=None, help="Full name, defaults to git config user.name"
+    )
+    sub.add_argument(
+        "--email", default=None, help="Email address, defaults to git config user.email"
     )
     sub.add_argument(
         "--from-branch",
