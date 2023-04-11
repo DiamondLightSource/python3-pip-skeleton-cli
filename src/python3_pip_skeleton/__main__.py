@@ -13,17 +13,18 @@ from . import __version__
 
 __all__ = ["main"]
 
-# The source of the skeleton module to pull from
-SKELETON = "https://github.com/DiamondLightSource/python3-pip-skeleton"
+# The url of the default skeleton module to pull from, a different skeleton
+# url can be passed in with --skeleton-git-url
+SKELETON_URL = "https://github.com/%s/python3-pip-skeleton"
 # The name of the merge branch that will be created
 MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
 CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
 # Files not to change
 IGNORE_FILES = [
-    "update-tools.rst",
     "test_boilerplate_removed.py",
     "pin-requirements.rst",
+    "update-tools.rst",
 ]
 
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
@@ -59,6 +60,7 @@ def merge_skeleton(
     full_name: str,
     email: str,
     from_branch: str,
+    skeleton_org: str,
     package,
 ):
     path = path.resolve()
@@ -72,6 +74,10 @@ def merge_skeleton(
         text = text.replace("email@address.com", email)
         text = text.replace("main", from_branch)
         return text
+
+    def replace_in_file(file_path: Path, text_from: str, text_to: str):
+        file_contents = file_path.read_text()
+        file_path.write_text(file_contents.replace(text_from, text_to))
 
     branches = list_branches(path)
     assert MERGE_BRANCH not in branches, (
@@ -90,7 +96,7 @@ def merge_skeleton(
         # will do the wrong thing
         shutil.rmtree(git_tmp / "src", ignore_errors=True)
         # Merge in the skeleton commits
-        git_tmp("pull", "--rebase=false", SKELETON, from_branch)
+        git_tmp("pull", "--rebase=false", SKELETON_URL % skeleton_org, from_branch)
         # Move things around
         if package != "python3_pip_skeleton":
             git_tmp("mv", "src/python3_pip_skeleton", f"src/{package}")
@@ -100,6 +106,14 @@ def merge_skeleton(
             if child.suffix in CHANGE_SUFFIXES and child.name not in IGNORE_FILES:
                 text = replace_text(child.read_text())
                 child.write_text(text)
+
+        # Change instructions in the docs to reflect which pip skeleton is in use
+        replace_in_file(
+            Path(git_tmp.name) / "docs/developer/how-to/update-tools.rst",
+            "DiamondLightSource",
+            skeleton_org,
+        )
+
         # Commit what we have and push to the original repo
         git_tmp("commit", "-a", "-m", f"Rename python3-pip-skeleton -> {repo}")
         git_tmp("push", "origin", MERGE_BRANCH)
@@ -122,7 +136,7 @@ def validate_package(args) -> str:
     return package
 
 
-def verify_not_adopted(root: Path):
+def verify_not_adopted(root: Path, skeleton_git_url: str):
     """Verify that module has not already adopted skeleton"""
 
     # This call does not print anything - the return code is 0 if it is an ancestor
@@ -140,7 +154,7 @@ def verify_not_adopted(root: Path):
 
     assert not_adopted, (
         f"Package {root} has already adopted skeleton. You can type:\n"
-        f"    git pull --rebase=false {SKELETON}\n"
+        f"    git pull --rebase=false {skeleton_git_url}\n"
         "to update. If there were significant upstream changes a re-adopt may be "
         "better. use the --force flag to the command you just ran."
     )
@@ -191,6 +205,7 @@ def new(args):
         full_name=author,
         email=author_email,
         from_branch=args.from_branch or "main",
+        skeleton_org=args.skeleton_org,
         package=package,
     )
 
@@ -291,7 +306,7 @@ def existing(args):
     package = validate_package(args)
 
     if not args.force:
-        verify_not_adopted(args.path)
+        verify_not_adopted(args.path, skeleton_git_url=SKELETON_URL % args.skeleton_org)
 
     if args.full_name and args.email:
         author, author_email = args.full_name, args.email
@@ -304,6 +319,7 @@ def existing(args):
         full_name=author,
         email=author_email,
         from_branch=args.from_branch or "main",
+        skeleton_org=args.skeleton_org,
         package=package,
     )
 
@@ -327,11 +343,17 @@ def main(args=None):
     parser = ArgumentParser()
     subparsers = parser.add_subparsers()
     parser.add_argument("--version", action="version", version=__version__)
+
     # Add a command for making a new repo
     sub = subparsers.add_parser("new", help="Make a new repo forked from this skeleton")
     sub.set_defaults(func=new)
     sub.add_argument("path", type=Path, help="Path to new repo to create")
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
+    sub.add_argument(
+        "--skeleton-org",
+        default="DiamondLightSource",
+        help="The organisation of the python3-pip-skeleton to use",
+    )
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
     )
@@ -352,6 +374,11 @@ def main(args=None):
     sub.add_argument("path", type=Path, help="Path to new repo to existing repo")
     sub.add_argument("--force", action="store_true", help="force readoption")
     sub.add_argument("--org", required=True, help="GitHub organization for the repo")
+    sub.add_argument(
+        "--skeleton-org",
+        default="DiamondLightSource",
+        help="The organisation of the python3-pip-skeleton to use",
+    )
     sub.add_argument(
         "--package", default=None, help="Package name, defaults to directory name"
     )
