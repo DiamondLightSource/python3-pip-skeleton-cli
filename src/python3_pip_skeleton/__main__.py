@@ -112,7 +112,7 @@ def merge_skeleton(
             if child.suffix in CHANGE_SUFFIXES and child.name not in IGNORE_FILES:
                 text = replace_text(child.read_text())
                 child.write_text(text)
-            # Replace the file, ignoring line numbers
+            # Replace the file, ignoring text between specified substrings
             elif (
                 child.suffix in CHANGE_SUFFIXES
                 and child.name in IGNORE_FILES
