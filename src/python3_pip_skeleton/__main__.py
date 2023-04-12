@@ -5,7 +5,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from subprocess import STDOUT, CalledProcessError, call, check_output
 from tempfile import TemporaryDirectory
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 from . import __version__
 
@@ -17,14 +17,17 @@ SKELETON = "https://github.com/DiamondLightSource/python3-pip-skeleton"
 MERGE_BRANCH = "skeleton-merge-branch"
 # Extensions to change
 CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
-# Files not to change where IGNORE_FILES[x] is a list containing line numbers
-# in the file x to be ignored. An empty list will ignore the whole file.
-IGNORE_FILES: Dict[str, List[int]] = {
+# Files not to change where IGNORE_FILES[x] is a list of tuples where substitutions
+# will be ignored in that file in any substring between the two strings.
+# An empty list will ignore the whole file.
+IGNORE_FILES: Dict[str, List[Optional[Tuple[str, str]]]] = {
     "update-tools.rst": [],
     "test_boilerplate_removed.py": [],
     "pin-requirements.rst": [],
     "0002-switched-to-pip-skeleton.rst:": [],
-    "README.rst": [10],
+    "README.rst": [
+        ("adopt this skeleton project see", "that describes what your module does")
+    ],
 }
 
 SKELETON_ROOT_COMMIT = "ededf00035e6ccfac78946213009c1ecd7c110a9"
@@ -108,11 +111,29 @@ def merge_skeleton(
                 and IGNORE_FILES[child.name]
             ):
                 original_text = child.read_text()
-                original_lines = original_text.splitlines()
-                replaced_lines = replace_text(original_text).splitlines()
-                for ignored_line in IGNORE_FILES[child.name]:
-                    replaced_lines[ignored_line - 1] = original_lines[ignored_line - 1]
-                child.write_text("\n".join(replaced_lines))
+                replaced_text = replace_text(original_text)
+                for sub_strings in IGNORE_FILES[child.name]:
+                    assert isinstance(sub_strings, tuple)
+                    pre_sub_string, post_sub_string = sub_strings
+                    regex = rf"(?s){pre_sub_string}(.*?){post_sub_string}"
+                    # finditer so we can allow for different contents between ignore
+                    # substrings, e.g: `a foo b` and then later in the file `a bar b`
+                    original_substrings = list(re.finditer(regex, original_text))
+                    replaced_substrings = list(re.finditer(regex, replaced_text))
+                    assert len(original_substrings) == len(replaced_substrings), (
+                        "different number of ignored substrings between "
+                        f"{pre_sub_string} and {post_sub_string} found in "
+                        f"{child.name}, did you include replaced "
+                        "text inside the substrings?"
+                    )
+                    for original_substring, replaced_substring in zip(
+                        original_substrings,
+                        replaced_substrings,
+                    ):
+                        replaced_text = replaced_text.replace(
+                            replaced_substring.group(0), original_substring.group(0)
+                        )
+                child.write_text(replaced_text)
 
         # Commit what we have and push to the original repo
         git_tmp("commit", "-a", "-m", f"Rename python3-pip-skeleton -> {repo}")
