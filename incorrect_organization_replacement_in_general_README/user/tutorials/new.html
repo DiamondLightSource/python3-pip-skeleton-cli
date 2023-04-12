@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Creating a new repo from the skeleton &#8212; python3-pip-skeleton-cli 3.3.1.dev59+g14a16cb documentation</title>
+    <title>Creating a new repo from the skeleton &#8212; python3-pip-skeleton-cli 3.3.1.dev87+g965063a documentation</title>
   
   
   
@@ -55,7 +55,7 @@
     <link rel="shortcut icon" href="../../_static/dls-favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Run in a container" href="../how-to/run-container.html" />
+    <link rel="next" title="Creating a new skeleton fork" href="../how-to/maintain-your-own-skeleton.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -384,6 +384,7 @@ document.write(`
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/maintain-your-own-skeleton.html">Creating a new skeleton fork</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/run-container.html">Run in a container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/existing.html">How to adopt the skeleton in an existing repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/update.html">How to update to the latest skeleton structure</a></li>
@@ -472,9 +473,9 @@ document.write(`
                   
   <section id="creating-a-new-repo-from-the-skeleton">
 <h1>Creating a new repo from the skeleton<a class="headerlink" href="#creating-a-new-repo-from-the-skeleton" title="Permalink to this heading">#</a></h1>
-<p>Once you have followed the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> tutorial, you can use the
+<p>Once you have followed the <code class="docutils literal notranslate"><span class="pre">installation</span></code> tutorial, you can use the
 commandline tool to make a new repo that inherits the skeleton:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">skeleton</span> <span class="n">new</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">be</span><span class="o">/</span><span class="n">created</span> <span class="o">--</span><span class="n">org</span> <span class="n">my_github_user_or_org</span> <span class="o">--</span><span class="n">skeleton</span><span class="o">-</span><span class="n">org</span> <span class="n">some_institution</span>
 </pre></div>
 </div>
 <p>This will:</p>
@@ -483,6 +484,7 @@ commandline tool to make a new repo that inherits the skeleton:</p>
 <li><p>Take the package name from the repo name unless overridden by <code class="docutils literal notranslate"><span class="pre">--package</span></code></p></li>
 <li><p>Create a new repo at the requested path, forked from the skeleton repo</p></li>
 <li><p>Create a single commit that modifies the skeleton with the repo and package name</p></li>
+<li><p>Use the version of the skeleton in <code class="docutils literal notranslate"><span class="pre">some_institution</span></code>’s organization (default <code class="docutils literal notranslate"><span class="pre">DiamondLightSource</span></code>)</p></li>
 </ul>
 <section id="getting-started-with-your-new-repo">
 <h2>Getting started with your new repo<a class="headerlink" href="#getting-started-with-your-new-repo" title="Permalink to this heading">#</a></h2>
@@ -601,11 +603,11 @@ the <a class="reference internal" href="../index.html"><span class="doc">How-To<
       </div>
     </a>
     <a class="right-next"
-       href="../how-to/run-container.html"
+       href="../how-to/maintain-your-own-skeleton.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Run in a container</p>
+        <p class="prev-next-title">Creating a new skeleton fork</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
