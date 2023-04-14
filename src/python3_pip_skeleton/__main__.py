@@ -5,7 +5,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from subprocess import STDOUT, CalledProcessError, call, check_output
 from tempfile import TemporaryDirectory
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Tuple
 
 import tomli
 
@@ -23,7 +23,7 @@ CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
 # Files not to change where IGNORE_FILES[x] is a list of tuples where substitutions
 # will be ignored in that file in any substring between the two strings.
 # An empty list will ignore the whole file.
-IGNORE_FILES: Dict[str, List[Optional[Tuple[str, str]]]] = {
+IGNORE_FILES: Dict[str, List[Tuple[str, str]]] = {
     "update-tools.rst": [],
     "test_boilerplate_removed.py": [],
     "pin-requirements.rst": [],
@@ -58,6 +58,48 @@ class GitTemporaryDirectory(TemporaryDirectory):
 
     def __truediv__(self, other) -> Path:
         return Path(self.name) / other
+
+
+def find_ignore_sections(
+    file_name: str, file_text: str, ignore_sections: List[Tuple[str, str]]
+) -> List[re.Match]:
+    ignore_section_matches = []
+    for sub_strings in ignore_sections:
+        pre_sub_string, post_sub_string = sub_strings
+        regex = rf"(?s){pre_sub_string}(.*?){post_sub_string}"
+        # finditer so we can throw an error if the used ignore strings ignore
+        # more than once in the file
+        original_substrings = list(re.finditer(regex, file_text))
+        assert original_substrings, (
+            f"could not find substrings {pre_sub_string} or "
+            f"{post_sub_string} in {file_name}."
+        )
+        assert len(original_substrings) == 1, (
+            f"multiple substrings found between {pre_sub_string} and "
+            f"{post_sub_string} in {file_name}."
+        )
+        ignore_section_matches.append(original_substrings[0])
+
+    ignore_section_matches.sort(key=lambda x: x.start())
+    return ignore_section_matches
+
+
+def replace_text_ignoring_sections(
+    text: str,
+    ignore_section_matches: List[re.Match],
+    text_replacement_method: Callable,
+) -> str:
+    replacement_text = ""
+    next_start = 0
+    for ignore_section in ignore_section_matches:
+        replacement_text += text_replacement_method(
+            text[next_start : ignore_section.start()]
+        )
+        replacement_text += text[ignore_section.start() : ignore_section.end()]
+        next_start = ignore_section.end()
+
+    replacement_text += text_replacement_method(text[next_start : len(text)])
+    return replacement_text
 
 
 def merge_skeleton(
@@ -119,29 +161,14 @@ def merge_skeleton(
                 and IGNORE_FILES[child.name]
             ):
                 original_text = child.read_text()
-                replaced_text = replace_text(original_text)
-                for sub_strings in IGNORE_FILES[child.name]:
-                    assert isinstance(sub_strings, tuple)
-                    pre_sub_string, post_sub_string = sub_strings
-                    regex = rf"(?s){pre_sub_string}(.*?){post_sub_string}"
-                    # finditer so we can allow for different contents between ignore
-                    # substrings, e.g: `a foo b` and then later in the file `a bar b`
-                    original_substrings = list(re.finditer(regex, original_text))
-                    replaced_substrings = list(re.finditer(regex, replaced_text))
-                    assert len(original_substrings) == len(replaced_substrings), (
-                        "different number of ignored substrings between "
-                        f"{pre_sub_string} and {post_sub_string} found in "
-                        f"{child.name}, did you include replaced "
-                        "text inside the substrings?"
+                ignore_sections = find_ignore_sections(
+                    child.name, original_text, IGNORE_FILES[child.name]
+                )
+                child.write_text(
+                    replace_text_ignoring_sections(
+                        original_text, ignore_sections, replace_text
                     )
-                    for original_substring, replaced_substring in zip(
-                        original_substrings,
-                        replaced_substrings,
-                    ):
-                        replaced_text = replaced_text.replace(
-                            replaced_substring.group(0), original_substring.group(0)
-                        )
-                child.write_text(replaced_text)
+                )
 
         # Change instructions in the docs to reflect which pip skeleton is in use
         replace_in_file(
