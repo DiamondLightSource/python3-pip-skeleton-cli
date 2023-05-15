@@ -25,7 +25,10 @@ CHANGE_SUFFIXES = [".py", ".rst", ".cfg", "", ".toml"]
 # An empty list will ignore the whole file.
 IGNORE_FILES: Dict[str, List[Tuple[str, str]]] = {
     "update-tools.rst": [],
-    "test_boilerplate_removed.py": [],
+    "test_boilerplate_removed.py": [
+        ("import sys", "def test_module_summary"),
+        ("One line description of your", "features and why people should use it"),
+    ],
     "pin-requirements.rst": [],
     "0002-switched-to-pip-skeleton.rst:": [],
     "README.rst": [
