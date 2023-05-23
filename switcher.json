@@ -116,10 +116,6 @@
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/lockfiles/"
   },
   {
-    "version": "need_to_substitute_this_line_in_the_cli",
-    "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/need_to_substitute_this_line_in_the_cli/"
-  },
-  {
     "version": "test-lockfiles",
     "url": "https://DiamondLightSource.github.io/python3-pip-skeleton-cli/test-lockfiles/"
   }
