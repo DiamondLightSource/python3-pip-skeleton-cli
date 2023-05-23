@@ -76,13 +76,23 @@ def test_new_module(extra_args, tmp_path: Path):
     api_rst = module / "docs" / "user" / "reference" / "api.rst"
     assert (
         "Version number as calculated by https://github.com/pypa/setuptools_scm"
-        in api_rst.read_text()
+        in api_rst.read_text(encoding="utf8")
     )
     assert (module / "src" / "my_module").is_dir()
     assert check_output("git", "branch", cwd=module).strip() == "* main"
     check_output("python", "-m", "venv", "venv", cwd=module)
-    check_output("venv/bin/pip", "install", "--upgrade", "pip", cwd=module)
-    check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
+    check_output(
+        "venv/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--upgrade",
+        "pip",
+        cwd=module,
+    )
+    check_output(
+        "venv/bin/python", "-m", "pip", "install", ".[dev]", cwd=module
+    )
     check_output(
         "venv/bin/python",
         "-m",
@@ -138,8 +148,9 @@ def test_new_module_merge_from_valid_branch(tmp_path: Path):
     # Test basic functionality
     assert (module / "src" / "my_module").is_dir()
     check_output("python", "-m", "venv", "venv", cwd=module)
-    check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
-
+    check_output(
+        "venv/bin/python", "-m", "pip", "install", ".[dev]", cwd=module
+    )
 
 def test_new_module_merge_from_invalid_branch(tmp_path: Path):
     module = tmp_path / "my-module"

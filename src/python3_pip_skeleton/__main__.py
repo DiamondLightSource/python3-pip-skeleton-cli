@@ -127,7 +127,7 @@ def merge_skeleton(
         return text
 
     def replace_in_file(file_path: Path, text_from: str, text_to: str):
-        file_contents = file_path.read_text()
+        file_contents = file_path.read_text(encoding="utf8")
         file_path.write_text(file_contents.replace(text_from, text_to))
 
     branches = list_branches(path)
@@ -155,7 +155,7 @@ def merge_skeleton(
         for relative_child in git_tmp("ls-files").splitlines():
             child = Path(git_tmp.name) / relative_child
             if child.suffix in CHANGE_SUFFIXES and child.name not in IGNORE_FILES:
-                text = replace_text(child.read_text())
+                text = replace_text(child.read_text(encoding="utf8"))
                 child.write_text(text)
             # Replace the file, ignoring text between specified substrings
             elif (
@@ -163,7 +163,7 @@ def merge_skeleton(
                 and child.name in IGNORE_FILES
                 and IGNORE_FILES[child.name]
             ):
-                original_text = child.read_text()
+                original_text = child.read_text(encoding="utf8")
                 ignore_sections = find_ignore_sections(
                     child.name, original_text, IGNORE_FILES[child.name]
                 )
