@@ -127,8 +127,10 @@ def merge_skeleton(
         return text
 
     def replace_in_file(file_path: Path, text_from: str, text_to: str):
-        file_contents = file_path.read_text()
-        file_path.write_text(file_contents.replace(text_from, text_to))
+        file_contents = file_path.read_text(errors="ignore", encoding="utf-8")
+        file_path.write_text(
+            file_contents.replace(text_from, text_to), errors="ignore", encoding="utf-8"
+        )
 
     branches = list_branches(path)
     assert MERGE_BRANCH not in branches, (
@@ -155,22 +157,24 @@ def merge_skeleton(
         for relative_child in git_tmp("ls-files").splitlines():
             child = Path(git_tmp.name) / relative_child
             if child.suffix in CHANGE_SUFFIXES and child.name not in IGNORE_FILES:
-                text = replace_text(child.read_text())
-                child.write_text(text)
+                text = replace_text(child.read_text(errors="ignore", encoding="utf-8"))
+                child.write_text(text, errors="ignore", encoding="utf-8")
             # Replace the file, ignoring text between specified substrings
             elif (
                 child.suffix in CHANGE_SUFFIXES
                 and child.name in IGNORE_FILES
                 and IGNORE_FILES[child.name]
             ):
-                original_text = child.read_text()
+                original_text = child.read_text(errors="ignore", encoding="utf-8")
                 ignore_sections = find_ignore_sections(
                     child.name, original_text, IGNORE_FILES[child.name]
                 )
                 child.write_text(
                     replace_text_ignoring_sections(
                         original_text, ignore_sections, replace_text
-                    )
+                    ),
+                    errors="ignore",
+                    encoding="utf-8",
                 )
 
         # Change instructions in the docs to reflect which pip skeleton is in use
