@@ -1,6 +1,6 @@
 import subprocess
 import sys
-from os import chdir, makedirs
+from os import chdir, makedirs, name
 from pathlib import Path
 from unittest.mock import patch
 
@@ -80,11 +80,19 @@ def test_new_module(extra_args, tmp_path: Path):
     )
     assert (module / "src" / "my_module").is_dir()
     assert check_output("git", "branch", cwd=module).strip() == "* main"
+
     check_output("python", "-m", "venv", "venv", cwd=module)
-    check_output("venv/bin/pip", "install", "--upgrade", "pip", cwd=module)
-    check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
+
+    python_exec = Path("venv") / "bin" / "python"
+    if name == "nt":
+        python_exec = (module / "venv" / "Scripts" / "python.exe").absolute()
+    else:
+        check_output(
+            str(python_exec), "-m", "pip", "install", "--upgrade", "pip", cwd=module
+        )
+    check_output(str(python_exec), "-m", "pip", "install", ".[dev]", cwd=module)
     check_output(
-        "venv/bin/python",
+        str(python_exec),
         "-m",
         "sphinx",
         "-EWT",
@@ -94,7 +102,7 @@ def test_new_module(extra_args, tmp_path: Path):
         cwd=module,
     )
     with pytest.raises(ValueError) as ctx:
-        check_output("venv/bin/python", "-m", "pytest", module / "tests", cwd=module)
+        check_output(str(python_exec), "-m", "pytest", module / "tests", cwd=module)
     out = ctx.value.args[0]
     print(out)
     assert "4 failed, 1 passed" in out
@@ -138,7 +146,12 @@ def test_new_module_merge_from_valid_branch(tmp_path: Path):
     # Test basic functionality
     assert (module / "src" / "my_module").is_dir()
     check_output("python", "-m", "venv", "venv", cwd=module)
-    check_output("venv/bin/pip", "install", ".[dev]", cwd=module)
+
+    python_exec = Path("venv") / "bin" / "python"
+    if name == "nt":
+        python_exec = (module / "venv" / "Scripts" / "python.exe").absolute()
+
+    check_output(str(python_exec), "-m", "pip", "install", ".[dev]", cwd=module)
 
 
 def test_new_module_merge_from_invalid_branch(tmp_path: Path):
