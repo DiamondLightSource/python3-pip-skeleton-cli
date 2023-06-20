@@ -83,13 +83,14 @@ def test_new_module(extra_args, tmp_path: Path):
 
     check_output("python", "-m", "venv", "venv", cwd=module)
 
-    python_exec = Path("venv") / "bin" / "python"
     if name == "nt":
         python_exec = (module / "venv" / "Scripts" / "python.exe").absolute()
     else:
-        check_output(
-            str(python_exec), "-m", "pip", "install", "--upgrade", "pip", cwd=module
-        )
+        python_exec = Path("venv") / "bin" / "python"
+
+    check_output(
+        str(python_exec), "-m", "pip", "install", "--upgrade", "pip", cwd=module
+    )
     check_output(str(python_exec), "-m", "pip", "install", ".[dev]", cwd=module)
     check_output(
         str(python_exec),
